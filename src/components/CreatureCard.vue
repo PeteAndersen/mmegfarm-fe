@@ -1,7 +1,12 @@
 <template>
   <v-flex xs12 md6 lg3 fill-height>
     <v-card>
-      <v-card-title>{{creature.name}} - {{creature.element}}</v-card-title>
+      <v-card-title>
+        <v-avatar>
+          <img :src="creatureAvatarUrl" />
+        </v-avatar>
+        {{creature.name}} - {{creature.element}}
+      </v-card-title>
       <v-card-text>{{creature.rank}} Stars</v-card-text>
       <v-card-text>{{creature.lore}}</v-card-text>
       <v-flex>
@@ -13,6 +18,7 @@
 
 <script>
   import Spell from '@/components/Spell.vue';
+  import slugify from 'slugify';
 
   export default {
     name: "CreatureCard",
@@ -20,6 +26,11 @@
       creature: {
         type: Object,
         required: true,
+      }
+    },
+    computed: {
+      creatureAvatarUrl() {
+        return `/static/creatures/portraits/${slugify(this.creature.name.toLowerCase())}-${slugify(this.creature.element)}.png`;
       }
     },
     components: {
