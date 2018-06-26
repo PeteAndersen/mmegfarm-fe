@@ -18,7 +18,6 @@
 
 <script>
   import Spell from '@/components/Spell.vue';
-  import slugify from 'slugify';
 
   export default {
     name: "CreatureCard",
@@ -30,7 +29,7 @@
     },
     computed: {
       creatureAvatarUrl() {
-        return `/static/creatures/portraits/${slugify(this.creature.name.toLowerCase())}-${slugify(this.creature.element)}.png`;
+        return `/static/creatures/portraits/${this.creature.trackingName}.png`;
       }
     },
     components: {
