@@ -30,7 +30,7 @@ import CreatureCard from '@/components/CreatureCard.vue';
     methods: {
       getPage: async function(url) {
         if (url === undefined) {
-          url = `${api_root}/creatures.json?page_size=1000`;
+          url = `${api_root}/creatures.json`;
         }
         try {
           const res = await fetch(url);
@@ -42,8 +42,8 @@ import CreatureCard from '@/components/CreatureCard.vue';
           console.log(e);
         }
       }
-    },
-  }
+    }
+  };
 </script>
 
 <style scoped>

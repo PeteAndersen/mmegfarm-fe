@@ -17,25 +17,25 @@
 </template>
 
 <script>
-  import Spell from '@/components/Spell.vue';
+import Spell from '@/components/Spell.vue';
 
-  export default {
-    name: "CreatureCard",
-    props: {
-      creature: {
-        type: Object,
-        required: true,
-      }
-    },
-    computed: {
-      creatureAvatarUrl() {
-        return `/static/creatures/portraits/${this.creature.trackingName}.png`;
-      }
-    },
-    components: {
-      Spell
+export default {
+  name: 'CreatureCard',
+  props: {
+    creature: {
+      type: Object,
+      required: true
     }
+  },
+  computed: {
+    creatureAvatarUrl() {
+      return `/static/creatures/portraits/${this.creature.trackingName}.png`;
+    }
+  },
+  components: {
+    Spell
   }
+};
 </script>
 
 <style scoped>
