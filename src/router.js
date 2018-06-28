@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import List from "./views/List.vue";
+import CreatureList from "./views/CreatureList.vue";
 
 Vue.use(Router);
 
@@ -9,8 +9,16 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "monsterList",
-      component: List
+      name: "creatureList",
+      component: CreatureList
+    },
+    {
+      path: "/:page/",
+      name: "creatureListPage",
+      component: CreatureList,
+      props: route => ({
+        page: Number(route.params.page)
+      })
     }
   ]
 });
