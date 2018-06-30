@@ -9,10 +9,10 @@
   },
   "dependencies": {
     "register-service-worker": "^1.0.0",
-    "slugify": "^1.3.0",
     "vue": "^2.5.16",
     "vue-router": "^3.0.1",
-    "vuetify": "^1.0.19"
+    "vuetify": "^1.0.19",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-rc.3",

@@ -4,6 +4,7 @@
       <CreatureCard v-for="creature in creatures" :key="creature.id" :creature="creature" />
     </v-layout>
     <v-bottom-nav :value="true">
+      
       <v-btn flat v-if="hasPrev" :href="prevUrl">
         <span>Previous</span>
         <v-icon>arrow_back</v-icon>
@@ -17,6 +18,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import { api_root } from '@/api';
 import CreatureCard from '@/components/CreatureCard.vue';
 
@@ -33,36 +35,21 @@ export default {
   },
   data() {
     return {
-      creatures: [],
-      hasNext: true,
+      hasNext: false,
       hasPrev: false
     };
   },
   computed: {
-    nextUrl: function() {
-      return `/${this.page+1}/`;
-    },
-    prevUrl: function() {
-      return `/${this.page-1}/`;
+    creatures: function() {
+      console.log(this.$store);
+      return Object.values(this.$store.state.creatures);
     }
   },
-  created: function() {
-    this.getPage(this.page);
+  created() {
+    this.populateCreatures();
   },
   methods: {
-    getPage: async function(page) {
-      const url = `${api_root}/creatures.json?page=${this.page}`;
-      
-      try {
-        const res = await fetch(url);
-        const creatures = await res.json();
-        this.creatures = creatures.results;
-        this.hasNext = Boolean(creatures.next);
-        this.hasPrev = Boolean(creatures.previous);
-      } catch (e) {
-        console.log(e);
-      }
-    }
+    ...mapActions(['populateCreatures']),
   }
 };
 </script>

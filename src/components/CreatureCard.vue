@@ -1,6 +1,6 @@
 <template>
   <v-flex xs12 md6 lg3>
-    <v-card height="100%">
+    <v-card height="100%" :href="creatureDetailUrl">
       <v-card-title>
         <CreatureAvatar :creature="creature" />
         <h2>{{creature.name}}</h2>
@@ -23,6 +23,11 @@ export default {
     creature: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    creatureDetailUrl: function() {
+      return `/creature/${this.creature.id}`;
     }
   },
   components: {

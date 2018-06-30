@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import CreatureList from "./views/CreatureList.vue";
+import CreatureDetail from "./views/CreatureDetail.vue";
 
 Vue.use(Router);
 
@@ -11,6 +12,14 @@ export default new Router({
       path: "/",
       name: "creatureList",
       component: CreatureList
+    },
+    {
+      path: "/creature/:id/",
+      name: "creatureDetail",
+      component: CreatureDetail,
+      props: route => ({
+        id: Number(route.params.id)
+      })
     },
     {
       path: "/:page/",
