@@ -1,17 +1,17 @@
 <template>
   <div>
-    {{id}}
+    {{slug}}
     {{creature}}
   </div>
 </template>
 
 <script>
-  import { api_root } from '@/api';
+  import api from '@/api';
   export default {
     name: "CreatureDetail",
     props: {
-      id: {
-        type: Number,
+      slug: {
+        type: String,
         required: true
       }
     },
@@ -19,18 +19,16 @@
       return {creature: null}
     },
     created() {
-      this.getCreature(this.id);
+      this.getCreature(this.slug);
     },
     methods: {
       getCreature: async function(id) {
-        const url = `${api_root}/creatures/${id}.json`;
-        
-        try {
-          const res = await fetch(url);
-          this.creature = await res.json();
-        } catch (e) {
-          console.log(e);
-        }
+        const {data: {results}} = await api.get('/creatures/', {
+          params: {
+          slug: this.slug
+        }})
+
+        this.creature = results[0];
       }
     }
   }

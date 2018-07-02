@@ -27,7 +27,7 @@ export default {
   },
   computed: {
     creatureDetailUrl: function() {
-      return `/creature/${this.creature.id}`;
+      return `/creature/${this.creature.slug}`;
     }
   },
   components: {
