@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <v-container fluid grid-list-lg ref="creatureList">
-      <CreatureList :creatures="creatureList" />
-    </v-container>
-    <v-bottom-nav :value="true">
+  <div class="mb-3" ref="creatureList">
+    <CreatureList :creatures="creatureList" />
+    <v-bottom-nav :value="true" fixed>
       <v-btn flat v-if="hasPrev" @click="prevPage" :loading="loading && direction === 'prev'">
         <span>Previous</span>
         <v-icon>arrow_back</v-icon>
@@ -42,9 +40,8 @@ export default {
   watch: {
     loading: function(val, oldVal) {
       if (val === false) {
-        this.$vuetify.goTo(this.$refs.creatureList, {
+        this.$vuetify.goTo(0, {
           duration: 0,
-          offset: -25
         })
       }
     }
