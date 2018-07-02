@@ -7,59 +7,19 @@
       </v-card-title>
       <v-container grid-list-md text-xs-center class="pa-2">
         <v-layout row wrap>
-          <v-flex xs3>
-            <v-avatar size="2em">
-              <img src="/static/creatures/icon-stats-hp.png" />
-            </v-avatar>
-            {{creature.maxLvlHp}}
-          </v-flex>
-          <v-flex xs3>
-            <v-avatar size="2em">
-              <img src="/static/creatures/icon-stats-atk.png" />
-            </v-avatar>
-            {{creature.maxLvlAttack}}
-          </v-flex>
-          <v-flex xs3>
-            <v-avatar size="2em">
-              <img src="/static/creatures/icon-stats-def.png" />
-            </v-avatar>
-            {{creature.maxLvlDefense}}
-          </v-flex>
-          <v-flex xs3>
-            <v-avatar size="2em">
-              <img src="/static/creatures/icon-stats-speed.png" />
-            </v-avatar>
-            {{Math.round(creature.speed * 1000)}}
-          </v-flex>
-          <v-flex xs3>
-            <v-avatar size="2em">
-              <img src="/static/creatures/icon-stats-crit-rate.png" />
-            </v-avatar>
-            {{creature.criticalChance}}%
-          </v-flex>
-          <v-flex xs3>
-            <v-avatar size="2em">
-              <img src="/static/creatures/icon-stats-crit-dmg.png" />
-            </v-avatar>
-            {{creature.criticalDamage}}%
-          </v-flex>
-          <v-flex xs3>
-            <v-avatar size="2em">
-              <img src="/static/creatures/icon-stats-accuracy.png" />
-            </v-avatar>
-            {{Math.round(creature.accuracy * 100)}}%
-          </v-flex>
-          <v-flex xs3>
-            <v-avatar size="2em">
-              <img src="/static/creatures/icon-stats-resistance.png" />
-            </v-avatar>
-            {{Math.round(creature.resistance * 100)}}%
-          </v-flex>
+          <Stat stat="hp" :value="creature.maxLvlHp" />
+          <Stat stat="atk" :value="creature.maxLvlAttack" />
+          <Stat stat="def" :value="creature.maxLvlDefense" />
+          <Stat stat="speed" :value="Math.round(creature.speed * 1000)" />
+          <Stat stat="crit-rate" :value="creature.criticalChance" />
+          <Stat stat="crit-dmg" :value="creature.criticalDamage" />
+          <Stat stat="accuracy" :value="Math.round(creature.accuracy * 100)" />
+          <Stat stat="resistance" :value="Math.round(creature.resistance * 100)" />
         </v-layout>
       </v-container>
-      <v-flex>
+      <v-list two-line subheader>
         <Spell v-for="spell in creature.spells" :key="spell.id" :spell="spell" />
-      </v-flex>
+      </v-list>
     </v-card>
   </v-flex>
 </template>
@@ -67,6 +27,7 @@
 <script>
 import CreatureAvatar from '@/components/creatures/CreatureAvatar.vue';
 import Spell from '@/components/creatures/Spell.vue';
+import Stat from '@/components/creatures/Stat.vue'
 
 export default {
   name: 'CreatureCard',
@@ -83,6 +44,7 @@ export default {
   },
   components: {
     Spell,
+    Stat,
     CreatureAvatar,
   }
 };
