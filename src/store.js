@@ -16,13 +16,11 @@ export default new Vuex.Store({
     creatures: [],
     page: 1,
     page_size: 48,
-    hasNext: false,
-    hasPrev: false,
+    num_pages: 1,
     filters: {},
     sortKey: "name",
     sortDirection: "", // '' or '-'
-    loading: false,
-    direction: null // 'next' or 'prev' to indicate what is loading
+    loading: false
   },
   //plugins: [vuexLocal.plugin],
   mutations: {
@@ -41,11 +39,8 @@ export default new Vuex.Store({
     setPageSize(state, { page_size }) {
       state.page_size = page_size;
     },
-    hasNext(state, value) {
-      state.hasNext = value;
-    },
-    hasPrev(state, value) {
-      state.hasPrev = value;
+    setNumPages(state, value) {
+      state.num_pages = value;
     },
     loading(state, value) {
       state.loading = value;
@@ -53,9 +48,6 @@ export default new Vuex.Store({
       if (value === false) {
         state.direction = null;
       }
-    },
-    direction(state, value) {
-      state.direction = value;
     }
   },
   actions: {
@@ -64,7 +56,7 @@ export default new Vuex.Store({
 
       try {
         const {
-          data: { next, previous, results }
+          data: { next, previous, count, results }
         } = await api.get("creatures/", {
           params: {
             ...state.filters,
@@ -73,34 +65,24 @@ export default new Vuex.Store({
             page: state.page
           }
         });
-
+        const num_pages = Math.ceil(count / state.page_size);
         commit("addCreatures", { creatures: results });
-        commit("hasNext", next !== null);
-        commit("hasPrev", previous !== null);
+        commit("setNumPages", num_pages);
         commit("loading", false);
       } catch (e) {
         console.log(e);
         commit("loading", false);
       }
     },
-    nextPage({ state, commit, dispatch }) {
-      if (state.hasNext) {
-        commit("setPage", { page: state.page + 1 });
-        commit("direction", "next");
-        dispatch("populateCreatures");
-      }
-    },
-    prevPage({ state, commit, dispatch }) {
-      if (state.hasPrev) {
-        commit("setPage", { page: state.page - 1 });
-        commit("direction", "prev");
-        dispatch("populateCreatures");
-      }
+    setPage({ commit, dispatch }, value) {
+      commit("setPage", { page: value });
+      dispatch("populateCreatures");
     }
   },
   getters: {
     creatureList: state => state.creatures,
     page: state => state.page,
+    numPages: state => state.num_pages,
     hasNext: state => state.hasNext,
     hasPrev: state => state.hasPrev,
     loading: state => state.loading,

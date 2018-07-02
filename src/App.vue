@@ -29,8 +29,8 @@
         <router-view/>
       </v-container>
     </v-content>
-    <v-footer app fixed>
-      <span>&copy; 2017</span>
+    <v-footer app fixed inset>
+      <span>&copy; 2018 Porksmash. Creature icons are &copy; Ubisoft</span>
     </v-footer>
   </v-app>
 </template>
