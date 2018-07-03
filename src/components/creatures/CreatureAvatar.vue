@@ -22,20 +22,20 @@
 </template>
 
 <script>
-  export default {
-    name: "CreatureAvatar",
-    props: {
-      creature: {
-        type: Object,
-        required: true
-      }
-    },
-    computed: {
-      avatarUrl: function() {
-        return `/static/creatures/portraits/${this.creature.trackingName}.png`
-      }
+export default {
+  name: "CreatureAvatar",
+  props: {
+    creature: {
+      type: Object,
+      required: true
+    }
+  },
+  computed: {
+    avatarUrl: function() {
+      return `/static/creatures/portraits/${this.creature.trackingName}.png`;
     }
   }
+};
 </script>
 
 <style scoped>

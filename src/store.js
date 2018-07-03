@@ -1,15 +1,15 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import VuexPersistence from "vuex-persist";
-import localForage from "localforage";
+/*import VuexPersistence from "vuex-persist";
+import localForage from "localforage";*/
 
 import api from "@/api.js";
 
 Vue.use(Vuex);
 
-const vuexLocal = new VuexPersistence({
+/*const vuexLocal = new VuexPersistence({
   storage: localForage
-});
+});*/
 
 export default new Vuex.Store({
   state: {
@@ -56,7 +56,7 @@ export default new Vuex.Store({
 
       try {
         const {
-          data: { next, previous, count, results }
+          data: { count, results }
         } = await api.get("creatures/", {
           params: {
             ...state.filters,

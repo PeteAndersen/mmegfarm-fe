@@ -12,13 +12,12 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
-import { api_root } from '@/api';
+import { mapActions, mapGetters } from "vuex";
 
-import CreatureList from '@/components/CreatureList.vue';
+import CreatureList from "@/components/CreatureList.vue";
 
 export default {
-  name: 'Creatures',
+  name: "Creatures",
   components: {
     CreatureList
   },
@@ -29,10 +28,10 @@ export default {
     }
   },*/
   computed: {
-    ...mapGetters(['creatureList', 'numPages', 'loading']),
+    ...mapGetters(["creatureList", "numPages", "loading"]),
     page: {
       get: function() {
-        return this.$store.getters.page
+        return this.$store.getters.page;
       },
       set: function(newValue) {
         this.setPage(newValue);
@@ -43,16 +42,16 @@ export default {
     this.populateCreatures();
   },
   watch: {
-    loading: function(val, oldVal) {
+    loading: function(val) {
       if (val === false) {
         this.$vuetify.goTo(0, {
-          duration: 0,
-        })
+          duration: 0
+        });
       }
     }
   },
   methods: {
-    ...mapActions(['populateCreatures', 'setPage', 'nextPage', 'prevPage']),
+    ...mapActions(["populateCreatures", "setPage", "nextPage", "prevPage"])
   }
 };
 </script>

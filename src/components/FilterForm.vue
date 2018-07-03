@@ -6,8 +6,7 @@
 
 <script>
 export default {
-  name: "FilterForm",
-  
+  name: "FilterForm"
 };
 </script>
 

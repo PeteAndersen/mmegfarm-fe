@@ -7,10 +7,10 @@
 </template>
 
 <script>
-import CreatureCard from '@/components/CreatureCard.vue';
+import CreatureCard from "@/components/CreatureCard.vue";
 
 export default {
-  name: 'CreatureList',
+  name: "CreatureList",
   components: {
     CreatureCard
   },
