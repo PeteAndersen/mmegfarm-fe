@@ -15,7 +15,6 @@
     },
     created() {
       window.addEventListener('newContentAvailable', () => {
-        console.log('AH GOT IT')
         this.visible = true;
       });
     },

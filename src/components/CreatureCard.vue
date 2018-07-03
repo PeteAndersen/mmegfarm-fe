@@ -1,6 +1,6 @@
 <template>
   <v-flex xs12 md6 lg3>
-    <v-card height="100%" :href="creatureDetailUrl">
+    <v-card height="100%" :to="creatureDetailUrl">
       <v-card-title>
         <v-layout>
           <CreatureAvatar :creature="creature" />
