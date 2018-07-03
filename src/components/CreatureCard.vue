@@ -28,9 +28,11 @@
         </v-layout>
       </v-container>
       <v-divider />
-      <v-layout row class="spells pb-2">
-        <Spell v-for="spell in creature.spells" :spell="spell" :key="spell.id"/>
-      </v-layout>
+      <v-container class="pa-2">
+        <v-layout row class="spells pb-2">
+          <Spell v-for="spell in creature.spells" :spell="spell" :key="spell.id"/>
+        </v-layout>
+      </v-container>
     </v-card>
   </v-flex>
 </template>
