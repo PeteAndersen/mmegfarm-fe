@@ -48,6 +48,9 @@ export default {
 </script>
 
 <style scoped>
+.flex {
+  overflow: hidden;
+}
 .subheader {
   height: 2em;
   text-overflow: ellipsis;
