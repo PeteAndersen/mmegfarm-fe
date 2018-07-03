@@ -1,2 +1,2 @@
 /service-worker.js
-  Cache-Control: max-age=0, must-revalidate
+  Cache-Control: no-cache

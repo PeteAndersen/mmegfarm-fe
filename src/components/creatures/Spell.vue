@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs12 md6 lg3>
+  <v-flex>
     <div class="subheader">{{spell.slot}}. {{spell.title}}</div>
 
     <v-avatar size="3em">
