@@ -18,6 +18,7 @@ export default new Vuex.Store({
     page_size: 48,
     num_pages: 1,
     filters: {},
+    filterDrawer: true,
     sortKey: "name",
     sortDirection: "", // '' or '-'
     loading: false
@@ -48,6 +49,9 @@ export default new Vuex.Store({
       if (value === false) {
         state.direction = null;
       }
+    },
+    filterDrawer(state, value) {
+      state.filterDrawer = value;
     }
   },
   actions: {
@@ -86,6 +90,7 @@ export default new Vuex.Store({
     hasNext: state => state.hasNext,
     hasPrev: state => state.hasPrev,
     loading: state => state.loading,
-    direction: state => state.direction
+    direction: state => state.direction,
+    filterDrawer: state => state.filterDrawer
   }
 });

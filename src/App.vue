@@ -1,27 +1,8 @@
 <template>
   <v-app id="inspire" dark>
-    <v-navigation-drawer v-model="drawer" clipped fixed app>
-      <v-list dense>
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon>dashboard</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Testing new content is loaded</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon>settings</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Settings</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
+    <FilterForm :drawer="filterDrawer" />
     <v-toolbar app fixed clipped-left>
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-side-icon @click.stop="toggleDrawer"></v-toolbar-side-icon>
       <v-toolbar-title>mm-eg.farm</v-toolbar-title>
     </v-toolbar>
     <v-content>
@@ -32,29 +13,35 @@
     <v-footer app fixed>
       <p class="text-xs-center">&copy; 2018 Porksmash. Creature icons are &copy; Ubisoft</p>
     </v-footer>
-    <NewContentSnack />
   </v-app>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 import NewContentSnack from "@/components/NewContentSnack.vue";
+import FilterForm from "@/components/FilterForm.vue";
 
 export default {
   name: "App",
-  data() {
-    return {
-      drawer: true
-    };
-  },
   components: {
-    NewContentSnack
+    NewContentSnack,
+    FilterForm
+  },
+  methods: {
+    toggleDrawer() {
+      this.$store.commit('filterDrawer', !this.$store.getters.filterDrawer);
+    }
+  },
+  computed: {
+    ...mapGetters(['filterDrawer'])
   }
 };
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
