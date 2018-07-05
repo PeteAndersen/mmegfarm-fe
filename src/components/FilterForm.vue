@@ -103,9 +103,9 @@
         </v-select>
 
         <v-switch
-          :label="`On ${form.skill_filter_logic} skill`"
+          :label="`Has ${form.skill_filter_logic === 'all' ? 'all effects' : 'any effect'}`"
           v-model="form.skill_filter_logic"
-          false-value="one"
+          false-value="all"
           true-value="any"
         />
 
@@ -136,7 +136,7 @@ export default {
         type: [],
         buffs: [],
         debuffs: [],
-        skill_filter_logic: "one" 
+        skill_filter_logic: "all" 
       },
       elementOptions: [
         { name: 'Fire', value: 'fire', icon: '/static/creatures/icon-fire.png' },
@@ -196,7 +196,7 @@ export default {
       const combined_effects = this.form.buffs.concat(this.form.debuffs).join(',');
 
       if (combined_effects) {
-        if (this.form.skill_filter_logic === "one") {
+        if (this.form.skill_filter_logic === "all") {
           filters.spell_effect = combined_effects;
         } else {
           filters.spell_effect_any = combined_effects;
