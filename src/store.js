@@ -52,6 +52,9 @@ export default new Vuex.Store({
     },
     filterDrawer(state, value) {
       state.filterDrawer = value;
+    },
+    setFilters(state, payload) {
+      state.filters = payload;
     }
   },
   actions: {
@@ -80,6 +83,10 @@ export default new Vuex.Store({
     },
     setPage({ commit, dispatch }, value) {
       commit("setPage", { page: value });
+      dispatch("populateCreatures");
+    },
+    applyFilters({ commit, dispatch }, payload) {
+      commit("setFilters", payload);
       dispatch("populateCreatures");
     }
   },
