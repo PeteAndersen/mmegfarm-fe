@@ -27,12 +27,15 @@
           item-value="value"
         >
           <template slot="item" slot-scope="data">
-            <v-list-tile-avatar tile>
-              <img :src="data.item.icon" />
-            </v-list-tile-avatar>
+            <v-list-tile-action>
+              <v-checkbox v-model="data.tile.props.value" />
+            </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
             </v-list-tile-content>
+            <v-list-tile-avatar>
+              <img :src="`/static/effects/${data.item.icon}.png`" />
+            </v-list-tile-avatar>
           </template>
         </v-select>
 
@@ -55,12 +58,15 @@
           item-value="value"
         >
           <template slot="item" slot-scope="data">
-            <v-list-tile-avatar tile>
-              <img :src="`/static/creatures/icon-${data.item.value}.png`" />
-            </v-list-tile-avatar>
+            <v-list-tile-action>
+              <v-checkbox v-model="data.tile.props.value" />
+            </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
             </v-list-tile-content>
+            <v-list-tile-avatar>
+              <img :src="`/static/effects/${data.item.value}.png`" />
+            </v-list-tile-avatar>
           </template>
         </v-select>
         
@@ -75,12 +81,15 @@
           item-value="spell"
         >
           <template slot="item" slot-scope="data">
-            <v-list-tile-avatar tile>
-              <img :src="`/static/effects/${data.item.icon}.png`" />
-            </v-list-tile-avatar>
+            <v-list-tile-action>
+              <v-checkbox v-model="data.tile.props.value" />
+            </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title v-html="data.item.title"></v-list-tile-title>
             </v-list-tile-content>
+            <v-list-tile-avatar v-if="data.item.icon">
+              <img :src="`/static/effects/${data.item.icon}.png`" />
+            </v-list-tile-avatar>
           </template>
         </v-select>
 
@@ -93,12 +102,15 @@
           item-value="spell"
         >
           <template slot="item" slot-scope="data">
-            <v-list-tile-avatar>
-              <img :src="`/static/effects/${data.item.icon}.png`" />
-            </v-list-tile-avatar>
+            <v-list-tile-action>
+              <v-checkbox v-model="data.tile.props.value" />
+            </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title v-html="data.item.title"></v-list-tile-title>
             </v-list-tile-content>
+            <v-list-tile-avatar v-if="data.item.icon">
+              <img :src="`/static/effects/${data.item.icon}.png`" />
+            </v-list-tile-avatar>
           </template>
         </v-select>
 
@@ -175,6 +187,10 @@ export default {
     },
   },
   methods: {
+    logData(data) {
+      console.log(data);
+      return String(data);
+    },
     ...mapActions(['applyFilters']),
     submit() {
       const filters = {};
