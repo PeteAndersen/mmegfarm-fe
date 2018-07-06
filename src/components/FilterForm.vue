@@ -27,7 +27,7 @@
           item-value="value"
         >
           <template slot="item" slot-scope="data">
-            <v-list-tile-avatar>
+            <v-list-tile-avatar tile>
               <img :src="data.item.icon" />
             </v-list-tile-avatar>
             <v-list-tile-content>
@@ -55,7 +55,7 @@
           item-value="value"
         >
           <template slot="item" slot-scope="data">
-            <v-list-tile-avatar>
+            <v-list-tile-avatar tile>
               <img :src="`/static/creatures/icon-${data.item.value}.png`" />
             </v-list-tile-avatar>
             <v-list-tile-content>
@@ -75,7 +75,7 @@
           item-value="spell"
         >
           <template slot="item" slot-scope="data">
-            <v-list-tile-avatar>
+            <v-list-tile-avatar tile>
               <img :src="`/static/effects/${data.item.icon}.png`" />
             </v-list-tile-avatar>
             <v-list-tile-content>

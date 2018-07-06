@@ -231,6 +231,14 @@ const effect_definitions = {
     spell: "frost",
     title: "Freeze"
   },
+  heal: {
+    description: "Restores an ally's HP",
+    icon: null,
+    is_buff: true,
+    sku: null,
+    spell: "heal",
+    title: "Heal"
+  },
   humanShield: {
     description:
       "Protects an ally using own body, taking any single target attacks they would have otherwise received.",
@@ -290,6 +298,14 @@ const effect_definitions = {
     sku: "spell_icon_0032",
     spell: "increaseChanceReceiveCritical",
     title: "Increase Chance Receive Critical"
+  },
+  increaseCooldown: {
+    description: "Reduces the turn timer on skills.",
+    icon: null,
+    is_buff: true,
+    sku: null,
+    spell: "increaseCooldown",
+    title: "Reduce Cooldown"
   },
   increaseCriticalChance: {
     description:
@@ -357,6 +373,15 @@ const effect_definitions = {
     sku: "spell_icon_0034",
     spell: "lifeSteal",
     title: "Lifesteal"
+  },
+  lifeStealInstant: {
+    description:
+      "Draining HP from an enemy and recuperate the HP of the caster.",
+    icon: null,
+    is_buff: true,
+    sku: null,
+    spell: "lifeStealInstant",
+    title: "Lifesteal (Instant)"
   },
   lifeStealHP: {
     description: "Curses an enemy and inflicts lifesteal.",
@@ -444,6 +469,14 @@ const effect_definitions = {
     spell: "protectiveMark",
     title: "Protective Mark"
   },
+  purge: {
+    description: "Remove beneficial effect from enemies.",
+    icon: null,
+    is_buff: false,
+    sku: null,
+    spell: "purge",
+    title: "Purge Beneficial Effects"
+  },
   reflectDamage: {
     description:
       "Protects an ally with a reflecting veil, injuring any attacker with 25% of the damage they just dealt.",
@@ -469,6 +502,14 @@ const effect_definitions = {
     sku: "spell_icon_0008",
     spell: "regen",
     title: "Regenerate"
+  },
+  return: {
+    description: "Recover your turn.",
+    icon: null,
+    is_buff: true,
+    sku: null,
+    spell: "return",
+    title: "Additional Turn"
   },
   reverseAlly: {
     description:
@@ -515,6 +556,15 @@ const effect_definitions = {
     spell: "spreadDamage",
     title: "Spread Damage"
   },
+  stealBar: {
+    description:
+      "Steal a portion of the enemy's turn bar and add it to your own",
+    icon: null,
+    is_buff: true,
+    sku: null,
+    spell: "stealBar",
+    title: "Steal Turn Bar"
+  },
   stone: {
     description:
       "Encases an enemy in solid rock, making them unable to cast a skill.",
@@ -550,6 +600,14 @@ const effect_definitions = {
     spell: "tauntMail",
     title: "Taunt Mail"
   },
+  teamUp: {
+    description: "Teams up with allies to attack an enemy.",
+    icon: null,
+    is_buff: true,
+    sku: null,
+    spell: "teamUp",
+    title: "Team Up"
+  },
   thornMail: {
     description:
       "Protects an ally with Thornmail, injuring any attacker with 10% of their max HP.",
@@ -558,6 +616,22 @@ const effect_definitions = {
     sku: "spell_icon_0019",
     spell: "thornMail",
     title: "Thornmail"
+  },
+  transferDebuff: {
+    description: "Transfer a harmful effect from the caster to the enemy.",
+    icon: null,
+    is_buff: true,
+    sku: null,
+    spell: "transferDebuff",
+    title: "Transfer Debuff"
+  },
+  unfillBar: {
+    description: "Reduce an enemy's turn bar.",
+    icon: null,
+    is_buff: false,
+    sku: null,
+    spell: "unfillBar",
+    title: "Reduce Turn Bar"
   },
   wound: {
     description:
