@@ -29,8 +29,13 @@
       </v-container>
       <v-divider />
       <v-container class="pa-2">
-        <v-layout row class="spells pb-2">
-          <Spell v-for="spell in creature.spells" :spell="spell" :key="spell.id"/>
+        <v-layout row wrap class="spells pb-2">
+          <Spell
+            v-for="spell in creature.spells"
+            :spell="spell"
+            :key="spell.id"
+            :class="`xs${spellColSize}`"
+          />
         </v-layout>
       </v-container>
     </v-card>
@@ -71,6 +76,9 @@ export default {
       }, {});
 
       return spells;
+    },
+    spellColSize() {
+      return this.creature.spells.length === 3 ? 4 : 6;
     },
     hasTwoFirstSpells() {
       const slot_1_spell_count = this.creature.spells.reduce((accum, spell) => {

@@ -1,8 +1,8 @@
 <template>
   <v-flex>
     <div class="subheader">{{spell.slot}}. {{spell.title}}</div>
-
-    <v-avatar size="3em">
+    
+    <v-avatar size="3em" class="skill-icon">
       <img :src="imgUrl">
     </v-avatar>
 
@@ -10,8 +10,9 @@
       <v-avatar tile size="1.5em" slot="activator">
         <img :src="effect.icon" />
       </v-avatar>
-      <span>{{ effect.title }}</span>
+        <span>{{ effect.title }}</span>
     </v-tooltip>
+
   </v-flex>
 </template>
 
@@ -34,7 +35,7 @@ export default {
       return this.spell.effects.reduce((accum, effect) => {
         const definition = effect_definitions[effect.effect];
 
-        if (definition) {
+        if (definition && definition.icon) {
           accum.push({
             title: definition.title,
             icon: `/static/effects/${definition.icon}.png`
@@ -50,11 +51,15 @@ export default {
 <style scoped>
 .flex {
   overflow: hidden;
+  white-space: normal;
 }
 .subheader {
   height: 2em;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+.skill-icon {
+  float: left;
 }
 </style>

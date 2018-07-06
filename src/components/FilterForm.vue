@@ -34,7 +34,7 @@
               <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
             </v-list-tile-content>
             <v-list-tile-avatar>
-              <img :src="`/static/effects/${data.item.icon}.png`" />
+              <img :src="`/static/creatures/icon-${data.item.value}.png`" />
             </v-list-tile-avatar>
           </template>
         </v-select>
@@ -65,7 +65,7 @@
               <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
             </v-list-tile-content>
             <v-list-tile-avatar>
-              <img :src="`/static/effects/${data.item.value}.png`" />
+              <img :src="`/static/creatures/icon-${data.item.value}.png`" />
             </v-list-tile-avatar>
           </template>
         </v-select>
@@ -187,10 +187,6 @@ export default {
     },
   },
   methods: {
-    logData(data) {
-      console.log(data);
-      return String(data);
-    },
     ...mapActions(['applyFilters']),
     submit() {
       const filters = {};
@@ -218,8 +214,6 @@ export default {
           filters.spell_effect_any = combined_effects;
         }
       }
-
-      console.log({filters})
 
       this.applyFilters(filters);
     }
