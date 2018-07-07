@@ -133,8 +133,8 @@
           true-value="any"
         />
 
-        <v-btn @click="submit" :loading="loading && !cancelClicked">Apply</v-btn>
-        <v-btn flat @click="clear" :loading="loading && cancelClicked">Clear</v-btn>
+        <v-btn @click="submit" :loading="loading">Apply</v-btn>
+        <v-btn flat @click="clear">Clear</v-btn>
       </v-form>
     </v-container>
   </v-navigation-drawer>

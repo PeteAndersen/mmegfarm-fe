@@ -1,4 +1,22 @@
-const effect_definitions = {
+export const target_definitions = {
+  one: "Single Target",
+  all: "AOE",
+  self: "Self",
+  one_minus_self: "One (excluding self)",
+  all_minus_self: "AOE (excluding self)",
+  all_minus_one: "AOE (minus one)",
+  random_dead: "Random Dead"
+};
+
+export const multiplier_formula = params => {
+  const inc_stat = params.incStat
+    ? `(${params.incBase} * ${params.incAmount})`
+    : "";
+  const base_stat = inc_stat ? `(ATK + ${inc_stat})` : `ATK`;
+  return `${params.amount} * ${base_stat}`;
+};
+
+export const effect_definitions = {
   avoidDamage: {
     description:
       "Makes an ally invincible against attacks, receiving 0 damage from any non-lasting source for a few turns.",
@@ -137,6 +155,15 @@ const effect_definitions = {
     sku: "spell_icon_0007",
     spell: "decreaseChanceReceiveCritical",
     title: "Decrease Chance Receive Critical"
+  },
+  decreaseCooldown: {
+    description:
+      "Decrease the turn timer on skills, allowing them to be used sooner.",
+    icon: null,
+    is_buff: true,
+    sku: null,
+    spell: "decreaseCooldown",
+    title: "Reduce Cooldown"
   },
   decreaseCriticalChance: {
     description:
@@ -308,12 +335,12 @@ const effect_definitions = {
     title: "Increase Chance Receive Critical"
   },
   increaseCooldown: {
-    description: "Reduces the turn timer on skills.",
+    description: "Increases the turn timer on skills.",
     icon: null,
-    is_buff: true,
+    is_buff: false,
     sku: null,
     spell: "increaseCooldown",
-    title: "Reduce Cooldown"
+    title: "Increase Cooldown"
   },
   increaseCriticalChance: {
     description:
@@ -651,5 +678,3 @@ const effect_definitions = {
     title: "Focus Points"
   }
 };
-
-export { effect_definitions };

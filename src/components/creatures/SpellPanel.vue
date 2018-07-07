@@ -8,15 +8,22 @@
     </v-card-title>
 
     <v-divider />
+
+    <v-card-text v-if="attack" class="pt-1 pb-1">
+      {{ attack.target }}: {{ attack.formula }}
+    </v-card-text>
+
+    <v-divider />
     
     <v-list v-if="effects.length" dense class="pt-1 pb-1">
       <v-list-tile v-for="(effect, index) in effects" :key="index">
-        <v-list-tile-avatar v-if="effect.effect.icon" tile>
-          <img :src="`static/effects/${effect.effect.icon}.png`" />
+        <v-list-tile-avatar v-if="effectHasIcon" tile>
+          <img v-if="effect.effect.icon" :src="`static/effects/${effect.effect.icon}.png`" />
         </v-list-tile-avatar>
         <v-list-tile-content>
           <v-list-tile-title>{{ effect.effect.title }}</v-list-tile-title>
           <v-list-tile-sub-title>
+            {{ effect.target }}<template v-if="effect.params.length"> - </template>
             <span v-for="(param, paramIdx) in effect.params" :key="paramIdx">
               {{ param }}<template v-if="paramIdx < effect.params.length - 1"> - </template>
             </span>
@@ -52,7 +59,7 @@
 </template>
 
 <script>
-  import { effect_definitions } from '@/services/creatures';
+  import { multiplier_formula, target_definitions, effect_definitions } from '@/services/creatures';
 
   export default {
     name: "SpellPanel",
@@ -63,14 +70,28 @@
       }
     },
     computed: {
+      attack() {
+        const attack_effect = this.spell.effects.find((effect) => effect.effect === 'attack');
+        
+        if (attack_effect) {
+          return {
+            ...attack_effect,
+            target: target_definitions[attack_effect.target],
+            formula: multiplier_formula(attack_effect.params)
+          }
+        }
+      },
       effects() {
         const effects = this.spell.effects.reduce((accum, effect) => {
+          if (effect.effect === 'attack') { return accum; }
+
           const definition = effect_definitions[effect.effect];
 
-          if (definition && definition.icon) {
+          if (definition) {
             accum.push({
               ...effect,
               effect: definition,
+              target: target_definitions[effect.target],
               params: Object.entries(effect.params).map(param => {
                 // TODO: Better assembly of params. Create a template for each type of effect and pass all params into it at once. 
                 // Example: Aura of Justice is Shield - 1 turn - 15% - self Max HP
@@ -79,6 +100,11 @@
                   case 'turns':
                     return `${param[1]} Turn${param[1] > 1 ? 's' : ''}`;
                   case 'amount':
+                    if (param[1] < 1) {
+                      return `${Math.round(param[1] * 100)}%`;
+                    } else {
+                      return `${param[1]}`;
+                    }
                   case 'percentage':
                     return `${Math.round(param[1] * 100)}%`;
                   case 'prob':
@@ -92,16 +118,19 @@
               })
             });
           }
+
           return accum;
         }, []);
         
         return effects;
+      },
+      effectHasIcon() {
+        // If no effects have an icon, the v-avatar element will not be displayed
+        return this.effects.reduce((hasIcon, effect) => effect.effect.icon || hasIcon, false);
       }
     }
   }
 </script>
 
 <style scoped>
-ol {
-}
 </style>
