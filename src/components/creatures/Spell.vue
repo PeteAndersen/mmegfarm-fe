@@ -1,26 +1,36 @@
 <template>
+
   <v-flex>
-    <div class="subheader">{{spell.slot}}. {{spell.title}}</div>
-    
-    <v-avatar size="3em" class="skill-icon">
-      <img :src="imgUrl">
-    </v-avatar>
+    <v-menu open-on-hover :open-delay="250" max-width="350px">
+      <div slot="activator">
+        <div class="subheader">{{spell.slot}}. {{spell.title}}</div>
+        
+        <v-avatar size="3em" class="skill-icon">
+          <img :src="`/static/spells/${spell.image}.png`">
+        </v-avatar>
 
-    <v-tooltip bottom v-for="(effect, index) in effects" :key="index">
-      <v-avatar tile size="1.5em" slot="activator">
-        <img :src="effect.icon" />
-      </v-avatar>
-        <span>{{ effect.title }}</span>
-    </v-tooltip>
+        <v-tooltip bottom v-for="(effect, index) in effects" :key="index">
+          <v-avatar tile size="1.5em" slot="activator">
+            <img :src="effect.icon" />
+          </v-avatar>
+            <span>{{ effect.title }}</span>
+        </v-tooltip>
+      </div>
 
+      <SpellPanel :spell="spell" />
+    </v-menu>
   </v-flex>
 </template>
 
 <script>
 import { effect_definitions } from "@/services/creatures.js";
+import SpellPanel from "@/components/creatures/SpellPanel.vue";
 
 export default {
   name: "Spell",
+  components: {
+    SpellPanel
+  },
   props: {
     spell: {
       type: Object,
@@ -28,9 +38,6 @@ export default {
     }
   },
   computed: {
-    imgUrl() {
-      return `/static/spells/${this.spell.image}.png`;
-    },
     effects() {
       return this.spell.effects.reduce((accum, effect) => {
         const definition = effect_definitions[effect.effect];
