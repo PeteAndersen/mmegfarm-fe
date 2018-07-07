@@ -35,6 +35,14 @@ export const multiplier_formula = params => {
 };
 
 export const effect_definitions = {
+  activateCooldown: {
+    description: "Puts all skills on cooldown for a number of turns.",
+    icon: null,
+    is_buff: false,
+    sku: null,
+    spell: "activateCooldown",
+    title: "Activate Cooldown"
+  },
   avoidDamage: {
     description:
       "Makes an ally invincible against attacks, receiving 0 damage from any non-lasting source for a few turns.",

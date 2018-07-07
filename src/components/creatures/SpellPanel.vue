@@ -92,30 +92,31 @@
               ...effect,
               effect: definition,
               target: target_definitions[effect.target],
-              params: Object.entries(effect.params).map(param => {
-                // TODO: Better assembly of params. Create a template for each type of effect and pass all params into it at once. 
-                // Example: Aura of Justice is Shield - 1 turn - 15% - self Max HP
-                // Should be assembled as 1 Turn - 15% of Self Max HP
-                switch (param[0]) {
-                  case 'turns':
-                    return `${param[1]} Turn${param[1] > 1 ? 's' : ''}`;
-                  case 'amount':
-                    if (param[1] < 1) {
+              params: Object.entries(effect.params).filter(param => Boolean(param[0])).map(param => {
+                  // TODO: Better assembly of params. Create a template for each type of effect and pass all params into it at once. 
+                  // Example: Aura of Justice is Shield - 1 turn - 15% - self Max HP
+                  // Should be assembled as 1 Turn - 15% of Self Max HP
+                  switch (param[0]) {
+                    case 'turns':
+                      return `${param[1]} Turn${param[1] > 1 ? 's' : ''}`;
+                    case 'amount':
+                      if (param[1] < 1) {
+                        return `${Math.round(param[1] * 100)}%`;
+                      } else {
+                        return `${param[1]}`;
+                      }
+                    case 'percentage':
                       return `${Math.round(param[1] * 100)}%`;
-                    } else {
-                      return `${param[1]}`;
-                    }
-                  case 'percentage':
-                    return `${Math.round(param[1] * 100)}%`;
-                  case 'prob':
-                    return `${Math.round(param[1] * 100)}% Chance`;
-                  case 'baseStat':
-                    return 
-                  default:
-                    console.error(`Unknown effect template string ${param[0]}`)
-                    return `${param[0]}: ${param[1]}`
+                    case 'prob':
+                      return `${Math.round(param[1] * 100)}% Chance`;
+                    case 'baseStat':
+                      return 
+                    default:
+                      console.error(`Unknown effect template string ${param[0]}`)
+                      return '';
+                  }
                 }
-              })
+              )
             });
           }
 
