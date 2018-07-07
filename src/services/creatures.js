@@ -223,6 +223,14 @@ const effect_definitions = {
     spell: "fear",
     title: "Fear"
   },
+  fillBar: {
+    description: "Refill allie's turn bar.",
+    icon: null,
+    is_buff: false,
+    sku: null,
+    spell: "fillBar",
+    title: "Increase Turn Bar"
+  },
   frost: {
     description: "Freezes an enemy, making them unable to cast a skill.",
     icon: "icon-frozen",
