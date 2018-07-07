@@ -25,7 +25,7 @@
       </v-list-tile>
     </v-list>
 
-    <v-divider />
+    <v-divider v-if="effects.length"/>
     
     <v-card-text>{{ spell.description }}</v-card-text>
 
@@ -74,7 +74,6 @@
                 // TODO: Better assembly of params. Create a template for each type of effect and pass all params into it at once. 
                 // Example: Aura of Justice is Shield - 1 turn - 15% - self Max HP
                 // Should be assembled as 1 Turn - 15% of Self Max HP
-                console.log(param);
                 switch (param[0]) {
                   case 'turns':
                     return `${param[1]} Turn${param[1] > 1 ? 's' : ''}`;
@@ -94,7 +93,7 @@
           }
           return accum;
         }, []);
-        console.log(effects);
+        
         return effects;
       }
     }

@@ -6,7 +6,7 @@
       <v-toolbar-title>mm-eg.farm</v-toolbar-title>
     </v-toolbar>
     <v-content>
-      <v-container fluid fill-height>
+      <v-container fluid>
         <router-view/>
       </v-container>
     </v-content>

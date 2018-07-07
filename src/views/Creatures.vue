@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="pa-0 ma-0">
+  <v-container fluid class="pa-0 ma-0" align-content-start>
     <CreatureList :creatures="creatureList" />
     <div class="text-xs-center">
       <v-pagination

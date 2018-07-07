@@ -9,12 +9,9 @@
           <img :src="`/static/spells/${spell.image}.png`">
         </v-avatar>
 
-        <v-tooltip bottom v-for="(effect, index) in effects" :key="index">
-          <v-avatar tile size="1.5em" slot="activator">
-            <img :src="effect.icon" />
-          </v-avatar>
-            <span>{{ effect.title }}</span>
-        </v-tooltip>
+        <v-avatar v-for="(effect, index) in effects" :key="index" tile size="1.5em" slot="activator">
+          <img :src="effect.icon" />
+        </v-avatar>
       </div>
 
       <SpellPanel :spell="spell" />
