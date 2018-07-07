@@ -307,7 +307,7 @@ export const effect_definitions = {
   fillBar: {
     description: "Refill allie's turn bar.",
     icon: null,
-    is_buff: false,
+    is_buff: true,
     sku: null,
     spell: "fillBar",
     title: "Increase Turn Bar"
