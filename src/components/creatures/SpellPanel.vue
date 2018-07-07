@@ -34,7 +34,7 @@
 
     <v-divider v-if="effects.length"/>
     
-    <v-card-text class="pt-1 pb-1">{{ spell.description }}</v-card-text>
+    <v-card-text class="pt-1 pb-1" v-html="description"></v-card-text>
     <v-card-text v-if="spell.turns > 1" class="pt-1 pb-1">Cooldown: {{ spell.turns }} turns</v-card-text>
 
     <v-divider />
@@ -59,7 +59,7 @@
 </template>
 
 <script>
-  import { multiplier_formula, target_definitions, effect_definitions } from '@/services/creatures';
+  import { multiplier_formula, target_definitions, effect_definitions, parse_description } from '@/services/creatures';
 
   export default {
     name: "SpellPanel",
@@ -70,6 +70,9 @@
       }
     },
     computed: {
+      description() {
+        return parse_description(this.spell.description, this.spell.effects);
+      },
       attack() {
         const attack_effect = this.spell.effects.find((effect) => effect.effect === 'attack');
         
