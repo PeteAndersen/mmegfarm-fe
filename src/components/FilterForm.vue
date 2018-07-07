@@ -11,7 +11,9 @@
     </v-toolbar>
 
     <v-container>
-      <v-form ref="form">
+      <v-form>
+        <h3>Creature Attributes</h3>
+        
         <v-text-field
           v-model="form.name"
           label="Name"
@@ -71,6 +73,16 @@
         </v-select>
         
         <v-divider />
+
+        <h3 class="pt-2">Spells</h3>
+        <v-select
+          v-model="form.target"
+          label="Target"
+          :items="targetOptions"
+          multiple
+          item-text="name"
+          item-value="value"
+        />
         
         <v-select
           v-model="form.buffs"
@@ -147,6 +159,7 @@ export default {
         element: [],
         nat_stars: [1, 4],
         type: [],
+        target: [],
         buffs: [],
         debuffs: [],
         skill_filter_logic: "all" 
@@ -163,6 +176,12 @@ export default {
         { name: 'Saboteur', value: 'saboteur' },
         { name: 'Support', value: 'support' },
       ],
+      targetOptions: [
+        { name: 'AOE', value: 'aoe'},
+        { name: 'Self', value: 'self'},
+        { name: 'Single', value: 'single'},
+        { name: 'Random Dead', value: 'random_dead'},
+      ]
     };
   },
   computed: {
@@ -195,6 +214,7 @@ export default {
       
       // Transform form values into appropriate format for GET request
       // TODO: Generalize this logic somewhere
+      // Creature attributes
       if (this.form.name) {
         filters.name = this.form.name;
       }
@@ -207,6 +227,16 @@ export default {
         filters.archetype = this.form.type.join(',')
       }
 
+      // Spells
+      console.log(this.form.target);
+      const spell_target = this.form.target.reduce((accum, target) => {
+        if (target === 'aoe') { accum = accum.concat(['all', 'all_minus_self', 'all_minus_one']) }
+        else if (target === 'single') { accum = accum.concat(['one', 'one_minus_self']) }
+        else { accum.push(target) }
+        return accum;
+      }, []);
+      filters.spell_target = spell_target.join(',');
+      
       const combined_effects = this.form.buffs.concat(this.form.debuffs).join(',');
 
       if (combined_effects) {
