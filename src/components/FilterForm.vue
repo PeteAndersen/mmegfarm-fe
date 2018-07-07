@@ -11,7 +11,7 @@
     </v-toolbar>
 
     <v-container>
-      <v-form>
+      <v-form ref="form">
         <v-text-field
           v-model="form.name"
           label="Name"
@@ -121,14 +121,15 @@
           true-value="any"
         />
 
-        <v-btn @click="submit">Apply</v-btn>
+        <v-btn @click="submit" :loading="loading && !cancelClicked">Apply</v-btn>
+        <v-btn flat @click="clear" :loading="loading && cancelClicked">Clear</v-btn>
       </v-form>
     </v-container>
   </v-navigation-drawer>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import { effect_definitions } from '@/services/creatures';
 
 export default {
@@ -161,10 +162,11 @@ export default {
         { name: 'Defender', value: 'defender' },
         { name: 'Saboteur', value: 'saboteur' },
         { name: 'Support', value: 'support' },
-      ]
+      ],
     };
   },
   computed: {
+    ...mapGetters(['loading']),
     buffOptions() {
       const buffs = Object.values(effect_definitions).reduce((accum, effect) => {
         if (effect.is_buff) {
@@ -216,6 +218,10 @@ export default {
       }
 
       this.applyFilters(filters);
+    },
+    clear() {
+      this.$refs.form.reset();
+      this.form.nat_stars = [1, 4];
     }
   }
 };

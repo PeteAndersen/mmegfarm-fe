@@ -13,6 +13,7 @@
     <v-footer app fixed>
       <p class="text-xs-center">&copy; 2018 Porksmash. Creature icons are &copy; Ubisoft</p>
     </v-footer>
+    <NewContentSnack />
   </v-app>
 </template>
 
