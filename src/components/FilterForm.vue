@@ -11,7 +11,7 @@
     </v-toolbar>
 
     <v-container>
-      <v-form>
+      <v-form ref="form">
         <h3>Creature Attributes</h3>
         
         <v-text-field
@@ -83,6 +83,15 @@
           item-text="name"
           item-value="value"
         />
+
+        <v-select
+          v-model="form.scalesWith"
+          label="Scales With"
+          :items="scalesWithOptions"
+          multiple
+          item-text="name"
+          item-value="value"
+        />
         
         <v-select
           v-model="form.buffs"
@@ -142,7 +151,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import { effect_definitions } from '@/services/creatures';
+import { effect_definitions, stat_definitions } from '@/services/creatures';
 
 export default {
   name: "FilterForm",
@@ -160,6 +169,7 @@ export default {
         nat_stars: [1, 4],
         type: [],
         target: [],
+        scalesWith: [],
         buffs: [],
         debuffs: [],
         skill_filter_logic: "all" 
@@ -186,6 +196,11 @@ export default {
   },
   computed: {
     ...mapGetters(['loading']),
+    scalesWithOptions() {
+      return Object.entries(stat_definitions).map(
+        stat => ({ name: stat[1], value: stat[0]})
+      );
+    },
     buffOptions() {
       const buffs = Object.values(effect_definitions).reduce((accum, effect) => {
         if (effect.is_buff) {
@@ -228,7 +243,6 @@ export default {
       }
 
       // Spells
-      console.log(this.form.target);
       const spell_target = this.form.target.reduce((accum, target) => {
         if (target === 'aoe') { accum = accum.concat(['all', 'all_minus_self', 'all_minus_one']) }
         else if (target === 'single') { accum = accum.concat(['one', 'one_minus_self']) }
@@ -236,9 +250,10 @@ export default {
         return accum;
       }, []);
       filters.spell_target = spell_target.join(',');
+
+      filters.scales_with = this.form.scalesWith.join(',');
       
       const combined_effects = this.form.buffs.concat(this.form.debuffs).join(',');
-
       if (combined_effects) {
         if (this.form.skill_filter_logic === "all") {
           filters.spell_effect = combined_effects;
