@@ -1,7 +1,7 @@
 <template>
 
   <v-flex>
-    <v-menu open-on-hover :open-delay="250" max-width="350px">
+    <v-menu open-on-hover lazy :open-delay="350" max-width="350px">
       <div slot="activator">
         <div class="subheader">{{spell.slot}}. {{spell.title}}</div>
         

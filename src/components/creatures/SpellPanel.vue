@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title primary-title class="pb-1">
+    <v-card-title primary-title class="pb-1 pt-2">
       <v-avatar class="mr-2">
         <img :src="`/static/spells/${spell.image}.png`" />
       </v-avatar>
@@ -9,7 +9,7 @@
 
     <v-divider />
     
-    <v-list dense class="pt-1 pb-1">
+    <v-list v-if="effects.length" dense class="pt-1 pb-1">
       <v-list-tile v-for="(effect, index) in effects" :key="index">
         <v-list-tile-avatar v-if="effect.effect.icon" tile>
           <img :src="`static/effects/${effect.effect.icon}.png`" />
@@ -27,12 +27,13 @@
 
     <v-divider v-if="effects.length"/>
     
-    <v-card-text>{{ spell.description }}</v-card-text>
+    <v-card-text class="pt-1 pb-1">{{ spell.description }}</v-card-text>
+    <v-card-text v-if="spell.turns > 1" class="pt-1 pb-1">Cooldown: {{ spell.turns }} turns</v-card-text>
 
     <v-divider />
 
-    <v-card-text>
-      <h4 class="pt-1 pb-1">Upgrades</h4>
+    <v-card-text class="pt-1">
+      <h4 class="pb-1">Upgrades</h4>
       <ol>
         <li v-for="(upgrade, index) in spell.upgrades" :key="index">
           {{ upgrade.description }} 
