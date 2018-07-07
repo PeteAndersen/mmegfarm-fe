@@ -1,14 +1,14 @@
 <template>
-  <div>
+  <v-container fluid class="pa-0 ma-0">
     <CreatureList :creatures="creatureList" />
     <div class="text-xs-center">
       <v-pagination
         class="pt-2"
         v-model="page"
         :length="numPages"
-       />
+        />
     </div>
-  </div>
+  </v-container>
 </template>
 
 <script>
