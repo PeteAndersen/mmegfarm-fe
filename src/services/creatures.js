@@ -34,45 +34,32 @@ export const multiplier_formula = params => {
   }
 };
 
-const colorTagRegexp = new RegExp(
-  /<color=(?<color>#[0-9,a-f]{6})>(?<value_template>.*?)<\/color>/g
-);
-
-const paramsRegexp = new RegExp(/&&(?<index>\d+),(?<key>\w+)&&/g);
-
+const colorTagRegexp = new RegExp(/<color=(#[0-9,a-f]{6})>(.*?)<\/color>/g);
+const paramsRegexp = new RegExp(/&&(\d+),(\w+)&&/g);
 const percentage_keys = ["percentage", "prob", "amount_float"];
 
 export const parse_description = (desc, effects) => {
-  console.log(desc);
-
-  const color_tag_parsed = desc.replace(
-    colorTagRegexp,
-    (match, color, value_template) => {
+  return desc
+    .replace(colorTagRegexp, (match, color, value_template) => {
       return `<span style="color:${color}">${value_template}</span>`;
-    }
-  );
-  console.log(color_tag_parsed);
+    })
+    .replace(paramsRegexp, (match, index, key) => {
+      let value;
+      const effect = effects[Number(index)];
 
-  const parsed = color_tag_parsed.replace(paramsRegexp, (match, index, key) => {
-    let value;
-    const effect = effects[Number(index)];
+      // Check key is actually an attribute on effect object
+      if (key === "amount_float" || key === "amount_int") {
+        value = effect.params["amount"];
+      } else {
+        value = effect.params[key];
+      }
 
-    // Check key is actually an attribute on effect object
-    if (key === "amount_float" || key === "amount_int") {
-      value = effect.params["amount"];
-    } else {
-      value = effect.params[key];
-    }
-
-    if (percentage_keys.includes(key)) {
-      return Math.round(value * 100);
-    } else {
-      return value;
-    }
-  });
-
-  console.log(parsed);
-  return parsed;
+      if (percentage_keys.includes(key)) {
+        return Math.round(value * 100);
+      } else {
+        return value;
+      }
+    });
 };
 
 export const effect_definitions = {
