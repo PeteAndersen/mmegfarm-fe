@@ -115,9 +115,6 @@ export default {
       return this.sortDirectionOptions[this.sortDirection];
     }
   },
-  created() {
-    this.populateCreatures();
-  },
   watch: {
     loading: function(val) {
       if (val === false) {

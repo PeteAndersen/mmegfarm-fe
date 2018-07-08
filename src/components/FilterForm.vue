@@ -1,13 +1,22 @@
 <template>
   <v-navigation-drawer v-model="drawer" clipped fixed app>
+
+    <v-snackbar color="success" v-model="permalinkCopied" absolute top :timeout="2000">
+      Copied!
+    </v-snackbar>
+
     <v-toolbar flat>
       <v-list>
         <v-list-tile>
           <v-list-tile-title class="title">
-            Filters
+            Filters 
           </v-list-tile-title>
         </v-list-tile>
       </v-list>
+      <v-tooltip bottom>
+        <v-btn icon flat slot="activator" @click="copyPermalink"><v-icon>link</v-icon></v-btn>
+        Copy Permalink
+      </v-tooltip>
     </v-toolbar>
 
     <v-container>
@@ -174,6 +183,7 @@ export default {
         debuffs: [],
         skill_filter_logic: "all"
       },
+      permalinkCopied: false,
       elementOptions: [
         {
           name: "Fire",
@@ -205,6 +215,49 @@ export default {
         { name: "Random Dead", value: "random_dead" }
       ]
     };
+  },
+  created() {
+    const {
+      name,
+      element,
+      nat_stars,
+      type,
+      target,
+      scalesWith,
+      buffs,
+      debuffs,
+      skill_filter_logic
+    } = this.$route.query;
+
+    if (name) {
+      this.form.name = name;
+    }
+    if (element) {
+      this.form.element = element.split(",");
+    }
+    if (nat_stars) {
+      this.form.nat_stars = nat_stars.split(",").map(val => Number(val));
+    }
+    if (type) {
+      this.form.type = type.split(",");
+    }
+    if (target) {
+      this.form.target = target.split(",");
+    }
+    if (scalesWith) {
+      this.form.scalesWith = scalesWith.split(",");
+    }
+    if (buffs) {
+      this.form.buffs = buffs.split(",");
+    }
+    if (debuffs) {
+      this.form.debuffs = debuffs.split(",");
+    }
+    if (skill_filter_logic) {
+      this.form.skill_filter_logic = skill_filter_logic;
+    }
+    this.submit();
+    window.history.replaceState({}, "", "/"); // Remove the query params from URL
   },
   computed: {
     ...mapGetters(["loading"]),
@@ -239,12 +292,33 @@ export default {
       );
 
       return buffs.sort((a, b) => (a.title > b.title ? 1 : -1));
+    },
+    permalinkURL() {
+      const query_params = Object.entries(this.form)
+        .reduce((accum, val) => {
+          if (Array.isArray(val[1])) {
+            if (val[1].length) {
+              accum.push(`${val[0]}=${val[1].join(",")}`);
+            }
+          } else {
+            if (val[1]) {
+              accum.push(`${val[0]}=${val[1]}`);
+            }
+          }
+
+          return accum;
+        }, [])
+        .join("&");
+      return `${window.location.origin}?${query_params}`;
     }
   },
   methods: {
     ...mapActions(["applyFilters"]),
     submit(e) {
-      e.preventDefault();
+      if (e) {
+        e.preventDefault();
+      }
+
       const filters = {};
 
       // Transform form values into appropriate format for GET request
@@ -293,6 +367,15 @@ export default {
     clear() {
       this.$refs.form.reset();
       this.form.nat_stars = [1, 4];
+    },
+    copyPermalink() {
+      const el = document.createElement("textarea");
+      el.value = this.permalinkURL;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+      this.permalinkCopied = true;
     }
   }
 };

@@ -44,10 +44,9 @@ export default new Vuex.Store({
     },
     setTotalCreatures(state, value) {
       state.total_creatures = value;
-
-      if (value > state.max_creature_count) {
-        state.max_creature_count = value;
-      }
+    },
+    setMaxCreatureCount(state, value) {
+      state.max_creature_count = value;
     },
     setNumPages(state, value) {
       state.num_pages = value;
@@ -73,7 +72,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async populateCreatures({ state, commit }) {
+    async populateCreatures({ state, dispatch, commit }) {
       commit("loading", true);
 
       try {
@@ -91,10 +90,21 @@ export default new Vuex.Store({
         commit("addCreatures", { creatures: results });
         commit("setNumPages", num_pages);
         commit("setTotalCreatures", count);
+        dispatch("getMaxCreatureCount");
         commit("loading", false);
       } catch (e) {
         console.log(e);
         commit("loading", false);
+      }
+    },
+    async getMaxCreatureCount({ commit }) {
+      try {
+        const {
+          data: { count }
+        } = await api.get("creatures/");
+        commit("setMaxCreatureCount", count);
+      } catch (e) {
+        console.log(e);
       }
     },
     setPage({ commit, dispatch }, value) {
