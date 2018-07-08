@@ -11,7 +11,7 @@
     </v-toolbar>
 
     <v-container>
-      <v-form ref="form">
+      <v-form ref="form" @submit="submit">
         <h3>Creature Attributes</h3>
         
         <v-text-field
@@ -142,7 +142,7 @@
           true-value="any"
         />
 
-        <v-btn @click="submit" :loading="loading">Apply</v-btn>
+        <v-btn type="submit" :loading="loading">Apply</v-btn>
         <v-btn flat @click="clear">Clear</v-btn>
       </v-form>
     </v-container>
@@ -243,7 +243,8 @@ export default {
   },
   methods: {
     ...mapActions(["applyFilters"]),
-    submit() {
+    submit(e) {
+      e.preventDefault();
       const filters = {};
 
       // Transform form values into appropriate format for GET request
