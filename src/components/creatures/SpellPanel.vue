@@ -59,81 +59,94 @@
 </template>
 
 <script>
-  import { multiplier_formula, target_definitions, effect_definitions, parse_description } from '@/services/creatures';
+import {
+  multiplier_formula,
+  target_definitions,
+  effect_definitions,
+  parse_description
+} from "@/services/creatures";
 
-  export default {
-    name: "SpellPanel",
-    props: {
-      spell: {
-        type: Object,
-        required: true
+export default {
+  name: "SpellPanel",
+  props: {
+    spell: {
+      type: Object,
+      required: true
+    }
+  },
+  computed: {
+    description() {
+      return parse_description(this.spell.description, this.spell.effects);
+    },
+    attack() {
+      const attack_effect = this.spell.effects.find(
+        effect => effect.effect === "attack"
+      );
+
+      if (attack_effect) {
+        return {
+          ...attack_effect,
+          target: target_definitions[attack_effect.target],
+          formula: multiplier_formula(attack_effect.params)
+        };
       }
     },
-    computed: {
-      description() {
-        return parse_description(this.spell.description, this.spell.effects);
-      },
-      attack() {
-        const attack_effect = this.spell.effects.find((effect) => effect.effect === 'attack');
-        
-        if (attack_effect) {
-          return {
-            ...attack_effect,
-            target: target_definitions[attack_effect.target],
-            formula: multiplier_formula(attack_effect.params)
-          }
-        }
-      },
-      effects() {
-        const effects = this.spell.effects.reduce((accum, effect) => {
-          if (effect.effect === 'attack') { return accum; }
-
-          const definition = effect_definitions[effect.effect];
-
-          if (definition) {
-            accum.push({
-              ...effect,
-              effect: definition,
-              target: target_definitions[effect.target],
-              params: Object.entries(effect.params).filter(param => Boolean(param[0])).map(param => {
-                  // TODO: Better assembly of params. Create a template for each type of effect and pass all params into it at once. 
-                  // Example: Aura of Justice is Shield - 1 turn - 15% - self Max HP
-                  // Should be assembled as 1 Turn - 15% of Self Max HP
-                  switch (param[0]) {
-                    case 'turns':
-                      return `${param[1]} Turn${param[1] > 1 ? 's' : ''}`;
-                    case 'amount':
-                      if (param[1] < 1) {
-                        return `${Math.round(param[1] * 100)}%`;
-                      } else {
-                        return `${param[1]}`;
-                      }
-                    case 'percentage':
-                      return `${Math.round(param[1] * 100)}%`;
-                    case 'prob':
-                      return `${Math.round(param[1] * 100)}% Chance`;
-                    case 'baseStat':
-                      return 
-                    default:
-                      console.error(`Unknown effect template string ${param[0]}`)
-                      return '';
-                  }
-                }
-              )
-            });
-          }
-
+    effects() {
+      const effects = this.spell.effects.reduce((accum, effect) => {
+        if (effect.effect === "attack") {
           return accum;
-        }, []);
-        
-        return effects;
-      },
-      effectHasIcon() {
-        // If no effects have an icon, the v-avatar element will not be displayed
-        return this.effects.reduce((hasIcon, effect) => effect.effect.icon || hasIcon, false);
-      }
+        }
+
+        const definition = effect_definitions[effect.effect];
+
+        if (definition) {
+          accum.push({
+            ...effect,
+            effect: definition,
+            target: target_definitions[effect.target],
+            params: Object.entries(effect.params)
+              .filter(param => Boolean(param[0]))
+              .map(param => {
+                // TODO: Better assembly of params. Create a template for each type of effect and pass all params into it at once.
+                // Example: Aura of Justice is Shield - 1 turn - 15% - self Max HP
+                // Should be assembled as 1 Turn - 15% of Self Max HP
+                switch (param[0]) {
+                  case "turns":
+                    return `${param[1]} Turn${param[1] > 1 ? "s" : ""}`;
+                  case "amount":
+                    if (param[1] < 1) {
+                      return `${Math.round(param[1] * 100)}%`;
+                    } else {
+                      return `${param[1]}`;
+                    }
+                  case "percentage":
+                    return `${Math.round(param[1] * 100)}%`;
+                  case "prob":
+                    return `${Math.round(param[1] * 100)}% Chance`;
+                  case "baseStat":
+                    return;
+                  default:
+                    console.error(`Unknown effect template string ${param[0]}`);
+                    return "";
+                }
+              })
+          });
+        }
+
+        return accum;
+      }, []);
+
+      return effects;
+    },
+    effectHasIcon() {
+      // If no effects have an icon, the v-avatar element will not be displayed
+      return this.effects.reduce(
+        (hasIcon, effect) => effect.effect.icon || hasIcon,
+        false
+      );
     }
   }
+};
 </script>
 
 <style scoped>

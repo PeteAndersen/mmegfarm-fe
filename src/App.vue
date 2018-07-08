@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 import NewContentSnack from "@/components/NewContentSnack.vue";
 import FilterForm from "@/components/FilterForm.vue";
@@ -30,11 +30,11 @@ export default {
   },
   methods: {
     toggleDrawer() {
-      this.$store.commit('filterDrawer', !this.$store.getters.filterDrawer);
+      this.$store.commit("filterDrawer", !this.$store.getters.filterDrawer);
     }
   },
   computed: {
-    ...mapGetters(['filterDrawer'])
+    ...mapGetters(["filterDrawer"])
   }
 };
 </script>

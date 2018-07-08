@@ -150,8 +150,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-import { effect_definitions, stat_definitions } from '@/services/creatures';
+import { mapActions, mapGetters } from "vuex";
+import { effect_definitions, stat_definitions } from "@/services/creatures";
 
 export default {
   name: "FilterForm",
@@ -164,7 +164,7 @@ export default {
   data() {
     return {
       form: {
-        name: '',
+        name: "",
         element: [],
         nat_stars: [1, 4],
         type: [],
@@ -172,61 +172,80 @@ export default {
         scalesWith: [],
         buffs: [],
         debuffs: [],
-        skill_filter_logic: "all" 
+        skill_filter_logic: "all"
       },
       elementOptions: [
-        { name: 'Fire', value: 'fire', icon: '/static/creatures/icon-fire.png' },
-        { name: 'Air', value: 'air', icon: '/static/creatures/icon-air.png' },
-        { name: 'Earth', value: 'earth', icon: '/static/creatures/icon-earth.png' },
-        { name: 'Water', value: 'water', icon: '/static/creatures/icon-water.png' },
+        {
+          name: "Fire",
+          value: "fire",
+          icon: "/static/creatures/icon-fire.png"
+        },
+        { name: "Air", value: "air", icon: "/static/creatures/icon-air.png" },
+        {
+          name: "Earth",
+          value: "earth",
+          icon: "/static/creatures/icon-earth.png"
+        },
+        {
+          name: "Water",
+          value: "water",
+          icon: "/static/creatures/icon-water.png"
+        }
       ],
       typeOptions: [
-        { name: 'Attacker', value: 'attacker' },
-        { name: 'Defender', value: 'defender' },
-        { name: 'Saboteur', value: 'saboteur' },
-        { name: 'Support', value: 'support' },
+        { name: "Attacker", value: "attacker" },
+        { name: "Defender", value: "defender" },
+        { name: "Saboteur", value: "saboteur" },
+        { name: "Support", value: "support" }
       ],
       targetOptions: [
-        { name: 'AOE', value: 'aoe'},
-        { name: 'Self', value: 'self'},
-        { name: 'Single', value: 'single'},
-        { name: 'Random Dead', value: 'random_dead'},
+        { name: "AOE", value: "aoe" },
+        { name: "Self", value: "self" },
+        { name: "Single", value: "single" },
+        { name: "Random Dead", value: "random_dead" }
       ]
     };
   },
   computed: {
-    ...mapGetters(['loading']),
+    ...mapGetters(["loading"]),
     scalesWithOptions() {
-      return Object.entries(stat_definitions).map(
-        stat => ({ name: stat[1], value: stat[0]})
-      );
+      return Object.entries(stat_definitions).map(stat => ({
+        name: stat[1],
+        value: stat[0]
+      }));
     },
     buffOptions() {
-      const buffs = Object.values(effect_definitions).reduce((accum, effect) => {
-        if (effect.is_buff) {
-          accum.push(effect);
-        }
-        return accum;
-      }, []);
+      const buffs = Object.values(effect_definitions).reduce(
+        (accum, effect) => {
+          if (effect.is_buff) {
+            accum.push(effect);
+          }
+          return accum;
+        },
+        []
+      );
 
-      return buffs.sort((a, b) => a.title > b.title ? 1 : -1);
+      return buffs.sort((a, b) => (a.title > b.title ? 1 : -1));
     },
     debuffOptions() {
-      const buffs = Object.values(effect_definitions).reduce((accum, effect) => {
-        if (!effect.is_buff) {
-          accum.push(effect);
-        }
-        return accum;
-      }, []);
+      const buffs = Object.values(effect_definitions).reduce(
+        (accum, effect) => {
+          if (!effect.is_buff) {
+            accum.push(effect);
+          }
+          return accum;
+        },
+        []
+      );
 
-      return buffs.sort((a, b) => a.title > b.title ? 1 : -1);
-    },
+      return buffs.sort((a, b) => (a.title > b.title ? 1 : -1));
+    }
   },
   methods: {
-    ...mapActions(['applyFilters']),
+    ...mapActions(["applyFilters"]),
     submit() {
       const filters = {};
-      
+
       // Transform form values into appropriate format for GET request
       // TODO: Generalize this logic somewhere
       // Creature attributes
@@ -234,26 +253,32 @@ export default {
         filters.name = this.form.name;
       }
       if (this.form.element.length) {
-        filters.element = this.form.element.join(',')
+        filters.element = this.form.element.join(",");
       }
       filters.rank__gte = this.form.nat_stars[0];
       filters.rank__lte = this.form.nat_stars[1];
       if (this.form.type.length) {
-        filters.archetype = this.form.type.join(',')
+        filters.archetype = this.form.type.join(",");
       }
 
       // Spells
       const spell_target = this.form.target.reduce((accum, target) => {
-        if (target === 'aoe') { accum = accum.concat(['all', 'all_minus_self', 'all_minus_one']) }
-        else if (target === 'single') { accum = accum.concat(['one', 'one_minus_self']) }
-        else { accum.push(target) }
+        if (target === "aoe") {
+          accum = accum.concat(["all", "all_minus_self", "all_minus_one"]);
+        } else if (target === "single") {
+          accum = accum.concat(["one", "one_minus_self"]);
+        } else {
+          accum.push(target);
+        }
         return accum;
       }, []);
-      filters.spell_target = spell_target.join(',');
+      filters.spell_target = spell_target.join(",");
 
-      filters.scales_with = this.form.scalesWith.join(',');
-      
-      const combined_effects = this.form.buffs.concat(this.form.debuffs).join(',');
+      filters.scales_with = this.form.scalesWith.join(",");
+
+      const combined_effects = this.form.buffs
+        .concat(this.form.debuffs)
+        .join(",");
       if (combined_effects) {
         if (this.form.skill_filter_logic === "all") {
           filters.spell_effect = combined_effects;

@@ -8,17 +8,17 @@
 </template>
 
 <script>
-  export default {
-    name: "NewContentSnack",
-    data() {
-      return { visible: false }
-    },
-    created() {
-      window.addEventListener('newContentAvailable', () => {
-        this.visible = true;
-      });
-    },
+export default {
+  name: "NewContentSnack",
+  data() {
+    return { visible: false };
+  },
+  created() {
+    window.addEventListener("newContentAvailable", () => {
+      this.visible = true;
+    });
   }
+};
 </script>
 
 <style scoped>
