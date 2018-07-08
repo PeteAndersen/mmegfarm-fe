@@ -55,6 +55,12 @@ export default new Vuex.Store({
     },
     setFilters(state, payload) {
       state.filters = payload;
+    },
+    setOrderingKey(state, value) {
+      state.sortKey = value;
+    },
+    setOrderingDirection(state, value) {
+      state.sortDirection = value;
     }
   },
   actions: {
@@ -88,6 +94,14 @@ export default new Vuex.Store({
     applyFilters({ commit, dispatch }, payload) {
       commit("setFilters", payload);
       dispatch("populateCreatures");
+    },
+    orderBy({ commit, dispatch }, value) {
+      commit("setOrderingKey", value);
+      dispatch("populateCreatures");
+    },
+    orderDirection({ commit, dispatch }, value) {
+      commit("setOrderingDirection", value);
+      dispatch("populateCreatures");
     }
   },
   getters: {
@@ -97,7 +111,8 @@ export default new Vuex.Store({
     hasNext: state => state.hasNext,
     hasPrev: state => state.hasPrev,
     loading: state => state.loading,
-    direction: state => state.direction,
+    sortKey: state => state.sortKey,
+    sortDirection: state => state.sortDirection,
     filterDrawer: state => state.filterDrawer
   }
 });
