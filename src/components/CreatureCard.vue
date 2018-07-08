@@ -7,12 +7,18 @@
           <v-spacer />
           <h2>{{creature.name}}</h2>
           <v-spacer />
-          <v-avatar>
-            <img :src="archetypeImage"/>
-          </v-avatar>
-          <v-avatar>
-            <img :src="elementImage"/>
-          </v-avatar>
+          <v-tooltip bottom>
+            <v-avatar slot="activator">
+              <img :src="archetypeImage"/>
+            </v-avatar>
+            {{titleCase(creature.archetype)}}
+          </v-tooltip>
+          <v-tooltip bottom>
+            <v-avatar slot="activator">
+              <img :src="elementImage"/>
+            </v-avatar>
+            {{titleCase(creature.element)}}
+          </v-tooltip>
         </v-layout>
       </v-card-title>
       <v-container grid-list-md text-xs-center class="pa-2">
@@ -43,6 +49,8 @@
 </template>
 
 <script>
+import { titleCase } from "@/services/utils";
+
 import CreatureAvatar from "@/components/creatures/CreatureAvatar.vue";
 import Spell from "@/components/creatures/Spell.vue";
 import Stat from "@/components/creatures/Stat.vue";
@@ -95,6 +103,9 @@ export default {
     Spell,
     Stat,
     CreatureAvatar
+  },
+  methods: {
+    titleCase
   }
 };
 </script>
