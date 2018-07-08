@@ -62,6 +62,8 @@ export const parse_description = (desc, effects) => {
     });
 };
 
+// Effects not in object at this time:
+//  sage, castRandomAlly, castRandomEnemy, castSpell, immuneToX, reverseEnemy, wound
 export const effect_definitions = {
   activateCooldown: {
     description: "Puts all skills on cooldown for a number of turns.",
@@ -141,6 +143,14 @@ export const effect_definitions = {
     spell: "blockRevive",
     title: "Block Revive"
   },
+  blow: {
+    description: "Burst active poisons, dealing damage.",
+    icon: null,
+    is_buff: false,
+    sku: null,
+    spell: "blow",
+    title: "Burst Poison"
+  },
   bomb: {
     description:
       "Plants a bomb on an enemy which detonates at the end of a timer, dealing damage based on the caster's attack.",
@@ -150,14 +160,13 @@ export const effect_definitions = {
     spell: "bomb",
     title: "Bomb"
   },
-  build: {
-    description:
-      "Points of extra energy in the form of sageness. These allow some spells to have extra effects when cast by the ally in question. These extra effects are indicated by (Cx), where x is the number of Concentration points needed.",
-    icon: "icon-charges-build-menus",
+  clean: {
+    description: "Removes harmful effects from creatures.",
+    icon: null,
     is_buff: true,
-    sku: "spell_icon_0053",
-    spell: "build",
-    title: "Concentration Points"
+    sku: null,
+    spell: "clean",
+    title: "Cleanse Harmful Effects"
   },
   confuse: {
     description:
@@ -296,6 +305,22 @@ export const effect_definitions = {
     spell: "elementalDefense",
     title: "Elemental Defense"
   },
+  exchangeHP: {
+    description: "Swaps a percentage of HP with an enemy.",
+    icon: null,
+    is_buff: false,
+    sku: null,
+    spell: "exchangeHP",
+    title: "Exchange HP"
+  },
+  explode: {
+    description: "Explodes active bombs, dealing damage.",
+    icon: null,
+    is_buff: false,
+    sku: null,
+    spell: "explode",
+    title: "Explode Bombs"
+  },
   fear: {
     description: "Terrifies an enemy, making them unable to cast a skill.",
     icon: "icon-fear",
@@ -354,15 +379,6 @@ export const effect_definitions = {
     spell: "immuneToAll",
     title: "Immune"
   },
-  immuneToX: {
-    description:
-      "Makes an ally partially immune to incoming lasting negative effects, resisting [some] of them with 100% chance, no matter what.",
-    icon: "icon-inmune-to-single",
-    is_buff: true,
-    sku: "spell_icon_0012",
-    spell: "immuneToX",
-    title: "Partial Immunity"
-  },
   increaseAccuracy: {
     description: "Increases the accuracy of an ally by 25%.",
     icon: "icon-accuracy-enhanced",
@@ -378,6 +394,14 @@ export const effect_definitions = {
     sku: "spell_icon_0000",
     spell: "increaseAttack",
     title: "Increase Attack"
+  },
+  increaseBuffDuration: {
+    description: "Increases duration of beneficial effects.",
+    icon: null,
+    is_buff: true,
+    sku: null,
+    spell: "increaseBuffDuration",
+    title: "Increase Buff Duration"
   },
   increaseChanceReceiveCritical: {
     description:
@@ -413,6 +437,14 @@ export const effect_definitions = {
     sku: "spell_icon_0006",
     spell: "increaseCriticalDamage",
     title: "Increase Critical Damage"
+  },
+  increaseDebuffDuration: {
+    description: "Increases duration of harfmul effects.",
+    icon: null,
+    is_buff: false,
+    sku: null,
+    spell: "increaseDebuffDuration",
+    title: "Increase Harful Effect Duration"
   },
   increaseDefense: {
     description: "Increases the defense of an ally by 60%.",
@@ -463,15 +495,6 @@ export const effect_definitions = {
     spell: "lifeSteal",
     title: "Lifesteal"
   },
-  lifeStealInstant: {
-    description:
-      "Draining HP from an enemy and recuperate the HP of the caster.",
-    icon: null,
-    is_buff: true,
-    sku: null,
-    spell: "lifeStealInstant",
-    title: "Lifesteal (Instant)"
-  },
   lifeStealHP: {
     description: "Curses an enemy and inflicts lifesteal.",
     icon: "icon-life-steal",
@@ -479,6 +502,31 @@ export const effect_definitions = {
     sku: "spell_icon_0058",
     spell: "lifeStealHP",
     title: "Lifesteal HP"
+  },
+  lifeStealInstant: {
+    description: "Drains HP from an enemy and recuperate the HP of the caster.",
+    icon: null,
+    is_buff: false,
+    sku: null,
+    spell: "lifeStealInstant",
+    title: "Lifesteal (Instant)"
+  },
+  lifeStealInstantHP: {
+    description:
+      "Drains HP instantly from an enemy and recuperate the HP of the caster.",
+    icon: null,
+    is_buff: false,
+    sku: null,
+    spell: "lifeStealInstant",
+    title: "Lifesteal HP (Instant)"
+  },
+  madness: {
+    description: "Force an emeny to attack themselves or to another enemy.",
+    icon: null,
+    is_buff: false,
+    sku: null,
+    spell: "madness",
+    title: "Madness"
   },
   mirror: {
     description:
@@ -592,6 +640,14 @@ export const effect_definitions = {
     spell: "regen",
     title: "Regenerate"
   },
+  resetCooldown: {
+    description: "Resets all spells on cooldown so they are useable next turn.",
+    icon: null,
+    is_buff: true,
+    sku: null,
+    spell: "resetCooldown",
+    title: "Reset Cooldown"
+  },
   return: {
     description: "Recover your turn.",
     icon: null,
@@ -609,14 +665,21 @@ export const effect_definitions = {
     spell: "reverseAlly",
     title: "Reverse Allies"
   },
-  reverseEnemy: {
-    description:
-      "Healing turns into damage. while incoming damage will heal the creature.",
-    icon: "icon-reverse-negative",
+  revive: {
+    description: "Revives an ally with some amount of HP.",
+    icon: null,
+    is_buff: true,
+    sku: null,
+    spell: "revive",
+    title: "Revive"
+  },
+  sacrifice: {
+    description: "Sacrifices a portion of the creature's own HP.",
+    icon: null,
     is_buff: false,
-    sku: "spell_icon_0061",
-    spell: "reverseEnemy",
-    title: "Reverse Enemies"
+    sku: null,
+    spell: "sacrifice",
+    title: "Sacrifice HP"
   },
   shield: {
     description:
@@ -653,6 +716,14 @@ export const effect_definitions = {
     sku: null,
     spell: "stealBar",
     title: "Steal Turn Bar"
+  },
+  stealBuff: {
+    description: "Steals beneficial effects from the enemy.",
+    icon: null,
+    is_buff: true,
+    sku: null,
+    spell: "stealBuff",
+    title: "Steal Beneficial Effect"
   },
   stone: {
     description:
@@ -722,13 +793,12 @@ export const effect_definitions = {
     spell: "unfillBar",
     title: "Reduce Turn Bar"
   },
-  wound: {
-    description:
-      "Points of debility that affect an enemy creature and allow some spells to have extra effects when cast against those enemies. These extra effects are indicated by (Fx), where x is the number of Focus points needed.",
-    icon: "icon-charges-wound-menus",
-    is_buff: false,
-    sku: "spell_icon_0052",
-    spell: "wound",
-    title: "Focus Points"
+  zombieCall: {
+    description: "Casts Zombie Call over a random dead ally",
+    icon: null,
+    is_buff: true,
+    sku: null,
+    spell: "zombieCall",
+    title: "Zombie Call"
   }
 };
