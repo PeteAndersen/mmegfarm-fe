@@ -1,13 +1,15 @@
 <template>
   <v-container fluid class="pa-0 ma-0" align-content-start>
-    <v-layout row justify-space-between align-baseline>
+    <v-layout row align-baseline>
       <v-flex>
         Sort By
         <v-menu>
           <v-btn
             flat
             slot="activator"
-          >{{ orderByText }}</v-btn>
+          >
+            {{ orderByText }}<v-icon>arrow_drop_down</v-icon>
+          </v-btn>
           <v-list>
             <v-list-tile
               dense
@@ -24,7 +26,9 @@
           <v-btn
             flat
             slot="activator"
-          >{{ orderDirectionText }}</v-btn>
+          >
+          {{ orderDirectionText }}<v-icon>arrow_drop_down</v-icon>
+          </v-btn>
           <v-list>
             <v-list-tile
               dense
@@ -37,9 +41,9 @@
           </v-list>
         </v-menu>
       </v-flex>
-
-      <v-flex>
-        831 of 831 Creatures
+      <v-spacer />
+      <v-flex class="text-xs-right">
+        {{ totalCreatures }} of {{ maxCreatureCount }} Creatures
       </v-flex>
     </v-layout>
     
@@ -89,6 +93,8 @@ export default {
   computed: {
     ...mapGetters([
       "creatureList",
+      "totalCreatures",
+      "maxCreatureCount",
       "numPages",
       "loading",
       "sortKey",

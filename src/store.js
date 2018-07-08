@@ -14,6 +14,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     creatures: [],
+    total_creatures: 0,
+    max_creature_count: 0,
     page: 1,
     page_size: 48,
     num_pages: 1,
@@ -39,6 +41,13 @@ export default new Vuex.Store({
     },
     setPageSize(state, { page_size }) {
       state.page_size = page_size;
+    },
+    setTotalCreatures(state, value) {
+      state.total_creatures = value;
+
+      if (value > state.max_creature_count) {
+        state.max_creature_count = value;
+      }
     },
     setNumPages(state, value) {
       state.num_pages = value;
@@ -81,6 +90,7 @@ export default new Vuex.Store({
         const num_pages = Math.ceil(count / state.page_size);
         commit("addCreatures", { creatures: results });
         commit("setNumPages", num_pages);
+        commit("setTotalCreatures", count);
         commit("loading", false);
       } catch (e) {
         console.log(e);
@@ -106,6 +116,8 @@ export default new Vuex.Store({
   },
   getters: {
     creatureList: state => state.creatures,
+    totalCreatures: state => state.total_creatures,
+    maxCreatureCount: state => state.max_creature_count,
     page: state => state.page,
     numPages: state => state.num_pages,
     hasNext: state => state.hasNext,
