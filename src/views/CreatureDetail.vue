@@ -1,12 +1,18 @@
 <template>
-  <div>
-    {{slug}}
-    {{creature}}
-  </div>
+  <v-container>
+    <v-layout>
+      <v-flex>
+        <CreatureAvatar :creature="creature" />
+      </v-flex>
+      {{slug}}
+      {{creature}}
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
 import api from "@/api";
+import CreatureAvatar from '@/components/creatures/CreatureAvatar'
 
 export default {
   name: "CreatureDetail",
@@ -15,6 +21,9 @@ export default {
       type: String,
       required: true
     }
+  },
+  components: {
+    CreatureAvatar
   },
   data() {
     return { creature: null };

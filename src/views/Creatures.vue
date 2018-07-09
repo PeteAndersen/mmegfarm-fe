@@ -1,72 +1,77 @@
 <template>
-  <v-container fluid class="pa-0 ma-0" align-content-start>
-    <v-layout row align-baseline>
-      <v-flex>
-        Sort By
-        <v-menu>
-          <v-btn
-            flat
-            slot="activator"
-          >
-            {{ orderByText }}<v-icon>arrow_drop_down</v-icon>
-          </v-btn>
-          <v-list>
-            <v-list-tile
-              dense
-              v-for="(kvp, index) in Object.entries(sortByOptions)"
-              :key="index"
-              @click="setSortKey(kvp[0])"
+  <div>
+    <FilterForm :drawer="filterDrawer" />
+    <v-container fluid class="pa-0 ma-0" align-content-start>
+      <v-layout row align-baseline>
+        <v-flex>
+          Sort By
+          <v-menu>
+            <v-btn
+              flat
+              slot="activator"
             >
-              <v-list-tile-title>{{ kvp[1] }}</v-list-tile-title>
-            </v-list-tile>
-          </v-list>
-        </v-menu>
+              {{ orderByText }}<v-icon>arrow_drop_down</v-icon>
+            </v-btn>
+            <v-list>
+              <v-list-tile
+                dense
+                v-for="(kvp, index) in Object.entries(sortByOptions)"
+                :key="index"
+                @click="setSortKey(kvp[0])"
+              >
+                <v-list-tile-title>{{ kvp[1] }}</v-list-tile-title>
+              </v-list-tile>
+            </v-list>
+          </v-menu>
 
-        <v-menu>
-          <v-btn
-            flat
-            slot="activator"
-          >
-          {{ orderDirectionText }}<v-icon>arrow_drop_down</v-icon>
-          </v-btn>
-          <v-list>
-            <v-list-tile
-              dense
-              v-for="(kvp, index) in Object.entries(sortDirectionOptions)"
-              :key="index"
-              @click="setSortDirection(kvp[0])"
+          <v-menu>
+            <v-btn
+              flat
+              slot="activator"
             >
-              <v-list-tile-title>{{ kvp[1] }}</v-list-tile-title>
-            </v-list-tile>
-          </v-list>
-        </v-menu>
-      </v-flex>
-      <v-spacer />
-      <v-flex class="text-xs-right">
-        {{ totalCreatures }} of {{ maxCreatureCount }} Creatures
-      </v-flex>
-    </v-layout>
-    
-    <CreatureList :creatures="creatureList" />
-    <div class="text-xs-center">
-      <v-pagination
-        class="pt-2"
-        v-model="page"
-        :length="numPages"
-        />
-    </div>
-  </v-container>
+            {{ orderDirectionText }}<v-icon>arrow_drop_down</v-icon>
+            </v-btn>
+            <v-list>
+              <v-list-tile
+                dense
+                v-for="(kvp, index) in Object.entries(sortDirectionOptions)"
+                :key="index"
+                @click="setSortDirection(kvp[0])"
+              >
+                <v-list-tile-title>{{ kvp[1] }}</v-list-tile-title>
+              </v-list-tile>
+            </v-list>
+          </v-menu>
+        </v-flex>
+        <v-spacer />
+        <v-flex class="text-xs-right">
+          {{ totalCreatures }} of {{ maxCreatureCount }} Creatures
+        </v-flex>
+      </v-layout>
+      
+      <CreatureList :creatures="creatureList" />
+      <div class="text-xs-center">
+        <v-pagination
+          class="pt-2"
+          v-model="page"
+          :length="numPages"
+          />
+      </div>
+    </v-container>
+  </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
 
 import CreatureList from "@/components/CreatureList.vue";
+import FilterForm from "@/components/FilterForm.vue";
 
 export default {
   name: "Creatures",
   components: {
-    CreatureList
+    CreatureList,
+    FilterForm
   },
   data() {
     return {
@@ -106,6 +111,14 @@ export default {
       },
       set: function(newValue) {
         this.setPage(newValue);
+      }
+    },
+    filterDrawer: {
+      get: function() {
+        return this.$store.getters.filterDrawer;
+      },
+      set: function() {
+        this.$store.commit("filterDrawer", !this.$store.getters.filterDrawer);
       }
     },
     orderByText() {

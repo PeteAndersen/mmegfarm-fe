@@ -1,15 +1,16 @@
 <template>
   <v-app id="inspire" dark>
-    <FilterForm :drawer="filterDrawer" />
-    <v-toolbar app fixed clipped-left>
-      <v-toolbar-side-icon @click.stop="toggleDrawer"></v-toolbar-side-icon>
-      <v-toolbar-title>mm-eg.farm</v-toolbar-title>
-    </v-toolbar>
     <v-content>
       <v-container fluid>
         <router-view/>
       </v-container>
     </v-content>
+    
+    <v-toolbar app fixed clipped-left>
+      <v-toolbar-side-icon @click.stop="toggleDrawer"></v-toolbar-side-icon>
+      <v-toolbar-title>mm-eg.farm</v-toolbar-title>
+    </v-toolbar>
+    
     <v-footer app fixed>
       <p class="text-xs-center">&copy; 2018 Porksmash. Creature icons are &copy; Ubisoft</p>
     </v-footer>
@@ -19,15 +20,8 @@
 <script>
 import { mapGetters } from "vuex";
 
-import NewContentSnack from "@/components/NewContentSnack.vue";
-import FilterForm from "@/components/FilterForm.vue";
-
 export default {
   name: "App",
-  components: {
-    NewContentSnack,
-    FilterForm
-  },
   methods: {
     toggleDrawer() {
       this.$store.commit("filterDrawer", !this.$store.getters.filterDrawer);

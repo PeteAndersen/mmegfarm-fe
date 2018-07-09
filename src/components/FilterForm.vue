@@ -1,6 +1,5 @@
 <template>
-  <v-navigation-drawer v-model="drawer" clipped fixed app>
-
+  <v-navigation-drawer clipped fixed app>
     <v-snackbar color="success" v-model="permalinkCopied" absolute top :timeout="2000">
       Copied!
     </v-snackbar>
@@ -164,12 +163,6 @@ import { effect_definitions, stat_definitions } from "@/services/creatures";
 
 export default {
   name: "FilterForm",
-  props: {
-    drawer: {
-      type: Boolean,
-      required: true
-    }
-  },
   data() {
     return {
       form: {
