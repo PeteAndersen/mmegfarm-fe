@@ -1,14 +1,21 @@
 <template>
   <div>
-    <FilterForm :drawer="filterDrawer" />
+    <FilterForm />
+
     <v-container fluid class="pa-0 ma-0" align-content-start>
-      <v-layout row align-baseline>
+      <v-layout row align-baseline class="pb-2">
+        
         <v-flex>
+          <v-btn @click="filterDrawer = !filterDrawer" class="ml-0">
+            <v-icon class="pr-1">menu</v-icon> Filters
+          </v-btn>
+
           Sort By
           <v-menu>
             <v-btn
               flat
               slot="activator"
+              class="pl-1 pr-1"
             >
               {{ orderByText }}<v-icon>arrow_drop_down</v-icon>
             </v-btn>
@@ -28,6 +35,7 @@
             <v-btn
               flat
               slot="activator"
+              class="pl-1 pr-1"
             >
             {{ orderDirectionText }}<v-icon>arrow_drop_down</v-icon>
             </v-btn>

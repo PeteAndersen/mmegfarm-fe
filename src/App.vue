@@ -7,7 +7,6 @@
     </v-content>
     
     <v-toolbar app fixed clipped-left>
-      <v-toolbar-side-icon @click.stop="toggleDrawer"></v-toolbar-side-icon>
       <v-toolbar-title>mm-eg.farm</v-toolbar-title>
     </v-toolbar>
     
@@ -35,7 +34,7 @@ export default {
 
 <style>
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
