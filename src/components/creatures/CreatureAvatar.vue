@@ -96,14 +96,14 @@ img.avatar {
 }
 
 .star-1.of-4 {
-  top: 8%;
-  left: 8%;
-  transform: rotate(-45deg);
+  top: 7%;
+  left: 10%;
+  transform: rotate(-55deg);
 }
 
 .star-4.of-4 {
-  top: 8%;
-  left: 92%;
-  transform: rotate(45deg);
+  top: 7%;
+  left: 90%;
+  transform: rotate(55deg);
 }
 </style>
