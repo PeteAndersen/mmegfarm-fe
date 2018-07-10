@@ -56,7 +56,7 @@
         <v-container grid-list-lg>
           <h2>Skills</h2>
           <v-layout row>
-            <v-flex xs12 md6 v-for="(spell, index) in spellSlotOne" :key="index">
+            <v-flex xs12 v-bind="{ [`md-${12 / spellSlotOne.length}`]: true }" v-for="(spell, index) in spellSlotOne" :key="index">
               <SpellPanel :spell="spell" showSlot />
             </v-flex>
           </v-layout>
