@@ -52,6 +52,7 @@ export default {
 <style scoped>
 div {
   position: relative;
+  margin: auto;
 }
 
 img.avatar {

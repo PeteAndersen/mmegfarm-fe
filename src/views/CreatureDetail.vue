@@ -22,6 +22,10 @@
       <v-flex xs12 md6>
         <v-container>
           <v-layout>
+            <CreatureAvatar class="ma-3 float left" :creature="creature" />
+            
+            <v-spacer />
+
             <h1>{{ creature.name }}</h1>
 
             <v-spacer />
@@ -39,18 +43,45 @@
               {{titleCase(creature.element)}}
             </v-tooltip>
           </v-layout>
-          <CreatureAvatar class="ma-3" :creature="creature" />
+
+          
+            <p>{{creature.lore}}</p>
+          
         </v-container>
-      <v-layout>
-        <v-btn>
-          <creature-avatar :creature="creature" size="2em" :stars="false"/>
-          Evolves From
-        </v-btn>
-        <v-btn large>
-          Evolves To
-          <creature-avatar :creature="creature" size="2em" :stars="false"/>
-        </v-btn>
-      </v-layout>
+
+        <v-container>
+          <v-layout row>
+            <v-flex xs3>
+              <v-card to="/creature/123-replace-me" flat hover>
+                <v-card-title class="text-xs-center centered">
+                  <div>
+                    <h3 class="headline mb-0">Evolves From</h3>
+                    <div>
+                      <creature-avatar :creature="creature" size="3em" :stars="false"/>
+                      <small>{{creature.name}}</small>
+                    </div>
+                  </div>
+                </v-card-title>
+              </v-card>
+            </v-flex>
+
+            <v-spacer></v-spacer>
+
+            <v-flex xs3>
+              <v-card to="/creature/123-replace-me" hover xs3>
+                <v-card-title class="text-xs-center centered">
+                  <div>
+                    <h3 class="headline mb-0">Evolves To</h3>
+                    <div>
+                      <creature-avatar :creature="creature" size="3em" :stars="false"/>
+                      <small>{{creature.name}}</small>
+                    </div>
+                  </div>
+                </v-card-title>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </v-container>
       </v-flex>
       <v-flex xs12 md6>
         <v-container grid-list-lg>
@@ -120,4 +151,10 @@ export default {
 </script>
 
 <style scoped>
+.float.left {
+  float: left;
+}
+.v-card__title.centered > div {
+  margin: auto;
+}
 </style>
