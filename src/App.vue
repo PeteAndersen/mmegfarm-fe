@@ -16,7 +16,9 @@
     </v-toolbar>
     
     <v-footer app fixed>
-      <p class="text-xs-center">&copy; 2018 Porksmash. Creature icons are &copy; Ubisoft</p>
+      <v-spacer></v-spacer>
+      &copy; 2018 Porksmash ᛫ Creature and Spell icons &copy; Ubisoft Entertainment
+      <v-spacer></v-spacer>
     </v-footer>
   </v-app>
 </template>
