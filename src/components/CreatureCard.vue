@@ -1,6 +1,6 @@
 <template>
   <v-flex xs12 md6 lg4 xl3>
-    <v-card height="100%" :to="creatureDetailUrl" hover>
+    <v-card height="100%" :to="`/creature/${this.creature.slug}`" hover>
       <v-card-title>
         <v-layout>
           <CreatureAvatar :creature="creature" />
@@ -9,13 +9,13 @@
           <v-spacer />
           <v-tooltip bottom>
             <v-avatar slot="activator">
-              <img :src="archetypeImage"/>
+              <img :src="`/static/creatures/icon-${this.creature.archetype}.png`"/>
             </v-avatar>
             {{titleCase(creature.archetype)}}
           </v-tooltip>
           <v-tooltip bottom>
             <v-avatar slot="activator">
-              <img :src="elementImage"/>
+              <img :src="`/static/creatures/icon-${this.creature.element}.png`"/>
             </v-avatar>
             {{titleCase(creature.element)}}
           </v-tooltip>
@@ -64,15 +64,6 @@ export default {
     }
   },
   computed: {
-    creatureDetailUrl() {
-      return `/creature/${this.creature.slug}`;
-    },
-    archetypeImage() {
-      return `/static/creatures/icon-${this.creature.archetype}.png`;
-    },
-    elementImage() {
-      return `/static/creatures/icon-${this.creature.element}.png`;
-    },
     spells() {
       const spells = this.creature.spells.reduce((accum, spell) => {
         if (accum[spell.slot] !== undefined) {

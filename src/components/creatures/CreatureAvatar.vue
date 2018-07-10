@@ -1,7 +1,8 @@
 <template>
-  <div>
+  <div :style="`height:${size};width:${size}`">
     <img class="avatar" :src="avatarUrl" />
     <img
+      v-if="stars"
       v-for="x in creature.rank"
       :key="x" 
       src="/static/star-yellow-full.png"
@@ -28,6 +29,16 @@ export default {
     creature: {
       type: Object,
       required: true
+    },
+    stars: {
+      type: Boolean,
+      default: true,
+      required: false
+    },
+    size: {
+      type: String,
+      default: "76px",
+      required: false
     }
   },
   computed: {
@@ -41,8 +52,6 @@ export default {
 <style scoped>
 div {
   position: relative;
-  width: 76px;
-  height: 76px;
 }
 
 img.avatar {

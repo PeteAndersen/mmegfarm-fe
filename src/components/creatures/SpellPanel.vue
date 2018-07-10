@@ -1,10 +1,12 @@
 <template>
-  <v-card>
+  <v-card height="100%">
     <v-card-title primary-title class="pb-1 pt-2">
       <v-avatar class="mr-2">
         <img :src="`/static/spells/${spell.image}.png`" />
       </v-avatar>
-      <span class="headline">{{ spell.title }}</span>
+      <span class="headline">
+        <template v-if="showSlot">{{ spell.slot }}. </template>{{ spell.title }}
+      </span>
     </v-card-title>
 
     <v-divider />
@@ -18,7 +20,7 @@
     <v-list v-if="effects.length" dense class="pt-1 pb-1">
       <v-list-tile v-for="(effect, index) in effects" :key="index">
         <v-list-tile-avatar v-if="effectHasIcon" tile>
-          <img v-if="effect.effect.icon" :src="`static/effects/${effect.effect.icon}.png`" />
+          <img v-if="effect.effect.icon" :src="`/static/effects/${effect.effect.icon}.png`" />
         </v-list-tile-avatar>
         <v-list-tile-content>
           <v-list-tile-title>{{ effect.effect.title }}</v-list-tile-title>
@@ -72,6 +74,11 @@ export default {
     spell: {
       type: Object,
       required: true
+    },
+    showSlot: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   computed: {
