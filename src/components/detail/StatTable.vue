@@ -21,36 +21,6 @@
             <img src="/static/creatures/icon-stats-def.png" />
           </v-avatar>
         </th>
-        <th>
-          SPD
-          <v-avatar size="2em">
-            <img src="/static/creatures/icon-stats-speed.png" />
-          </v-avatar>
-        </th>
-        <th>
-          Crit. Rate
-          <v-avatar size="2em">
-            <img src="/static/creatures/icon-stats-crit-rate.png" />
-          </v-avatar>
-        </th>
-        <th>
-          Crit. Damage
-          <v-avatar size="2em">
-            <img src="/static/creatures/icon-stats-crit-dmg.png" />
-          </v-avatar>
-        </th>
-        <th>
-          Accuracy
-          <v-avatar size="2em">
-            <img src="/static/creatures/icon-stats-accuracy.png" />
-          </v-avatar>
-        </th>
-        <th>
-          Resistance
-          <v-avatar size="2em">
-            <img src="/static/creatures/icon-stats-resistance.png" />
-          </v-avatar>
-        </th>
       </tr>
     </thead>
     <tbody class="text-xs-center">
@@ -65,11 +35,6 @@
         <td>{{rank.hp}}</td>
         <td>{{rank.attack}}</td>
         <td>{{rank.defense}}</td>
-        <td>{{rank.speed}}</td>
-        <td>{{rank.criticalChance}}</td>
-        <td>{{rank.criticalDamage}}</td>
-        <td>{{rank.accuracy}}</td>
-        <td>{{rank.resistance}}</td>
       </tr>
     </tbody>
     
@@ -89,17 +54,7 @@ export default {
   },
   data() {
     return {
-      headers: [
-        "Stars",
-        "HP",
-        "ATK",
-        "DEF",
-        "SPD",
-        "Crit Chance",
-        "Crit Damage",
-        "Accuracy",
-        "Resistance"
-      ]
+      headers: ["Stars", "HP", "ATK", "DEF"]
     };
   },
   computed: {
@@ -124,12 +79,7 @@ export default {
           rank: i,
           hp,
           attack,
-          defense,
-          speed: Math.round(this.creature.speed * 1000),
-          criticalChance: this.creature.criticalChance,
-          criticalDamage: this.creature.criticalDamage,
-          accuracy: Math.round(this.creature.accuracy * 100),
-          resistance: Math.round(this.creature.resistance * 100)
+          defense
         });
       }
       return stat_table;
@@ -142,4 +92,7 @@ export default {
 </script>
 
 <style scoped>
+table {
+  width: 100%;
+}
 </style>

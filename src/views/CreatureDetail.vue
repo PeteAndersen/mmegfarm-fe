@@ -41,6 +41,13 @@
         <v-container>
           <!-- Stat Table -->
           <h2>Stats</h2>
+          <v-layout row wrap class="pt-2 pb-2">
+            <BigStat stat="speed" :value="Math.round(creature.speed * 1000)" />
+            <BigStat stat="crit-rate" :value="creature.criticalChance" />
+            <BigStat stat="crit-dmg" :value="creature.criticalDamage" />
+            <BigStat stat="accuracy" :value="Math.round(creature.accuracy * 100)" />
+            <BigStat stat="resistance" :value="Math.round(creature.resistance * 100)" />
+          </v-layout>
           <StatTable :creature="creature" />
         </v-container>
       </v-flex>
@@ -73,6 +80,7 @@ import SpellPanel from "@/components/creatures/SpellPanel";
 import EvolveCard from "@/components/detail/EvolveCard";
 import DetailPanel from "@/components/detail/DetailPanel";
 import StatTable from "@/components/detail/StatTable";
+import BigStat from "@/components/creatures/BigStat";
 
 export default {
   name: "CreatureDetail",
@@ -87,7 +95,8 @@ export default {
     SpellPanel,
     DetailPanel,
     EvolveCard,
-    StatTable
+    StatTable,
+    BigStat
   },
   watch: {
     slug: function(val) {
@@ -97,6 +106,9 @@ export default {
   },
   created: async function() {
     this.getCreature(this.slug);
+    this.$vuetify.goTo(0, {
+      duration: 0
+    });
   },
   methods: {
     ...mapActions(["getCreature"]),

@@ -1,12 +1,13 @@
 <template>
-  <v-flex v-bind="{ [`${colsize}`]: true }">
+  <v-flex class="text-xs-center">
     <v-layout column align-content-center>
-      <v-flex class="pb-0">{{nice_name}}</v-flex>
+      <v-flex class="pb-0"><h4>{{nice_name}}</h4></v-flex>
       <v-flex class="pt-0">
-        <v-avatar size="2em">
-          <img :src="statIcon" />
-        </v-avatar>
-        {{value}}<span v-if="percentage_stat">%</span>
+        <h3>
+          <v-avatar size="4em">
+            <img :src="statIcon" />
+          </v-avatar>{{value}}<span v-if="percentage_stat">%</span>
+        </h3>
       </v-flex>
     </v-layout>
   </v-flex>
