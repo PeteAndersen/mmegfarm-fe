@@ -16,6 +16,8 @@ export default new Vuex.Store({
     creatures: [],
     total_creatures: 0,
     max_creature_count: 0,
+    creature: null,
+    family: [],
     page: 1,
     page_size: 48,
     num_pages: 1,
@@ -27,14 +29,14 @@ export default new Vuex.Store({
   },
   //plugins: [vuexLocal.plugin],
   mutations: {
-    addCreature(state, { creature }) {
-      state.creatures = {
-        ...state.creatures,
-        [creature.id]: creature
-      };
-    },
     addCreatures(state, { creatures }) {
       state.creatures = creatures;
+    },
+    setCreature(state, { creature }) {
+      state.creature = creature;
+    },
+    setFamily(state, { family }) {
+      state.family = family;
     },
     setPage(state, { page }) {
       state.page = page;
@@ -91,10 +93,41 @@ export default new Vuex.Store({
         commit("setNumPages", num_pages);
         commit("setTotalCreatures", count);
         dispatch("getMaxCreatureCount");
-        commit("loading", false);
       } catch (e) {
         console.log(e);
-        commit("loading", false);
+      }
+
+      commit("loading", false);
+    },
+    async getCreature({ dispatch, commit }, slug) {
+      commit("loading", true);
+
+      try {
+        const {
+          data: { results }
+        } = await api.get("creatures/", {
+          params: { slug }
+        });
+        const creature = results[0];
+        commit("setCreature", { creature });
+        dispatch("getFamily", creature.creatureType);
+      } catch (e) {
+        console.log(e);
+      }
+
+      commit("loading", false);
+    },
+    async getFamily({ commit }, family_id) {
+      try {
+        const {
+          data: { results }
+        } = await api.get("creatures/", {
+          params: { creatureType: family_id }
+        });
+        const family = results.sort((a, b) => (a.element > b.element ? 1 : -1));
+        commit("setFamily", { family });
+      } catch (e) {
+        console.log(e);
       }
     },
     async getMaxCreatureCount({ commit }) {
@@ -126,6 +159,8 @@ export default new Vuex.Store({
   },
   getters: {
     creatureList: state => state.creatures,
+    creature: state => state.creature,
+    family: state => state.family,
     totalCreatures: state => state.total_creatures,
     maxCreatureCount: state => state.max_creature_count,
     page: state => state.page,
