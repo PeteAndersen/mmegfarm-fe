@@ -17,6 +17,8 @@ export default new Vuex.Store({
     total_creatures: 0,
     max_creature_count: 0,
     creature: null,
+    evolves_to: null,
+    evolves_from: null,
     family: [],
     page: 1,
     page_size: 48,
@@ -34,6 +36,12 @@ export default new Vuex.Store({
     },
     setCreature(state, { creature }) {
       state.creature = creature;
+    },
+    setCreatureEvolvesFrom(state, { creature }) {
+      state.evolves_from = creature;
+    },
+    setCreatureEvolvesTo(state, { creature }) {
+      state.evolves_to = creature;
     },
     setFamily(state, { family }) {
       state.family = family;
@@ -111,6 +119,21 @@ export default new Vuex.Store({
         const creature = results[0];
         commit("setCreature", { creature });
         dispatch("getFamily", creature.creatureType);
+
+        if (creature.evolvesTo) {
+          const { data } = await api.get(`creatures/${creature.evolvesTo}/`);
+          commit("setCreatureEvolvesTo", { creature: data });
+        } else {
+          commit("setCreatureEvolvesTo", { creature: null });
+        }
+        if (creature.evolvesFrom && creature.evolvesFrom.length) {
+          const { data } = await api.get(
+            `creatures/${creature.evolvesFrom[0]}/`
+          );
+          commit("setCreatureEvolvesFrom", { creature: data });
+        } else {
+          commit("setCreatureEvolvesFrom", { creature: null });
+        }
       } catch (e) {
         console.log(e);
       }
@@ -160,6 +183,8 @@ export default new Vuex.Store({
   getters: {
     creatureList: state => state.creatures,
     creature: state => state.creature,
+    evolves_to: state => state.evolves_to,
+    evolves_from: state => state.evolves_from,
     family: state => state.family,
     totalCreatures: state => state.total_creatures,
     maxCreatureCount: state => state.max_creature_count,

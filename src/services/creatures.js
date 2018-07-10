@@ -62,6 +62,26 @@ export const parse_description = (desc, effects) => {
     });
 };
 
+export const max_level_for_rank = rank => 10 + rank * 5;
+
+const rank_up_multipliers = {
+  hp: { 1: 1.651, 2: 2.064, 3: 1.803, 4: 1.537, 5: 1.461 },
+  attack: { 1: 1.689, 2: 2.54, 3: 1.905, 4: 1.537, 5: 1.461 },
+  defense: { 1: 1.689, 2: 2.54, 3: 1.905, 4: 1.537, 5: 1.461 }
+};
+
+export const calc_stat = (creature, stat, evoStat, rank) => {
+  const multis = rank_up_multipliers[stat];
+
+  let max_stat = (creature[stat] - evoStat) * multis[creature.rank];
+
+  for (let i = creature.rank; i < rank; i++) {
+    max_stat = (max_stat / 1.27) * multis[i + 1];
+  }
+
+  return Math.round(max_stat);
+};
+
 // Effects not in object at this time:
 //  sage, castRandomAlly, castRandomEnemy, castSpell, immuneToX, reverseEnemy, wound
 export const effect_definitions = {

@@ -1,9 +1,10 @@
 <template>
-  <v-container v-if="creature !== null" class="pt-0">
+  <v-container fluid v-if="creature !== null" class="pt-0">
+    <!-- Main Toolbar and Family -->
     <v-toolbar>
       <v-toolbar-items>
         <v-btn to="/">
-          <v-icon>arrow_back</v-icon> Back
+          <v-icon left>arrow_back</v-icon> Menagerie
         </v-btn>
       </v-toolbar-items>
 
@@ -18,76 +19,37 @@
       </v-toolbar-items>
     </v-toolbar>
 
-    <v-layout>
+    <v-layout row wrap>
       <v-flex xs12 md6>
+        <DetailPanel :creature="creature"/>
+
+        
         <v-container>
-          <v-layout>
-            <CreatureAvatar class="ma-3 float left" :creature="creature" />
-            
-            <v-spacer />
-
-            <h1>{{ creature.name }}</h1>
-
-            <v-spacer />
-
-            <v-tooltip bottom>
-              <v-avatar slot="activator">
-                <img :src="`/static/creatures/icon-${creature.archetype}.png`"/>
-              </v-avatar>
-              {{titleCase(creature.archetype)}}
-            </v-tooltip>
-            <v-tooltip bottom>
-              <v-avatar slot="activator">
-                <img :src="`/static/creatures/icon-${creature.element}.png`"/>
-              </v-avatar>
-              {{titleCase(creature.element)}}
-            </v-tooltip>
-          </v-layout>
-
-          
-            <p>{{creature.lore}}</p>
-          
-        </v-container>
-
-        <v-container>
+          <!-- Evolves To/From -->
           <v-layout row>
-            <v-flex xs3>
-              <v-card to="/creature/123-replace-me" flat hover>
-                <v-card-title class="text-xs-center centered">
-                  <div>
-                    <h3 class="headline mb-0">Evolves From</h3>
-                    <div>
-                      <creature-avatar :creature="creature" size="3em" :stars="false"/>
-                      <small>{{creature.name}}</small>
-                    </div>
-                  </div>
-                </v-card-title>
-              </v-card>
+            <v-flex xs3 v-if="evolves_from">
+              <EvolveCard :creature="evolves_from" direction="From"/>
             </v-flex>
 
             <v-spacer></v-spacer>
 
-            <v-flex xs3>
-              <v-card to="/creature/123-replace-me" hover xs3>
-                <v-card-title class="text-xs-center centered">
-                  <div>
-                    <h3 class="headline mb-0">Evolves To</h3>
-                    <div>
-                      <creature-avatar :creature="creature" size="3em" :stars="false"/>
-                      <small>{{creature.name}}</small>
-                    </div>
-                  </div>
-                </v-card-title>
-              </v-card>
+            <v-flex xs3 v-if="evolves_to">
+              <EvolveCard :creature="evolves_to" direction="To"/>
             </v-flex>
           </v-layout>
         </v-container>
+        <v-container>
+          <!-- Stat Table -->
+          <h2>Stats</h2>
+          <StatTable :creature="creature" />
+        </v-container>
       </v-flex>
+      
       <v-flex xs12 md6>
         <v-container grid-list-lg>
           <h2>Skills</h2>
-          <v-layout row>
-            <v-flex xs12 v-bind="{ [`md-${12 / spellSlotOne.length}`]: true }" v-for="(spell, index) in spellSlotOne" :key="index">
+          <v-layout row wrap>
+            <v-flex md12 lg6 v-bind="{ [`md-${12 / spellSlotOne.length}`]: true }" v-for="(spell, index) in spellSlotOne" :key="index">
               <SpellPanel :spell="spell" showSlot />
             </v-flex>
           </v-layout>
@@ -108,6 +70,9 @@ import { mapActions, mapGetters } from "vuex";
 import { titleCase } from "@/services/utils";
 import CreatureAvatar from "@/components/creatures/CreatureAvatar";
 import SpellPanel from "@/components/creatures/SpellPanel";
+import EvolveCard from "@/components/detail/EvolveCard";
+import DetailPanel from "@/components/detail/DetailPanel";
+import StatTable from "@/components/detail/StatTable";
 
 export default {
   name: "CreatureDetail",
@@ -119,7 +84,10 @@ export default {
   },
   components: {
     CreatureAvatar,
-    SpellPanel
+    SpellPanel,
+    DetailPanel,
+    EvolveCard,
+    StatTable
   },
   watch: {
     slug: function(val) {
@@ -135,7 +103,7 @@ export default {
     titleCase
   },
   computed: {
-    ...mapGetters(["creature", "family"]),
+    ...mapGetters(["creature", "evolves_from", "evolves_to", "family"]),
     spellSlotOne() {
       if (this.creature) {
         return this.creature.spells.filter(s => s.slot === 1);
@@ -153,8 +121,5 @@ export default {
 <style scoped>
 .float.left {
   float: left;
-}
-.v-card__title.centered > div {
-  margin: auto;
 }
 </style>
