@@ -1,5 +1,10 @@
 <template>
+
   <v-app id="inspire" dark>
+    <div class="loading-indicator">
+      <v-progress-linear :active="loading" :indeterminate="true" class="ma-0"></v-progress-linear>
+    </div>
+
     <v-content>
       <v-container fluid>
         <router-view/>
@@ -21,20 +26,15 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "App",
-  methods: {
-    toggleDrawer() {
-      this.$store.commit("filterDrawer", !this.$store.getters.filterDrawer);
-    }
-  },
   computed: {
-    ...mapGetters(["filterDrawer"])
+    ...mapGetters(["loading"])
   }
 };
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -51,5 +51,12 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.loading-indicator {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  width: 100%;
 }
 </style>
