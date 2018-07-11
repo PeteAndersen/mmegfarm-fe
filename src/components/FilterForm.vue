@@ -299,7 +299,7 @@ export default {
           return accum;
         }, [])
         .join("&");
-      return `${window.location.origin}?${query_params}`;
+      return encodeURI(`${window.location.origin}?${query_params}`);
     }
   },
   methods: {
