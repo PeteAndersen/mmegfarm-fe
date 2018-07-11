@@ -13,7 +13,7 @@
       <v-toolbar-items
         v-bind="{'slot': $vuetify.breakpoint.xsOnly ? 'extension' : 'default' }"
       >
-        <v-btn :icon="$vuetify.breakpoint.smAndDown" v-for="fam in family" :key="fam.id" :to="`/creature/${fam.slug}`">
+        <v-btn :icon="$vuetify.breakpoint.smAndDown" v-for="fam in family" :key="fam.id" :to="`/creature/${fam.slug}`" flat>
           <v-avatar tile>
             <img :src="`/static/creatures/icon-${fam.element}.png`" />
           </v-avatar>
@@ -50,6 +50,7 @@
             <BigStat stat="accuracy" :value="Math.round(creature.accuracy * 100)" />
             <BigStat stat="resistance" :value="Math.round(creature.resistance * 100)" />
           </v-layout>
+          
           <StatTable :creature="creature" />
         </v-container>
       </v-flex>
