@@ -7,6 +7,16 @@
       <span class="headline">
         <template v-if="showSlot">{{ spell.slot }}. </template>{{ spell.title }}
       </span>
+      
+      <v-spacer></v-spacer>
+
+      <v-tooltip bottom>
+        <v-avatar slot="activator">
+          <img :src="`/static/spells/${spell.type_image}.png`" />
+        </v-avatar>
+        {{spellTypeIcon}}
+      </v-tooltip>
+      
     </v-card-title>
 
     <v-divider />
@@ -67,6 +77,7 @@ import {
   effect_definitions,
   parse_description
 } from "@/services/creatures";
+import { titleCase } from "@/services/utils";
 
 export default {
   name: "SpellPanel",
@@ -84,6 +95,11 @@ export default {
   computed: {
     description() {
       return parse_description(this.spell.description, this.spell.effects);
+    },
+    spellTypeIcon() {
+      return titleCase(
+        this.spell.type_image.replace("spell-icon-", "").replace(/-/g, " ")
+      );
     },
     attack() {
       const attack_effect = this.spell.effects.find(

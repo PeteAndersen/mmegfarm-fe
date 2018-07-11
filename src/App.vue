@@ -13,6 +13,19 @@
     
     <v-toolbar app fixed clipped-left>
       <v-toolbar-title>mm-eg.farm</v-toolbar-title>
+      
+      <v-spacer></v-spacer>
+      
+      <v-toolbar-items>
+        <v-btn flat to="/">
+          Menagerie
+        </v-btn>
+      </v-toolbar-items>
+      <v-toolbar-items>
+        <v-btn to="/changelist/">
+          Changelist
+        </v-btn>
+      </v-toolbar-items>
     </v-toolbar>
     
     <v-footer app fixed>

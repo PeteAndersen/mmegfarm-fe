@@ -60,7 +60,7 @@ export default {
   computed: {
     stats: function() {
       const stat_table = [];
-      
+
       for (let i = this.creature.rank; i <= 5; i++) {
         const hp = calc_stat(this.creature, "hp", this.creature.evoHp, i);
         const attack = calc_stat(
