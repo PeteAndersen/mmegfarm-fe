@@ -23,13 +23,13 @@
         <h3>Creature Attributes</h3>
         
         <v-text-field
-          v-model="form.name"
+          v-model="$store.state.filters.name"
           label="Name"
           browser-autocomplete="off"
         />
 
         <v-select
-          v-model="form.element"
+          v-model="$store.state.filters.element"
           label="Element"
           :items="elementOptions"
           multiple
@@ -50,7 +50,7 @@
         </v-select>
 
         <v-range-slider
-          v-model="form.nat_stars"
+          v-model="$store.state.filters.nat_stars"
           label="Nat. Stars"
           :max="4"
           :min="1"
@@ -60,7 +60,7 @@
         />
 
         <v-select
-          v-model="form.type"
+          v-model="$store.state.filters.type"
           label="Type"
           :items="typeOptions"
           multiple
@@ -84,7 +84,7 @@
 
         <h3 class="pt-2">Spells</h3>
         <v-select
-          v-model="form.target"
+          v-model="$store.state.filters.target"
           label="Target"
           :items="targetOptions"
           multiple
@@ -93,7 +93,7 @@
         />
 
         <v-select
-          v-model="form.scalesWith"
+          v-model="$store.state.filters.scalesWith"
           label="Scales With"
           :items="scalesWithOptions"
           multiple
@@ -102,7 +102,7 @@
         />
         
         <v-select
-          v-model="form.buffs"
+          v-model="$store.state.filters.buffs"
           label="Buffs"
           :items="buffOptions"
           multiple
@@ -123,7 +123,7 @@
         </v-select>
 
         <v-select
-          v-model="form.debuffs"
+          v-model="$store.state.filters.debuffs"
           label="Debuffs"
           :items="debuffOptions"
           multiple
@@ -144,8 +144,8 @@
         </v-select>
 
         <v-switch
-          :label="`Has ${form.skill_filter_logic === 'all' ? 'all effects' : 'any effect'}`"
-          v-model="form.skill_filter_logic"
+          :label="`Has ${$store.state.filters.skill_filter_logic === 'all' ? 'all effects' : 'any effect'}`"
+          v-model="$store.state.filters.skill_filter_logic"
           false-value="all"
           true-value="any"
         />
@@ -170,17 +170,6 @@ export default {
   },
   data() {
     return {
-      form: {
-        name: "",
-        element: [],
-        nat_stars: [1, 4],
-        type: [],
-        target: [],
-        scalesWith: [],
-        buffs: [],
-        debuffs: [],
-        skill_filter_logic: "all"
-      },
       permalinkCopied: false,
       elementOptions: [
         {
@@ -215,6 +204,7 @@ export default {
     };
   },
   created() {
+    console.log(this.$store);
     const {
       name,
       element,
@@ -228,31 +218,33 @@ export default {
     } = this.$route.query;
 
     if (name) {
-      this.form.name = name;
+      this.$store.state.filters.name = name;
     }
     if (element) {
-      this.form.element = element.split(",");
+      this.$store.state.filters.element = element.split(",");
     }
     if (nat_stars) {
-      this.form.nat_stars = nat_stars.split(",").map(val => Number(val));
+      this.$store.state.filters.nat_stars = nat_stars
+        .split(",")
+        .map(val => Number(val));
     }
     if (type) {
-      this.form.type = type.split(",");
+      this.$store.state.filters.type = type.split(",");
     }
     if (target) {
-      this.form.target = target.split(",");
+      this.$store.state.filters.target = target.split(",");
     }
     if (scalesWith) {
-      this.form.scalesWith = scalesWith.split(",");
+      this.$store.state.filters.scalesWith = scalesWith.split(",");
     }
     if (buffs) {
-      this.form.buffs = buffs.split(",");
+      this.$store.state.filters.buffs = buffs.split(",");
     }
     if (debuffs) {
-      this.form.debuffs = debuffs.split(",");
+      this.$store.state.filters.debuffs = debuffs.split(",");
     }
     if (skill_filter_logic) {
-      this.form.skill_filter_logic = skill_filter_logic;
+      this.$store.state.filters.skill_filter_logic = skill_filter_logic;
     }
     this.submit();
     window.history.replaceState({}, "", "/"); // Remove the query params from URL
@@ -292,7 +284,7 @@ export default {
       return buffs.sort((a, b) => (a.title > b.title ? 1 : -1));
     },
     permalinkURL() {
-      const query_params = Object.entries(this.form)
+      const query_params = Object.entries(this.$store.state.filters)
         .reduce((accum, val) => {
           if (Array.isArray(val[1])) {
             if (val[1].length) {
@@ -311,60 +303,17 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["applyFilters"]),
+    ...mapActions(["populateCreatures"]),
     submit(e) {
       if (e) {
         e.preventDefault();
       }
 
-      const filters = {};
-
-      // Transform form values into appropriate format for GET request
-      // TODO: Generalize this logic somewhere
-      // Creature attributes
-      if (this.form.name) {
-        filters.name = this.form.name;
-      }
-      if (this.form.element.length) {
-        filters.element = this.form.element.join(",");
-      }
-      filters.rank__gte = this.form.nat_stars[0];
-      filters.rank__lte = this.form.nat_stars[1];
-      if (this.form.type.length) {
-        filters.archetype = this.form.type.join(",");
-      }
-
-      // Spells
-      const spell_target = this.form.target.reduce((accum, target) => {
-        if (target === "aoe") {
-          accum = accum.concat(["all", "all_minus_self", "all_minus_one"]);
-        } else if (target === "single") {
-          accum = accum.concat(["one", "one_minus_self"]);
-        } else {
-          accum.push(target);
-        }
-        return accum;
-      }, []);
-      filters.spell_target = spell_target.join(",");
-
-      filters.scales_with = this.form.scalesWith.join(",");
-
-      const combined_effects = this.form.buffs
-        .concat(this.form.debuffs)
-        .join(",");
-      if (combined_effects) {
-        if (this.form.skill_filter_logic === "all") {
-          filters.spell_effect = combined_effects;
-        } else {
-          filters.spell_effect_any = combined_effects;
-        }
-      }
-
-      this.applyFilters(filters);
+      this.populateCreatures();
     },
     clear() {
       this.$refs.form.reset();
-      this.form.nat_stars = [1, 4];
+      this.$store.state.filters.nat_stars = [1, 4];
     },
     copyPermalink() {
       const el = document.createElement("textarea");

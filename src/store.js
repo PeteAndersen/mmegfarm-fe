@@ -23,7 +23,17 @@ export default new Vuex.Store({
     page: 1,
     page_size: 48,
     num_pages: 1,
-    filters: {},
+    filters: {
+      name: "",
+      element: [],
+      nat_stars: [1, 4],
+      type: [],
+      target: [],
+      scalesWith: [],
+      buffs: [],
+      debuffs: [],
+      skill_filter_logic: "all"
+    },
     filterDrawer: true,
     sortKey: "name",
     sortDirection: "", // '' or '-'
@@ -71,9 +81,6 @@ export default new Vuex.Store({
     filterDrawer(state, value) {
       state.filterDrawer = value;
     },
-    setFilters(state, payload) {
-      state.filters = payload;
-    },
     setOrderingKey(state, value) {
       state.sortKey = value;
     },
@@ -90,7 +97,7 @@ export default new Vuex.Store({
           data: { count, results }
         } = await api.get("creatures/", {
           params: {
-            ...state.filters,
+            ...filters_to_query(state.filters),
             ordering: `${state.sortDirection}${state.sortKey}`,
             page_size: state.page_size,
             page: state.page
@@ -167,10 +174,6 @@ export default new Vuex.Store({
       commit("setPage", { page: value });
       dispatch("populateCreatures");
     },
-    applyFilters({ commit, dispatch }, payload) {
-      commit("setFilters", payload);
-      dispatch("populateCreatures");
-    },
     orderBy({ commit, dispatch }, value) {
       commit("setOrderingKey", value);
       dispatch("populateCreatures");
@@ -198,3 +201,56 @@ export default new Vuex.Store({
     filterDrawer: state => state.filterDrawer
   }
 });
+
+const filters_to_query = filter_state => {
+  const filters = {};
+
+  // Transform form values into appropriate format for GET request
+  // Creature attributes
+  if (filter_state.name) {
+    filters.name = filter_state.name;
+  }
+  if (filter_state.element.length) {
+    filters.element = filter_state.element.join(",");
+  }
+  filters.rank__gte = filter_state.nat_stars[0];
+  filters.rank__lte = filter_state.nat_stars[1];
+  if (filter_state.type.length) {
+    filters.archetype = filter_state.type.join(",");
+  }
+
+  // Spells
+  const spell_target = filter_state.target.reduce((accum, target) => {
+    if (target === "aoe") {
+      accum = accum.concat(["all", "all_minus_self", "all_minus_one"]);
+    } else if (target === "single") {
+      accum = accum.concat(["one", "one_minus_self"]);
+    } else {
+      accum.push(target);
+    }
+    return accum;
+  }, []);
+
+  if (spell_target.length) {
+    filters.spell_target = spell_target.join(",");
+  }
+
+  if (filter_state.scalesWith.length > 0) {
+    filters.scales_with = filter_state.scalesWith.join(",");
+  }
+
+  const combined_effects = filter_state.buffs
+    .concat(filter_state.debuffs)
+    .join(",");
+  if (combined_effects) {
+    if (filter_state.skill_filter_logic === "all") {
+      filters.spell_effect = combined_effects;
+    } else {
+      filters.spell_effect_any = combined_effects;
+    }
+  }
+
+  console.log(filters);
+
+  return filters;
+};
