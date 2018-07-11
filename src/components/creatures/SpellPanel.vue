@@ -51,7 +51,7 @@
 
     <v-divider />
 
-    <v-card-text class="pt-1">
+    <v-card-text class="pt-1" v-if="spell.upgrades.length">
       <h4 class="pb-1">Upgrades</h4>
       <ol>
         <li v-for="(upgrade, index) in spell.upgrades" :key="index">
@@ -60,9 +60,7 @@
             +{{ Math.round(upgrade.amount * 100) }}%
           </template>
           <template v-else>
-            <template v-if="upgrade.attribute === 'turns'">-</template>
-            <template v-else>+</template>
-            {{ upgrade.amount }}
+            <template v-if="upgrade.amount > 0">+</template>{{ upgrade.amount }}
           </template>
         </li>
       </ol>
