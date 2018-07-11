@@ -21,8 +21,13 @@
 
     <v-divider />
 
-    <v-card-text v-if="attack" class="pt-1 pb-1">
-      {{ attack.target }}: {{ attack.formula }}
+    <v-card-text v-if="attacks.length" class="pt-1 pb-1">
+      <template v-for="(attack, index) in attacks">
+        <div :key="index">
+          {{ attack.target }}<span v-if="attack.probability && attacks.length > 1"> ({{ Math.round(attack.probability * 100) }}% Chance)</span>:
+          {{ attack.formula }}
+        </div>
+      </template>
     </v-card-text>
 
     <v-divider />
@@ -32,12 +37,18 @@
         <v-list-tile-avatar v-if="effectHasIcon" tile>
           <img v-if="effect.effect.icon" :src="`/static/effects/${effect.effect.icon}.png`" />
         </v-list-tile-avatar>
+
         <v-list-tile-content>
           <v-list-tile-title>{{ effect.effect.title }}</v-list-tile-title>
+
           <v-list-tile-sub-title>
-            {{ effect.target }}<template v-if="effect.params.length"> - </template>
+            <!-- TODO: Construct this sub title in a method using an array of strings joined by ' - ' -->
+            {{ effect.target }}<template v-if="effect.params.length || effect.probability || effect.condition.length"> - </template>
+            <span v-if="effect.probability">{{ Math.round(effect.probability * 100) }}% Chance<template v-if="effect.params.length || effect.condition.length"> - </template> </span>
+            <span v-if="effect.condition">If {{ effect.condition }}<template v-if="effect.params.length"> - </template> </span>
             <span v-for="(param, paramIdx) in effect.params" :key="paramIdx">
-              {{ param }}<template v-if="paramIdx < effect.params.length - 1"> - </template>
+              {{ param }}
+              <template v-if="paramIdx < effect.params.length - 1">- </template>
             </span>
           </v-list-tile-sub-title>
         </v-list-tile-content>
@@ -73,6 +84,7 @@ import {
   multiplier_formula,
   target_definitions,
   effect_definitions,
+  condition_definitions,
   parse_description
 } from "@/services/creatures";
 import { titleCase } from "@/services/utils";
@@ -99,18 +111,19 @@ export default {
         this.spell.type_image.replace("spell-icon-", "").replace(/-/g, " ")
       );
     },
-    attack() {
-      const attack_effect = this.spell.effects.find(
-        effect => effect.effect === "attack"
-      );
+    attacks() {
+      const attack_effects = this.spell.effects.filter(
+        effect => {
+          const is_number = !isNaN(parseFloat(effect.params.amount))
+          return effect.effect === "attack" && is_number
+          }
+      ).map(eff => ({
+        ...eff,
+          target: target_definitions[eff.target],
+          formula: multiplier_formula(eff.params)
+      }));
 
-      if (attack_effect) {
-        return {
-          ...attack_effect,
-          target: target_definitions[attack_effect.target],
-          formula: multiplier_formula(attack_effect.params)
-        };
-      }
+      return attack_effects;
     },
     effects() {
       const effects = this.spell.effects.reduce((accum, effect) => {
@@ -125,32 +138,41 @@ export default {
             ...effect,
             effect: definition,
             target: target_definitions[effect.target],
+            condition: effect.condition.map(cond => condition_definitions[cond]).join(', '),
             params: Object.entries(effect.params)
               .filter(param => Boolean(param[0]))
-              .map(param => {
+              .reduce((accum, param) => {
                 // TODO: Better assembly of params. Create a template for each type of effect and pass all params into it at once.
                 // Example: Aura of Justice is Shield - 1 turn - 15% - self Max HP
                 // Should be assembled as 1 Turn - 15% of Self Max HP
                 switch (param[0]) {
                   case "turns":
-                    return `${param[1]} Turn${param[1] > 1 ? "s" : ""}`;
+                    accum.push(`${param[1]} Turn${param[1] > 1 ? "s" : ""}`);
+                    break;
                   case "amount":
                     if (param[1] < 1) {
-                      return `${Math.round(param[1] * 100)}%`;
+                      accum.push(`${Math.round(param[1] * 100)}%`);
                     } else {
-                      return `${param[1]}`;
+                      accum.push(`${param[1]}`);
                     }
+                    break;
                   case "percentage":
-                    return `${Math.round(param[1] * 100)}%`;
+                    accum.push(`${Math.round(param[1] * 100)}%`);
+                    break;
                   case "prob":
-                    return `${Math.round(param[1] * 100)}% Chance`;
+                    accum.push(`${Math.round(param[1] * 100)}% Chance`);
+                    break;
+
+                  // Ignored stats list here
                   case "baseStat":
-                    return;
+                  case "animation":
+                    break;
                   default:
                     console.error(`Unknown effect template string ${param[0]}`);
-                    return "";
                 }
-              })
+
+                return accum;
+              }, [])
           });
         }
 

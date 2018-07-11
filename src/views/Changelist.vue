@@ -1,6 +1,18 @@
 <template>
   <v-container>
     <v-card>
+      <v-subheader>July 11, 2018</v-subheader>
+      <v-card-title>
+        <ul>
+          <li>Added details of spell random effects to API.</li>
+          <li>Added conditional triggers for spell effects to API.</li>
+          <li>Correctly display random chance effects in spell descriptions (i.e. <router-link to="/creature/90-mountain-einherjar-earth/">Mountain Einherjar</router-link> spell 1, or <router-link to="/creature/426-wolf-cub-earth/">Earth Wolf Cub</router-link> spell 2)</li>
+          <li>Added display of conditional triggers for spell effects (on Critical Hit, if target has debuff, etc)</li>
+        </ul>
+      </v-card-title>
+
+      <v-divider />
+
       <v-subheader>July 10, 2018</v-subheader>
       <v-card-title>
         <ul>
@@ -14,7 +26,7 @@
           <li>Properly encoded characters in filter permalink</li>
           <li>Added generic spell category icons</li>
           <li>Updated several turn-based spell upgrades to indicate +/- correctly</li>
-          <li>Keep a 1x multiplier at the front of spell multiplier formulas for clarity</li>
+          <li>Keep a 1x multiplier at the front of spell multiplier formulas for clarity (e.g "1 * ATK" instead of "ATK"</li>
         </ul>
       </v-card-title>
         

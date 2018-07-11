@@ -20,6 +20,16 @@ export const stat_definitions = {
   targetspeed: "TargetSPD"
 };
 
+export const condition_definitions = {
+  attackCriticalLaunched: "Critical Hit",
+  targetHasDebuff: "Target Has Debuff",
+  selfHpAbove: "Own HP Above Threshold",
+  targetHpEquals: "Target HP Equals Threshold",
+  targetHpBelow: "Target HP Above Threshold",
+  targetHpAbove: "Target HP Below Threshold",
+  link: "Link"
+};
+
 export const multiplier_formula = params => {
   const inc_stat = params.incStat
     ? params.incAmount !== 1
