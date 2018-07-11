@@ -13,6 +13,8 @@
           </li>
           <li>Properly encoded characters in filter permalink</li>
           <li>Added generic spell category icons</li>
+          <li>Updated several turn-based spell upgrades to indicate +/- correctly</li>
+          <li>Keep a 1x multiplier at the front of spell multiplier formulas for clarity</li>
         </ul>
       </v-card-title>
         

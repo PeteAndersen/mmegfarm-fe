@@ -26,12 +26,9 @@ export const multiplier_formula = params => {
       ? `(${stat_definitions[params.incBase]} * ${params.incAmount})`
       : stat_definitions[params.incBase]
     : "";
-  const with_base_stat = inc_stat ? `ATK + ${inc_stat}` : `ATK`;
-  if (params.amount !== 1) {
-    return `${params.amount} * (${with_base_stat})`;
-  } else {
-    return with_base_stat;
-  }
+  const with_base_stat = inc_stat ? `(ATK + ${inc_stat})` : `ATK`;
+
+  return `${params.amount} * ${with_base_stat}`;
 };
 
 const colorTagRegexp = new RegExp(/<color=(#[0-9,a-f]{6})>(.*?)<\/color>/g);
