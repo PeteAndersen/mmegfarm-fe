@@ -23,26 +23,10 @@
 
     <v-layout row wrap>
       <v-flex xs12 md6>
-        <DetailPanel :creature="creature"/>
+        <DetailPanel :creature="creature" :evolvesFrom="evolves_from" :evolvesTo="evolves_to"/>
 
-        <v-container>
-          <!-- Evolves To/From -->
-          <v-layout row>
-            <v-flex xs3 v-if="evolves_from">
-              <EvolveCard :creature="evolves_from" direction="From"/>
-            </v-flex>
-
-            <v-spacer></v-spacer>
-
-            <v-flex xs3 v-if="evolves_to">
-              <EvolveCard :creature="evolves_to" direction="To"/>
-            </v-flex>
-          </v-layout>
-        </v-container>
-
-        <v-container>
+        <v-container class="pt-0">
           <!-- Stat Table -->
-          <h2>Stats</h2>
           <v-layout row wrap class="pt-2 pb-2">
             <BigStat stat="speed" :value="Math.round(creature.speed * 1000)" />
             <BigStat stat="crit-rate" :value="creature.criticalChance" />
