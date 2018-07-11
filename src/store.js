@@ -250,7 +250,5 @@ const filters_to_query = filter_state => {
     }
   }
 
-  console.log(filters);
-
   return filters;
 };
