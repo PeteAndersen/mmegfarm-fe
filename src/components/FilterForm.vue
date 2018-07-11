@@ -79,6 +79,15 @@
             </v-list-tile-avatar>
           </template>
         </v-select>
+
+        <v-radio-group v-model="$store.state.filters.evolved">
+          <v-radio
+            v-for="(data, idx) in evolvedOptions"
+            :key="idx"
+            :label="data.name"
+            :value="data.value"
+          ></v-radio>
+        </v-radio-group>
         
         <v-divider />
 
@@ -194,6 +203,11 @@ export default {
         { name: "Defender", value: "defender" },
         { name: "Saboteur", value: "saboteur" },
         { name: "Support", value: "support" }
+      ],
+      evolvedOptions: [
+        { name: "Evolved and Unevolved", value: null },
+        { name: "Unevolved Only", value: true },
+        { name: "Evolved Only", value: false }
       ],
       targetOptions: [
         { name: "AOE", value: "aoe" },

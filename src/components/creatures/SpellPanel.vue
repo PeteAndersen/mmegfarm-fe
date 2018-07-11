@@ -112,16 +112,16 @@ export default {
       );
     },
     attacks() {
-      const attack_effects = this.spell.effects.filter(
-        effect => {
-          const is_number = !isNaN(parseFloat(effect.params.amount))
-          return effect.effect === "attack" && is_number
-          }
-      ).map(eff => ({
-        ...eff,
+      const attack_effects = this.spell.effects
+        .filter(effect => {
+          const is_number = !isNaN(parseFloat(effect.params.amount));
+          return effect.effect === "attack" && is_number;
+        })
+        .map(eff => ({
+          ...eff,
           target: target_definitions[eff.target],
           formula: multiplier_formula(eff.params)
-      }));
+        }));
 
       return attack_effects;
     },
@@ -138,7 +138,9 @@ export default {
             ...effect,
             effect: definition,
             target: target_definitions[effect.target],
-            condition: effect.condition.map(cond => condition_definitions[cond]).join(', '),
+            condition: effect.condition
+              .map(cond => condition_definitions[cond])
+              .join(", "),
             params: Object.entries(effect.params)
               .filter(param => Boolean(param[0]))
               .reduce((accum, param) => {

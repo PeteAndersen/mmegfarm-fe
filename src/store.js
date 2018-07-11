@@ -28,6 +28,7 @@ export default new Vuex.Store({
       element: [],
       nat_stars: [1, 4],
       type: [],
+      evolved: null,
       target: [],
       scalesWith: [],
       buffs: [],
@@ -217,6 +218,10 @@ const filters_to_query = filter_state => {
   filters.rank__lte = filter_state.nat_stars[1];
   if (filter_state.type.length) {
     filters.archetype = filter_state.type.join(",");
+  }
+
+  if (filter_state.evolved !== null) {
+    filters.summonable = filter_state.evolved;
   }
 
   // Spells
