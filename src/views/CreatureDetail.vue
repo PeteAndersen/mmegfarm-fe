@@ -8,10 +8,12 @@
         </v-btn>
       </v-toolbar-items>
 
-      <v-spacer />
+      <v-spacer v-bind="{'slot': $vuetify.breakpoint.xsOnly ? 'extension' : 'default' }" />
       
-      <v-toolbar-items>
-        <v-btn  v-for="fam in family" :key="fam.id" :to="`/creature/${fam.slug}`">
+      <v-toolbar-items
+        v-bind="{'slot': $vuetify.breakpoint.xsOnly ? 'extension' : 'default' }"
+      >
+        <v-btn :icon="$vuetify.breakpoint.smAndDown" v-for="fam in family" :key="fam.id" :to="`/creature/${fam.slug}`">
           <v-avatar tile>
             <img :src="`/static/creatures/icon-${fam.element}.png`" />
           </v-avatar>
@@ -23,7 +25,6 @@
       <v-flex xs12 md6>
         <DetailPanel :creature="creature"/>
 
-        
         <v-container>
           <!-- Evolves To/From -->
           <v-layout row>
@@ -38,6 +39,7 @@
             </v-flex>
           </v-layout>
         </v-container>
+
         <v-container>
           <!-- Stat Table -->
           <h2>Stats</h2>
