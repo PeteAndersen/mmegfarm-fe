@@ -33,7 +33,20 @@ export const multiplier_formula = params => {
 
 const colorTagRegexp = new RegExp(/<color=(#[0-9,a-f]{6})>(.*?)<\/color>/g);
 const paramsRegexp = new RegExp(/&&(\d+),(\w+)&&/g);
+const randomParamsRegexp = new RegExp(/&&(\d+),(\w+),([\w]*),?([\w,]*)&&/g);
 const percentage_keys = ["percentage", "prob", "amount_float"];
+
+const paramsToDict = param_string => {
+  return param_string.split(",").reduce((accum, param) => {
+    const [key, value] = param.split(":");
+    if (!isNaN(Number(value))) {
+      accum[key] = Number(value);
+    } else {
+      accum[key] = value;
+    }
+    return accum;
+  }, {});
+};
 
 export const parse_description = (desc, effects) => {
   return desc
@@ -56,6 +69,27 @@ export const parse_description = (desc, effects) => {
       } else {
         return value;
       }
+    })
+    .replace(randomParamsRegexp, (match, eff_index, key, spell, remaining) => {
+      let value;
+      const effect = effects[Number(eff_index)];
+
+      if (key === "probRandom") {
+        value = Math.round(
+          Number(effect.params.spell[`spell${spell}Prob`]) * 100
+        );
+      } else if (key === "paramRandom") {
+        const [param_idx, param_key] = remaining.split(",");
+        const params = paramsToDict(
+          effect.params.spell[`spell${spell}Params`].split(";")[
+            Number(param_idx)
+          ]
+        );
+
+        value = params[param_key];
+      }
+
+      return value;
     });
 };
 
