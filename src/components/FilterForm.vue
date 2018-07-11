@@ -204,7 +204,6 @@ export default {
     };
   },
   created() {
-    console.log(this.$store);
     const {
       name,
       element,
