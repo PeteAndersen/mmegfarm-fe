@@ -6,6 +6,8 @@
     </div>
 
     <v-content>
+      <ErrorMessage />
+      
       <v-container fluid>
         <router-view/>
       </v-container>
@@ -38,9 +40,13 @@
 
 <script>
 import { mapGetters } from "vuex";
+import ErrorMessage from "@/components/ErrorMessage";
 
 export default {
   name: "App",
+  components: {
+    ErrorMessage
+  },
   computed: {
     ...mapGetters(["loading"])
   }

@@ -38,7 +38,8 @@ export default new Vuex.Store({
     filterDrawer: true,
     sortKey: "name",
     sortDirection: "", // '' or '-'
-    loading: false
+    loading: false,
+    error: false
   },
   //plugins: [vuexLocal.plugin],
   mutations: {
@@ -79,6 +80,9 @@ export default new Vuex.Store({
         state.direction = null;
       }
     },
+    setError(state, value) {
+      state.error = value;
+    },
     filterDrawer(state, value) {
       state.filterDrawer = value;
     },
@@ -105,12 +109,14 @@ export default new Vuex.Store({
           }
         });
         const num_pages = Math.ceil(count / state.page_size);
+        commit("setError", false);
         commit("addCreatures", { creatures: results });
         commit("setNumPages", num_pages);
         commit("setTotalCreatures", count);
         dispatch("getMaxCreatureCount");
       } catch (e) {
         console.log(e);
+        commit("setError", true);
       }
 
       commit("loading", false);
@@ -126,6 +132,8 @@ export default new Vuex.Store({
         });
         const creature = results[0];
         commit("setCreature", { creature });
+        commit("setError", false);
+
         dispatch("getFamily", creature.creatureType);
 
         if (creature.evolvesTo) {
@@ -144,6 +152,7 @@ export default new Vuex.Store({
         }
       } catch (e) {
         console.log(e);
+        commit("setError", true);
       }
 
       commit("loading", false);
@@ -169,6 +178,7 @@ export default new Vuex.Store({
         commit("setMaxCreatureCount", count);
       } catch (e) {
         console.log(e);
+        commit("setError", true);
       }
     },
     setPage({ commit, dispatch }, value) {
@@ -198,8 +208,7 @@ export default new Vuex.Store({
     hasPrev: state => state.hasPrev,
     loading: state => state.loading,
     sortKey: state => state.sortKey,
-    sortDirection: state => state.sortDirection,
-    filterDrawer: state => state.filterDrawer
+    sortDirection: state => state.sortDirection
   }
 });
 

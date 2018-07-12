@@ -6,7 +6,7 @@
       <v-layout row align-baseline class="pb-2">
         
         <v-flex>
-          <v-btn @click="filterDrawer = !filterDrawer" class="ml-0">
+          <v-btn @click="$store.state.filterDrawer = !$store.state.filterDrawer" class="ml-0">
             <v-icon class="pr-1">menu</v-icon> Filters
           </v-btn>
 
@@ -62,6 +62,7 @@
       <CreatureList :creatures="creatureList" />
       <div class="text-xs-center">
         <v-pagination
+          v-if="numPages > 1"
           class="pt-2"
           v-model="page"
           :length="numPages"
@@ -121,14 +122,6 @@ export default {
       },
       set: function(newValue) {
         this.setPage(newValue);
-      }
-    },
-    filterDrawer: {
-      get: function() {
-        return this.$store.getters.filterDrawer;
-      },
-      set: function() {
-        this.$store.commit("filterDrawer", !this.$store.getters.filterDrawer);
       }
     },
     orderByText() {
