@@ -321,7 +321,7 @@ export default {
       if (e) {
         e.preventDefault();
       }
-
+      this.$ga.page(this.$router);
       this.populateCreatures();
     },
     clear() {
