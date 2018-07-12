@@ -120,7 +120,7 @@ export const calc_stat = (creature, stat, evoStat, rank) => {
     max_stat = (max_stat / 1.27) * multis[i + 1];
   }
 
-  return Math.round(max_stat);
+  return Math.round(max_stat) + evoStat;
 };
 
 // Effects not in object at this time:
