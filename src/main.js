@@ -12,7 +12,8 @@ Vue.config.productionTip = false;
 Vue.use(Vuetify);
 Vue.use(VueAnalytics, {
   id: "UA-63688026-2",
-  set: [{ field: "anonymizeIp", value: true }]
+  set: [{ field: "anonymizeIp", value: true }],
+  router
 });
 
 new Vue({
