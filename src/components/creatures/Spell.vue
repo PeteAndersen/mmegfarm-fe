@@ -2,7 +2,7 @@
 
   <v-flex>
     <v-menu open-on-hover lazy :open-delay="350" max-width="350px">
-      <div slot="activator">
+      <div slot="activator" class="spell-box">
         <div class="subheader">{{spell.slot}}. {{spell.title}}</div>
         
         <v-avatar size="3em" class="skill-icon">
@@ -53,15 +53,18 @@ export default {
 </script>
 
 <style scoped>
-.flex {
-  overflow: hidden;
+.v-menu {
+  width: 100%;
+}
+.spell-box {
   white-space: normal;
+  max-width: 100%;
 }
 .subheader {
   height: 2em;
-  text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 .skill-icon {
   float: left;

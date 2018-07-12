@@ -51,7 +51,9 @@
             </v-list>
           </v-menu>
         </v-flex>
+
         <v-spacer />
+
         <v-flex class="text-xs-right">
           {{ totalCreatures }} of {{ maxCreatureCount }} Creatures
         </v-flex>

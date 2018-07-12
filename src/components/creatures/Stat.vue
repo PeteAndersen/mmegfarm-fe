@@ -1,7 +1,7 @@
 <template>
   <v-flex v-bind="{ [`${colsize}`]: true }">
     <v-layout column align-content-center>
-      <v-flex class="pb-0">{{nice_name}}</v-flex>
+      <v-flex class="pb-0 stat">{{nice_name}}</v-flex>
       <v-flex class="pt-0">
         <v-avatar size="2em">
           <img :src="statIcon" />
@@ -57,4 +57,9 @@ export default {
 </script>
 
 <style scoped>
+.stat {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 </style>

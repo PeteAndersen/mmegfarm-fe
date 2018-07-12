@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs12 md6 lg4 xl3>
+  <v-flex sm12 md6 :lg6="$store.state.filterDrawer" :lg4="!$store.state.filterDrawer" xl3>
     <v-card height="100%" :to="`/creature/${this.creature.slug}`" hover>
       <v-card-title>
         <v-layout>
