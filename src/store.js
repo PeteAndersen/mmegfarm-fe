@@ -231,6 +231,10 @@ const filters_to_query = filter_state => {
 
   if (filter_state.evolved !== null) {
     filters.summonable = filter_state.evolved;
+
+    if (!filter_state.evolved) {
+      filters.evolvesTo__isnull = true;
+    }
   }
 
   // Spells
