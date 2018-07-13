@@ -1,6 +1,13 @@
 <template>
   <v-container>
     <v-card>
+      <v-subheader>July 12, 2018</v-subheader>
+      <v-card-title>
+        <ul>
+          <li>Made 'Evolved Only' filter more restrictive to only return final stages of evolutions.</li>
+        </ul>
+      </v-card-title>
+
       <v-subheader>July 11, 2018</v-subheader>
       <v-card-title>
         <ul>
