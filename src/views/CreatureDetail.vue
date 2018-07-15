@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid v-if="creature !== null" class="pt-0">
+  <v-container fluid v-if="creature !== null && !loading" class="pt-0">
     <!-- Main Toolbar and Family -->
     <v-toolbar>
       <v-toolbar-items>
@@ -56,6 +56,7 @@
       </v-flex>
     </v-layout>
   </v-container>
+  <NotFound v-else-if="!loading" />
 </template>
 
 <script>
@@ -68,6 +69,7 @@ import EvolveCard from "@/components/detail/EvolveCard";
 import DetailPanel from "@/components/detail/DetailPanel";
 import StatTable from "@/components/detail/StatTable";
 import BigStat from "@/components/creatures/BigStat";
+import NotFound from "@/components/404.vue";
 
 export default {
   name: "CreatureDetail",
@@ -83,7 +85,8 @@ export default {
     DetailPanel,
     EvolveCard,
     StatTable,
-    BigStat
+    BigStat,
+    NotFound
   },
   watch: {
     slug: function(val) {
@@ -102,7 +105,13 @@ export default {
     titleCase
   },
   computed: {
-    ...mapGetters(["creature", "evolves_from", "evolves_to", "family"]),
+    ...mapGetters([
+      "creature",
+      "evolves_from",
+      "evolves_to",
+      "family",
+      "loading"
+    ]),
     spellSlotOne() {
       if (this.creature) {
         return this.creature.spells.filter(s => s.slot === 1);

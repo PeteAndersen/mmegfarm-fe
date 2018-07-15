@@ -116,7 +116,6 @@ export default new Vuex.Store({
         dispatch("getMaxCreatureCount");
       } catch (e) {
         console.log(e);
-        debugger;
         commit("setError", true);
       }
 
@@ -127,31 +126,36 @@ export default new Vuex.Store({
 
       try {
         const {
-          data: { results }
+          data: { count, results }
         } = await api.get("creatures/", {
           params: { slug }
         });
-        const creature = results[0];
-        commit("setCreature", { creature });
-        commit("setError", false);
+        if (count) {
+          const creature = results[0];
+          commit("setCreature", { creature });
+          commit("setError", false);
 
-        dispatch("getFamily", creature.creatureType);
+          dispatch("getFamily", creature.creatureType);
 
-        if (creature.evolvesTo && creature.evolvesTo.length) {
-          const { data } = await api.get(`creatures/${creature.evolvesTo[0]}/`);
-          commit("setCreatureEvolvesTo", { creature: data });
-        } else {
-          commit("setCreatureEvolvesTo", { creature: null });
-        }
-        if (creature.evolvesFrom) {
-          const { data } = await api.get(`creatures/${creature.evolvesFrom}/`);
-          commit("setCreatureEvolvesFrom", { creature: data });
-        } else {
-          commit("setCreatureEvolvesFrom", { creature: null });
+          if (creature.evolvesTo && creature.evolvesTo.length) {
+            const { data } = await api.get(
+              `creatures/${creature.evolvesTo[0]}/`
+            );
+            commit("setCreatureEvolvesTo", { creature: data });
+          } else {
+            commit("setCreatureEvolvesTo", { creature: null });
+          }
+          if (creature.evolvesFrom) {
+            const { data } = await api.get(
+              `creatures/${creature.evolvesFrom}/`
+            );
+            commit("setCreatureEvolvesFrom", { creature: data });
+          } else {
+            commit("setCreatureEvolvesFrom", { creature: null });
+          }
         }
       } catch (e) {
         console.log(e);
-        debugger;
         commit("setError", true);
       }
 
@@ -167,7 +171,6 @@ export default new Vuex.Store({
         const family = results.sort((a, b) => (a.element > b.element ? 1 : -1));
         commit("setFamily", { family });
       } catch (e) {
-        debugger;
         console.log(e);
       }
     },
