@@ -17,6 +17,7 @@ export const stat_definitions = {
   targetmaxHP: "TargetMaxHP",
   targetdefense: "TargetDefense",
   selfcritDmg: "CritDmg",
+  criticalChance: "CritChance",
   targetspeed: "TargetSPD"
 };
 
@@ -31,11 +32,13 @@ export const condition_definitions = {
 };
 
 export const multiplier_formula = params => {
-  const inc_stat = params.incStat
-    ? params.incAmount !== 1
-      ? `(${stat_definitions[params.incBase]} * ${params.incAmount})`
-      : stat_definitions[params.incBase]
-    : "";
+  const inc_stat =
+    params.incStat === "attack"
+      ? params.incAmount !== 1
+        ? `(${stat_definitions[params.incBase]} * ${params.incAmount})`
+        : stat_definitions[params.incBase]
+      : "";
+
   const with_base_stat = inc_stat ? `(ATK + ${inc_stat})` : `ATK`;
 
   return `${params.amount} * ${with_base_stat}`;
