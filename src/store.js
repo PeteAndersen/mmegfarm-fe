@@ -224,11 +224,19 @@ const filters_to_query = filter_state => {
   if (filter_state.name) {
     filters.name = filter_state.name;
   }
+
   if (filter_state.element.length) {
     filters.element = filter_state.element.join(",");
   }
-  filters.rank__gte = filter_state.nat_stars[0];
-  filters.rank__lte = filter_state.nat_stars[1];
+
+  if (filter_state.nat_stars[0] !== 1) {
+    filters.rank__gte = filter_state.nat_stars[0];
+  }
+
+  if (filter_state.nat_stars[1] !== 4) {
+    filters.rank__lte = filter_state.nat_stars[1];
+  }
+
   if (filter_state.type.length) {
     filters.archetype = filter_state.type.join(",");
   }
@@ -237,7 +245,7 @@ const filters_to_query = filter_state => {
     filters.summonable = filter_state.evolved;
 
     if (!filter_state.evolved) {
-      filters.evolvesTo__isnull = true;
+      filters.evolvesTo_count = 0;
     }
   }
 

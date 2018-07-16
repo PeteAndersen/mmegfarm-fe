@@ -129,7 +129,6 @@ export default {
     effects() {
       const effects = this.spell.effects.reduce((accum, effect) => {
         if (effect.effect === "attack") {
-          console.log(effect);
           if (effect.params.incStat && effect.params.incStat !== "attack") {
             // Arbitrary stat bonus
             let sep_bonus_amount = effect.params.incAmount;
