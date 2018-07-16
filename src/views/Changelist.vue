@@ -1,6 +1,13 @@
 <template>
   <v-container>
     <v-card>
+      <v-subheader>July 15, 2018</v-subheader>
+      <v-card-title>
+        <ul>
+          <li>Fixed how stat bonuses during usage of a spell are displayed. There is now an extra effect "Stat Bonus During Attack" in the list with the amount and stat which are increased.</li>
+        </ul>
+      </v-card-title>
+
       <v-subheader>July 12, 2018</v-subheader>
       <v-card-title>
         <ul>
