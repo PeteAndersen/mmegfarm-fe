@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { createNamespacedHelpers } from "vuex";
 
 import { titleCase } from "@/services/utils";
 import CreatureAvatar from "@/components/creatures/CreatureAvatar";
@@ -71,9 +71,15 @@ import StatTable from "@/components/detail/StatTable";
 import BigStat from "@/components/creatures/BigStat";
 import NotFound from "@/components/404.vue";
 
+const { mapActions, mapGetters } = createNamespacedHelpers('menagerie');
+
 export default {
   name: "CreatureDetail",
   props: {
+    id: {
+      type: String,
+      required: true
+    },
     slug: {
       type: String,
       required: true
@@ -89,13 +95,15 @@ export default {
     NotFound
   },
   watch: {
-    slug: function(val) {
-      // Update creature in state when slug changes
-      this.getCreature(val);
+    id: {
+      handler: function(val) {
+        // Update creature in state when slug changes
+        this.getCreature(Number(val));
+      },
+      immediate: true
     }
   },
   created: async function() {
-    this.getCreature(this.slug);
     this.$vuetify.goTo(0, {
       duration: 0
     });
@@ -107,9 +115,6 @@ export default {
   computed: {
     ...mapGetters([
       "creature",
-      "evolves_from",
-      "evolves_to",
-      "family",
       "loading"
     ]),
     spellSlotOne() {

@@ -15,7 +15,7 @@ export default new Router({
       component: Creatures
     },
     {
-      path: "/creature/:slug/",
+      path: "/creature/:id-:slug/",
       name: "creatureDetail",
       component: CreatureDetail,
       props: true
