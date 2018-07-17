@@ -48,7 +48,7 @@ export default {
     ErrorMessage
   },
   computed: {
-    ...mapGetters(["loading"])
+    ...mapGetters("menagerie", ["loading"])
   }
 };
 </script>

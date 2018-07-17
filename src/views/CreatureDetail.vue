@@ -71,7 +71,7 @@ import StatTable from "@/components/detail/StatTable";
 import BigStat from "@/components/creatures/BigStat";
 import NotFound from "@/components/404.vue";
 
-const { mapActions, mapGetters } = createNamespacedHelpers('menagerie');
+const { mapActions, mapGetters } = createNamespacedHelpers("menagerie");
 
 export default {
   name: "CreatureDetail",
@@ -113,10 +113,7 @@ export default {
     titleCase
   },
   computed: {
-    ...mapGetters([
-      "creature",
-      "loading"
-    ]),
+    ...mapGetters(["creature", "loading"]),
     spellSlotOne() {
       if (this.creature) {
         return this.creature.spells.filter(s => s.slot === 1);
