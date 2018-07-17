@@ -134,8 +134,11 @@ export default {
             let sep_bonus_amount = effect.params.incAmount;
             let units = "";
             if (effect.params.incStat !== "attack") {
-              if (effect.params.incStat === "criticalChance") {
-                sep_bonus_amount *= 100;
+              if (
+                effect.params.incStat === "criticalChance" ||
+                effect.params.incStat === "criticalDamage"
+              ) {
+                sep_bonus_amount = Math.round(sep_bonus_amount * 100);
                 units = "%";
               }
             }

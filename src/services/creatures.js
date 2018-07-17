@@ -17,6 +17,7 @@ export const stat_definitions = {
   targetmaxHP: "TargetMaxHP",
   targetdefense: "TargetDefense",
   selfcritDmg: "CritDmg",
+  criticalDamage: "CritDmg",
   criticalChance: "CritChance",
   targetspeed: "TargetSPD"
 };
