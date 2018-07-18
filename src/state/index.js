@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import menagerie from "@/modules/menagerie/state/store";
+import menagerie from "./menagerie/store";
 
 Vue.use(Vuex);
 

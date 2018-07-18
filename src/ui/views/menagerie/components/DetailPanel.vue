@@ -41,7 +41,7 @@
 
 <script>
 import { titleCase } from "@/services/utils";
-import CreatureAvatar from "@/components/creatures/CreatureAvatar";
+import CreatureAvatar from "@/ui/components/creatures/CreatureAvatar";
 
 export default {
   name: "DetailPanel",

@@ -51,9 +51,9 @@
 <script>
 import { titleCase } from "@/services/utils";
 
-import CreatureAvatar from "@/components/creatures/CreatureAvatar.vue";
-import Spell from "@/components/creatures/Spell.vue";
-import Stat from "@/components/creatures/Stat.vue";
+import CreatureAvatar from "@/ui/components/creatures/CreatureAvatar.vue";
+import Spell from "./Spell.vue";
+import Stat from "./Stat.vue";
 
 export default {
   name: "CreatureCard",

@@ -75,8 +75,8 @@
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
 
-import CreatureList from "@/components/CreatureList.vue";
-import FilterForm from "@/components/FilterForm.vue";
+import CreatureList from "./components/CreatureList.vue";
+import FilterForm from "./components/FilterForm.vue";
 
 export default {
   name: "Creatures",

@@ -63,13 +63,13 @@
 import { createNamespacedHelpers } from "vuex";
 
 import { titleCase } from "@/services/utils";
-import CreatureAvatar from "@/components/creatures/CreatureAvatar";
-import SpellPanel from "@/components/creatures/SpellPanel";
-import EvolveCard from "@/components/detail/EvolveCard";
-import DetailPanel from "@/components/detail/DetailPanel";
-import StatTable from "@/components/detail/StatTable";
-import BigStat from "@/components/creatures/BigStat";
-import NotFound from "@/components/404.vue";
+import CreatureAvatar from "@/ui/components/creatures/CreatureAvatar";
+import SpellPanel from "@/ui/components/creatures/SpellPanel";
+import NotFound from "@/ui/components/404.vue";
+import EvolveCard from "./components/EvolveCard";
+import DetailPanel from "./components/DetailPanel";
+import StatTable from "./components/StatTable";
+import BigStat from "./components/BigStat";
 
 const { mapActions, mapGetters } = createNamespacedHelpers("menagerie");
 

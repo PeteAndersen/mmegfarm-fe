@@ -21,7 +21,7 @@
 
 <script>
 import { effect_definitions } from "@/services/creatures.js";
-import SpellPanel from "@/components/creatures/SpellPanel.vue";
+import SpellPanel from "@/ui/components/creatures/SpellPanel.vue";
 
 export default {
   name: "Spell",

@@ -2,9 +2,9 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 import VueAnalytics from "vue-analytics";
 
-import App from "./App.vue";
+import App from "@/ui/App.vue";
 import router from "./router";
-import store from "./state/store";
+import store from "./state";
 import "./registerServiceWorker";
 import "vuetify/dist/vuetify.min.css";
 

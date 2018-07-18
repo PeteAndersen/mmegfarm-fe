@@ -1,7 +1,7 @@
 import { normalize, denormalize } from "normalizr";
 import Vue from "vue";
 
-import api from "../api";
+import api from "./api";
 import schema from "./schema";
 
 // Mutation Types

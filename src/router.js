@@ -1,8 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Creatures from "./views/Creatures.vue";
-import CreatureDetail from "./views/CreatureDetail.vue";
-import Changelist from "./views/Changelist.vue";
+import Creatures from "@/ui/views/menagerie/Creatures.vue";
+import CreatureDetail from "@/ui/views/menagerie/CreatureDetail.vue";
+import Changelist from "@/ui/views/Changelist.vue";
 
 Vue.use(Router);
 

@@ -40,7 +40,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import ErrorMessage from "@/components/ErrorMessage";
+import ErrorMessage from "@/ui/components/ErrorMessage";
 
 export default {
   name: "App",
