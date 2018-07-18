@@ -1,6 +1,14 @@
 <template>
   <v-container>
     <v-card>
+      <v-subheader>July 18, 2018</v-subheader>
+      <v-card-title>
+        <ul>
+          <li>Internal updates. You may notice switching between creatures is quite a bit faster.</li>
+          <li>Fixed display of some "Stat Bonus During Attack" effects.</li>
+        </ul>
+      </v-card-title>
+
       <v-subheader>July 15, 2018</v-subheader>
       <v-card-title>
         <ul>
