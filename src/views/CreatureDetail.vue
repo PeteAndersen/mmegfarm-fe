@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid v-if="creature !== null && !loading" class="pt-0">
+  <v-container fluid v-if="creature" class="pt-0">
     <!-- Main Toolbar and Family -->
     <v-toolbar>
       <v-toolbar-items>
@@ -23,7 +23,7 @@
 
     <v-layout row wrap>
       <v-flex xs12 md6>
-        <DetailPanel :creature="creature" :evolvesFrom="evolves_from" :evolvesTo="evolves_to"/>
+        <DetailPanel :creature="creature" />
 
         <v-container class="pt-0">
           <!-- Stat Table -->
@@ -104,10 +104,7 @@ export default {
     id: {
       handler: async function(val) {
         // Update creature in state when slug changes
-        await this.getCreature(Number(val));
-        this.getFamily(this.creature.creatureType);
-        this.getEvolvesTo(this.creature.id);
-        //this.getEvolvesFrom(this.creature.id);
+        await this.getCreatureDetail(Number(val));
         
         this.$vuetify.goTo(0, {
           duration: 0
@@ -120,7 +117,7 @@ export default {
     
   },
   methods: {
-    ...mapActions(["getCreature", "getFamily", 'getEvolvesTo', 'getEvolvesFrom']),
+    ...mapActions(["getCreatureDetail"]),
     titleCase
   },
   computed: {

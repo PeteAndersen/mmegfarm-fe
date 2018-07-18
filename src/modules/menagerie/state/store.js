@@ -73,9 +73,42 @@ const mutations = {
 };
 
 const actions = {
-  async getCreature({ commit }, id) {
+  async getCreatureDetail({ commit, dispatch }, id) {
     commit(LOADING, { value: true });
-    commit(SET_CREATURE, { id }); // Immediately update if available in store
+    commit(SET_CREATURE, { id });
+    // Retrieves all details of a creature including related creatures and sets as active
+    try {
+      // Creature
+      const { data } = await api.fetchCreature(id);
+      const normalized = normalize(data, schema.creature);
+      commit(UPDATE_ENTITIES, { entities: normalized.entities });
+
+      // Evolves to/from
+      data.evolvesTo.forEach(toId => dispatch("getCreature", toId));
+      if (data.evolvesFrom) {
+        dispatch("getCreature", data.evolvesFrom);
+      }
+
+      // Family
+      const {
+        data: { results }
+      } = await api.fetchCreatures({
+        creatureType: data.creatureType,
+        ordering: "element"
+      });
+      const normalizedFamily = normalize(results, schema.creatureList);
+      commit(UPDATE_ENTITIES, { entities: normalizedFamily.entities });
+      commit(SET_CREATURE_FAMILY, { family: normalizedFamily.result });
+    } catch (e) {
+      console.log(e);
+      commit(ERROR, { value: true });
+    }
+
+    commit(LOADING, { value: false });
+  },
+  async getCreature({ commit }, id) {
+    // Retrieves a single creature and puts it in the store
+    commit(LOADING, { value: true });
 
     try {
       const { data } = await api.fetchCreature(id);
@@ -88,6 +121,7 @@ const actions = {
     commit(LOADING, { value: false });
   },
   async getCreatureList({ state, commit }) {
+    // Retrieves many creatures and puts them in the store
     commit(LOADING, { value: true });
 
     try {
@@ -103,26 +137,6 @@ const actions = {
       commit(ERROR, { value: true });
     }
     commit(LOADING, { value: false });
-  },
-  async getEvolvesTo({ state, dispatch }, id) {
-    const creature = state.entities.creatures[id];
-    creature.evolvesTo.forEach(toId => dispatch("getCreature", toId));
-  },
-  async getEvolvesFrom({ state, dispatch }, id) {
-    const creature = state.entities.creatures[id];
-    debugger;
-    dispatch("getCreature", creature.evolvesFrom);
-  },
-  async getFamily({ commit }, familyId) {
-    const {
-      data: { results }
-    } = await api.fetchCreatures({
-      creatureType: familyId,
-      ordering: "element"
-    });
-    const normalized = normalize(results, schema.creatureList);
-    commit(UPDATE_ENTITIES, { entities: normalized.entities });
-    commit(SET_CREATURE_FAMILY, { family: normalized.result });
   }
 };
 
