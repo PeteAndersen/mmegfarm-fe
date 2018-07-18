@@ -125,7 +125,7 @@ export default {
       }
     },
     numPages() {
-      return Math.ceil(this.totalCreatures / this.pageSize);
+      return Math.ceil(this.creaturesCount / this.pageSize);
     },
     orderByText() {
       return this.sortByOptions[this.sortKey];
