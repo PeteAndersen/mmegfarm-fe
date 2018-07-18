@@ -28,7 +28,7 @@
         <ul>
           <li>Added details of spell random effects to API.</li>
           <li>Added conditional triggers for spell effects to API.</li>
-          <li>Correctly display random chance effects in spell descriptions (i.e. <router-link to="/creature/90-mountain-einherjar-earth/">Mountain Einherjar</router-link> spell 1, or <router-link to="/creature/426-wolf-cub-earth/">Earth Wolf Cub</router-link> spell 2)</li>
+          <li>Correctly display random chance effects in spell descriptions (i.e. <router-link to="/creature/64-mountain-einherjar-earth/">Mountain Einherjar</router-link> spell 1, or <router-link to="/creature/288-wolf-cub-earth/">Earth Wolf Cub</router-link> spell 2)</li>
           <li>Added display of conditional triggers for spell effects (on Critical Hit, if target has debuff, etc)</li>
           <li>Added a filter for evolved/unevolved</li>
         </ul>
