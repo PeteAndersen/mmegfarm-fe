@@ -24,15 +24,15 @@
     <div v-if="$vuetify.breakpoint.smAndDown" class="clearing"></div>
 
     <v-layout wrap align-end>
-        <v-btn v-if="evolvesFrom" :to="`/creature/${evolvesFrom.slug}/`">
+        <v-btn v-if="creature.evolvesFrom" :to="`/creature/${creature.evolvesFrom.slug}/`">
           <v-icon left>arrow_left</v-icon>
-          <CreatureAvatar :creature="evolvesFrom" :stars="false" size="2em" />
-          <span class="ml-2">{{ evolvesFrom.name }}</span>
+          <CreatureAvatar :creature="creature.evolvesFrom" :stars="false" size="2em" />
+          <span class="ml-2">{{ creature.evolvesFrom.name }}</span>
         </v-btn>
 
-        <v-btn v-if="evolvesTo" :to="`/creature/${evolvesTo.slug}/`">
-          <span class="mr-2">{{ evolvesTo.name }}</span>
-          <CreatureAvatar :creature="evolvesTo" :stars="false" size="2em" />
+        <v-btn v-if="creature.evolvesTo[0]" :to="`/creature/${creature.evolvesTo[0].slug}/`">
+          <span class="mr-2">{{ creature.evolvesTo[0].name }}</span>
+          <CreatureAvatar :creature="creature.evolvesTo[0]" :stars="false" size="2em" />
           <v-icon right>arrow_right</v-icon>
         </v-btn>
     </v-layout>
@@ -49,12 +49,6 @@ export default {
     creature: {
       type: Object,
       required: true
-    },
-    evolvesTo: {
-      type: Object
-    },
-    evolvesFrom: {
-      type: Object
     }
   },
   components: {

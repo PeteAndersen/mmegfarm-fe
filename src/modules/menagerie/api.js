@@ -1,7 +1,11 @@
 import api from "@/services/api";
 
-async function getCreature(id) {
+async function fetchCreature(id) {
   return await api.get(`creatures/${id}/`);
+}
+
+async function fetchCreatures(params) {
+  return await api.get("creatures/", { params });
 }
 
 const filters_to_query = filter_state => {
@@ -72,6 +76,7 @@ const filters_to_query = filter_state => {
 };
 
 export default {
-  getCreature,
+  fetchCreature,
+  fetchCreatures,
   filters_to_query
 };

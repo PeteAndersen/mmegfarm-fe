@@ -85,6 +85,12 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      evolves_from: null,
+      evolves_to: null,
+    }
+  },
   components: {
     CreatureAvatar,
     SpellPanel,
@@ -96,24 +102,29 @@ export default {
   },
   watch: {
     id: {
-      handler: function(val) {
+      handler: async function(val) {
         // Update creature in state when slug changes
-        this.getCreature(Number(val));
+        await this.getCreature(Number(val));
+        this.getFamily(this.creature.creatureType);
+        this.getEvolvesTo(this.creature.id);
+        //this.getEvolvesFrom(this.creature.id);
+        
+        this.$vuetify.goTo(0, {
+          duration: 0
+        });
       },
       immediate: true
     }
   },
   created: async function() {
-    this.$vuetify.goTo(0, {
-      duration: 0
-    });
+    
   },
   methods: {
-    ...mapActions(["getCreature"]),
+    ...mapActions(["getCreature", "getFamily", 'getEvolvesTo', 'getEvolvesFrom']),
     titleCase
   },
   computed: {
-    ...mapGetters(["creature", "loading"]),
+    ...mapGetters(["creature", "loading", "family"]),
     spellSlotOne() {
       if (this.creature) {
         return this.creature.spells.filter(s => s.slot === 1);
