@@ -48,7 +48,7 @@ export const multiplier_formula = params => {
 const colorTagRegexp = new RegExp(/<color=(#[0-9,a-f]{6})>(.*?)<\/color>/g);
 const paramsRegexp = new RegExp(/&&(\d+),(\w+)&&/g);
 const randomParamsRegexp = new RegExp(/&&(\d+),(\w+),([\w]*),?([\w,]*)&&/g);
-const percentage_keys = ["percentage", "prob", "amount_float"];
+const percentage_keys = ["percentage", "prob", "amount_float", "amount2_float"];
 
 const paramsToDict = param_string => {
   return param_string.split(",").reduce((accum, param) => {
@@ -74,6 +74,8 @@ export const parse_description = (desc, effects) => {
       // Check key is actually an attribute on effect object
       if (key === "amount_float" || key === "amount_int") {
         value = effect.params["amount"];
+      } else if (key === "amount2_float" || key === "amount2_int") {
+        value = effect.params["amount2"];
       } else {
         value = effect.params[key];
       }
