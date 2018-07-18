@@ -24,7 +24,7 @@
                 dense
                 v-for="(kvp, index) in Object.entries(sortByOptions)"
                 :key="index"
-                @click="setSortKey(kvp[0])"
+                @click="changeCreatureListOrderKey(kvp[0])"
               >
                 <v-list-tile-title>{{ kvp[1] }}</v-list-tile-title>
               </v-list-tile>
@@ -44,7 +44,7 @@
                 dense
                 v-for="(kvp, index) in Object.entries(sortDirectionOptions)"
                 :key="index"
-                @click="setSortDirection(kvp[0])"
+                @click="changeCreatureListOrderDir(kvp[0])"
               >
                 <v-list-tile-title>{{ kvp[1] }}</v-list-tile-title>
               </v-list-tile>
@@ -55,7 +55,7 @@
         <v-spacer />
 
         <v-flex class="text-xs-right">
-          {{ totalCreatures }} of {{ maxCreatureCount }} Creatures
+          {{ creaturesCount }} of {{ totalCreatures }} Creatures
         </v-flex>
       </v-layout>
       
@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 import CreatureList from "@/components/CreatureList.vue";
 import FilterForm from "@/components/FilterForm.vue";
@@ -107,22 +107,25 @@ export default {
     };
   },
   computed: {
-    ...mapGetters([
-      "creatureList",
-      "totalCreatures",
-      "maxCreatureCount",
-      "numPages",
+    ...mapGetters("menagerie", ["creatureList"]),
+    ...mapState("menagerie", [
       "loading",
       "sortKey",
-      "sortDirection"
+      "sortDirection",
+      "creaturesCount",
+      "totalCreatures",
+      "pageSize"
     ]),
     page: {
       get: function() {
-        return this.$store.getters.page;
+        return this.$store.state.menagerie.page;
       },
       set: function(newValue) {
-        this.setPage(newValue);
+        this.changeCreatureListPage(newValue);
       }
+    },
+    numPages() {
+      return Math.ceil(this.totalCreatures / this.pageSize);
     },
     orderByText() {
       return this.sortByOptions[this.sortKey];
@@ -141,20 +144,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions([
-      "populateCreatures",
-      "setPage",
-      "nextPage",
-      "prevPage",
-      "orderBy",
-      "orderDirection"
-    ]),
-    setSortKey(newValue) {
-      this.orderBy(newValue);
-    },
-    setSortDirection(newValue) {
-      this.orderDirection(newValue);
-    }
+    ...mapActions("menagerie", [
+      "getCreatureList",
+      "changeCreatureListOrderKey",
+      "changeCreatureListOrderDir",
+      "changeCreatureListPage"
+    ])
   }
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer clipped fixed app v-model="$store.state.filterDrawer">
+  <v-navigation-drawer clipped fixed app v-model="$store.state.menagerie.filterDrawer">
     <v-snackbar color="success" v-model="permalinkCopied" absolute top :timeout="2000">
       Copied!
     </v-snackbar>
@@ -23,13 +23,13 @@
         <h3>Creature Attributes</h3>
         
         <v-text-field
-          v-model="$store.state.filters.name"
+          v-model="$store.state.menagerie.filters.name"
           label="Name"
           browser-autocomplete="off"
         />
 
         <v-select
-          v-model="$store.state.filters.element"
+          v-model="$store.state.menagerie.filters.element"
           label="Element"
           :items="elementOptions"
           multiple
@@ -50,7 +50,7 @@
         </v-select>
 
         <v-range-slider
-          v-model="$store.state.filters.nat_stars"
+          v-model="$store.state.menagerie.filters.nat_stars"
           label="Nat. Stars"
           :max="4"
           :min="1"
@@ -60,7 +60,7 @@
         />
 
         <v-select
-          v-model="$store.state.filters.type"
+          v-model="$store.state.menagerie.filters.type"
           label="Type"
           :items="typeOptions"
           multiple
@@ -80,7 +80,7 @@
           </template>
         </v-select>
 
-        <v-radio-group v-model="$store.state.filters.evolved">
+        <v-radio-group v-model="$store.state.menagerie.filters.evolved">
           <v-radio
             v-for="(data, idx) in evolvedOptions"
             :key="idx"
@@ -93,7 +93,7 @@
 
         <h3 class="pt-2">Spells</h3>
         <v-select
-          v-model="$store.state.filters.target"
+          v-model="$store.state.menagerie.filters.target"
           label="Target"
           :items="targetOptions"
           multiple
@@ -102,7 +102,7 @@
         />
 
         <v-select
-          v-model="$store.state.filters.scalesWith"
+          v-model="$store.state.menagerie.filters.scalesWith"
           label="Scales With"
           :items="scalesWithOptions"
           multiple
@@ -111,7 +111,7 @@
         />
         
         <v-select
-          v-model="$store.state.filters.buffs"
+          v-model="$store.state.menagerie.filters.buffs"
           label="Buffs"
           :items="buffOptions"
           multiple
@@ -132,7 +132,7 @@
         </v-select>
 
         <v-select
-          v-model="$store.state.filters.debuffs"
+          v-model="$store.state.menagerie.filters.debuffs"
           label="Debuffs"
           :items="debuffOptions"
           multiple
@@ -153,8 +153,8 @@
         </v-select>
 
         <v-switch
-          :label="`Has ${$store.state.filters.skill_filter_logic === 'all' ? 'all effects' : 'any effect'}`"
-          v-model="$store.state.filters.skill_filter_logic"
+          :label="`Has ${$store.state.menagerie.filters.skill_filter_logic === 'all' ? 'all effects' : 'any effect'}`"
+          v-model="$store.state.menagerie.filters.skill_filter_logic"
           false-value="all"
           true-value="any"
         />
@@ -167,7 +167,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapState } from "vuex";
 import { effect_definitions, stat_definitions } from "@/services/creatures";
 
 export default {
@@ -231,39 +231,39 @@ export default {
     } = this.$route.query;
 
     if (name) {
-      this.$store.state.filters.name = name;
+      this.$store.state.menagerie.filters.name = name;
     }
     if (element) {
-      this.$store.state.filters.element = element.split(",");
+      this.$store.state.menagerie.filters.element = element.split(",");
     }
     if (nat_stars) {
-      this.$store.state.filters.nat_stars = nat_stars
+      this.$store.state.menagerie.filters.nat_stars = nat_stars
         .split(",")
         .map(val => Number(val));
     }
     if (type) {
-      this.$store.state.filters.type = type.split(",");
+      this.$store.state.menagerie.filters.type = type.split(",");
     }
     if (target) {
-      this.$store.state.filters.target = target.split(",");
+      this.$store.state.menagerie.filters.target = target.split(",");
     }
     if (scalesWith) {
-      this.$store.state.filters.scalesWith = scalesWith.split(",");
+      this.$store.state.menagerie.filters.scalesWith = scalesWith.split(",");
     }
     if (buffs) {
-      this.$store.state.filters.buffs = buffs.split(",");
+      this.$store.state.menagerie.filters.buffs = buffs.split(",");
     }
     if (debuffs) {
-      this.$store.state.filters.debuffs = debuffs.split(",");
+      this.$store.state.menagerie.filters.debuffs = debuffs.split(",");
     }
     if (skill_filter_logic) {
-      this.$store.state.filters.skill_filter_logic = skill_filter_logic;
+      this.$store.state.menagerie.filters.skill_filter_logic = skill_filter_logic;
     }
     this.submit();
     window.history.replaceState({}, "", "/"); // Remove the query params from URL
   },
   computed: {
-    ...mapGetters(["loading"]),
+    ...mapState("menagerie", ["loading"]),
     scalesWithOptions() {
       return Object.entries(stat_definitions).map(stat => ({
         name: stat[1],
@@ -297,7 +297,7 @@ export default {
       return buffs.sort((a, b) => (a.title > b.title ? 1 : -1));
     },
     permalinkURL() {
-      const query_params = Object.entries(this.$store.state.filters)
+      const query_params = Object.entries(this.$store.state.menagerie.filters)
         .reduce((accum, val) => {
           if (Array.isArray(val[1])) {
             if (val[1].length) {
@@ -316,17 +316,17 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["populateCreatures"]),
+    ...mapActions("menagerie", ["getCreatureList"]),
     submit(e) {
       if (e) {
         e.preventDefault();
       }
       this.$ga.page(this.$router);
-      this.populateCreatures();
+      this.getCreatureList();
     },
     clear() {
       this.$refs.form.reset();
-      this.$store.state.filters.nat_stars = [1, 4];
+      this.$store.state.menagerie.filters.nat_stars = [1, 4];
     },
     copyPermalink() {
       const el = document.createElement("textarea");
