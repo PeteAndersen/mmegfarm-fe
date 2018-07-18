@@ -88,8 +88,8 @@ export default {
   data() {
     return {
       evolves_from: null,
-      evolves_to: null,
-    }
+      evolves_to: null
+    };
   },
   components: {
     CreatureAvatar,
@@ -105,7 +105,7 @@ export default {
       handler: async function(val) {
         // Update creature in state when slug changes
         await this.getCreatureDetail(Number(val));
-        
+
         this.$vuetify.goTo(0, {
           duration: 0
         });
@@ -113,9 +113,7 @@ export default {
       immediate: true
     }
   },
-  created: async function() {
-    
-  },
+  created: async function() {},
   methods: {
     ...mapActions(["getCreatureDetail"]),
     titleCase

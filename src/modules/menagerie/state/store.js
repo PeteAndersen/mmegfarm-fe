@@ -38,8 +38,8 @@ const state = {
   sortDirection: "",
   loading: false,
   error: false,
-  creature: null,
-  creatureFamily: [],
+  creatureDetail: null,
+  creatureDetailFamily: [],
   creatures: []
 };
 
@@ -57,10 +57,10 @@ const mutations = {
     state.page_size = size;
   },
   [SET_CREATURE](state, { id }) {
-    state.creature = id;
+    state.creatureDetail = id;
   },
   [SET_CREATURE_FAMILY](state, { family }) {
-    Vue.set(state, "family", family);
+    Vue.set(state, "creatureDetailFamily", family);
   },
   [UPDATE_ENTITIES](state, { entities }) {
     // Loop over all kinds of entities we received
@@ -74,37 +74,43 @@ const mutations = {
 
 const actions = {
   async getCreatureDetail({ commit, dispatch }, id) {
-    commit(LOADING, { value: true });
-    commit(SET_CREATURE, { id });
     // Retrieves all details of a creature including related creatures and sets as active
+
+    commit(LOADING, { value: true });
+    commit(SET_CREATURE, { id }); // Immediately set id to display if previously loaded
+
     try {
       // Creature
-      const { data } = await api.fetchCreature(id);
-      const normalized = normalize(data, schema.creature);
-      commit(UPDATE_ENTITIES, { entities: normalized.entities });
+      const creatureData = await dispatch("getCreature", id);
+      const creature = creatureData.entities.creatures[creatureData.result];
 
       // Evolves to/from
-      data.evolvesTo.forEach(toId => dispatch("getCreature", toId));
-      if (data.evolvesFrom) {
-        dispatch("getCreature", data.evolvesFrom);
+      creature.evolvesTo.forEach(toId => dispatch("getCreature", toId));
+      if (creature.evolvesFrom) {
+        dispatch("getCreature", creature.evolvesFrom);
       }
 
       // Family
-      const {
-        data: { results }
-      } = await api.fetchCreatures({
-        creatureType: data.creatureType,
-        ordering: "element"
-      });
-      const normalizedFamily = normalize(results, schema.creatureList);
-      commit(UPDATE_ENTITIES, { entities: normalizedFamily.entities });
-      commit(SET_CREATURE_FAMILY, { family: normalizedFamily.result });
+      const familyData = await dispatch("getFamily", creature.creatureType);
+      commit(SET_CREATURE_FAMILY, { family: familyData.result });
     } catch (e) {
       console.log(e);
       commit(ERROR, { value: true });
     }
 
     commit(LOADING, { value: false });
+  },
+  async getFamily({ commit }, familyId) {
+    // Retrieve a list of related creatures based on creatureType field
+    const {
+      data: { results }
+    } = await api.fetchCreatures({
+      creatureType: familyId,
+      ordering: "element"
+    });
+    const normalizedFamily = normalize(results, schema.creatureList);
+    commit(UPDATE_ENTITIES, { entities: normalizedFamily.entities });
+    return normalizedFamily;
   },
   async getCreature({ commit }, id) {
     // Retrieves a single creature and puts it in the store
@@ -114,6 +120,7 @@ const actions = {
       const { data } = await api.fetchCreature(id);
       const normalized = normalize(data, schema.creature);
       commit(UPDATE_ENTITIES, { entities: normalized.entities });
+      return normalized;
     } catch (e) {
       console.log(e);
       commit(ERROR, { value: true });
@@ -133,6 +140,7 @@ const actions = {
       });
       const normalized = normalize(creatures, schema.creatureList);
       commit(UPDATE_ENTITIES, { entities: normalized.entities });
+      return normalized;
     } catch (e) {
       commit(ERROR, { value: true });
     }
@@ -143,9 +151,9 @@ const actions = {
 const getters = {
   loading: state => state.loading,
   creature: state =>
-    denormalize(state.creature, schema.creature, state.entities),
+    denormalize(state.creatureDetail, schema.creature, state.entities),
   family: state =>
-    denormalize(state.family, schema.creatureList, state.entities)
+    denormalize(state.creatureDetailFamily, schema.creatureList, state.entities)
 };
 
 export default {
