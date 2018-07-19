@@ -14,7 +14,10 @@
     </v-content>
     
     <v-toolbar app fixed clipped-left>
-      <v-toolbar-title>mm-eg.farm</v-toolbar-title>
+      <img src="/static/logo-img.png" height="38px" class="hidden-xs-only"/>
+      <v-toolbar-title class="ml-2 hidden-xs-only">
+        mm-eg.farm
+      </v-toolbar-title>
       
       <v-spacer></v-spacer>
       
@@ -33,7 +36,7 @@
       </v-toolbar-items>
     </v-toolbar>
     
-    <v-footer app fixed>
+    <v-footer >
       <v-spacer></v-spacer>
       &copy; 2018 Porksmash ᛫ Creature and Spell icons &copy; Ubisoft Entertainment
       <v-spacer></v-spacer>
