@@ -4,22 +4,6 @@ import Vue from "vue";
 import api from "./api";
 import schema from "./schema";
 
-// Mutation Types
-export const types = {
-  UPDATE_ENTITIES: "UPDATE_ENTITIES",
-  LOADING: "LOADING",
-  ERROR: "ERROR",
-  SET_PAGE: "SET_PAGE",
-  SET_PAGE_SIZE: "SET_PAGE_SIZE",
-  SET_ORDERING_DIR: "SET_ORDERING_DIR",
-  SET_ORDERING_KEY: "SET_ORDERING_KEY",
-  SET_CREATURE_LIST: "SET_CREATURE_LIST",
-  SET_CREATURE_COUNT: "SET_CREATURE_COUNT",
-  SET_TOTAL_CREATURES: "SET_TOTAL_CREATURES",
-  SET_CREATURE: "SET_CREATURE",
-  SET_CREATURE_FAMILY: "SET_CREATURE_FAMILY"
-};
-
 const state = {
   entities: {
     creatures: {},
@@ -54,6 +38,22 @@ const state = {
   // Detailed creature view
   creatureDetail: null,
   creatureDetailFamily: []
+};
+
+// Mutation Types
+export const types = {
+  UPDATE_ENTITIES: "UPDATE_ENTITIES",
+  LOADING: "LOADING",
+  ERROR: "ERROR",
+  SET_PAGE: "SET_PAGE",
+  SET_PAGE_SIZE: "SET_PAGE_SIZE",
+  SET_ORDERING_DIR: "SET_ORDERING_DIR",
+  SET_ORDERING_KEY: "SET_ORDERING_KEY",
+  SET_CREATURE_LIST: "SET_CREATURE_LIST",
+  SET_CREATURE_COUNT: "SET_CREATURE_COUNT",
+  SET_TOTAL_CREATURES: "SET_TOTAL_CREATURES",
+  SET_CREATURE: "SET_CREATURE",
+  SET_CREATURE_FAMILY: "SET_CREATURE_FAMILY"
 };
 
 const mutations = {
@@ -169,9 +169,9 @@ const actions = {
         page: state.page
       });
       const normalized = normalize(results, schema.creatureList);
-      commit(types.UPDATE_ENTITIES, { entities: normalized.entities });
       commit(types.SET_CREATURE_LIST, { ids: normalized.result });
       commit(types.SET_CREATURE_COUNT, { count: count });
+      commit(types.UPDATE_ENTITIES, { entities: normalized.entities });
 
       if (state.totalCreatures === 0) {
         dispatch("getTotalCreatures");
@@ -208,7 +208,6 @@ const actions = {
 
 const getters = {
   loading: state => state.loading,
-
   creatureList: state =>
     denormalize(state.creatures, schema.creatureList, state.entities),
   creature: state =>

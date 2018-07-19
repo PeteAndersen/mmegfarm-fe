@@ -22,6 +22,9 @@
         <v-btn flat to="/">
           Menagerie
         </v-btn>
+        <v-btn flat to="/dungeons/">
+          Dungeons
+        </v-btn>
       </v-toolbar-items>
       <v-toolbar-items>
         <v-btn to="/changelist/">
