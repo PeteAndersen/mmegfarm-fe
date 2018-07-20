@@ -12,6 +12,7 @@
     "localforage": "^1.7.2",
     "normalizr": "^3.2.4",
     "register-service-worker": "^1.0.0",
+    "url-slug": "^2.0.0",
     "vue": "^2.5.16",
     "vue-analytics": "^5.12.2",
     "vue-router": "^3.0.1",

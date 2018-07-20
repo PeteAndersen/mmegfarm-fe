@@ -6,7 +6,7 @@
         <v-list-tile
           v-for="d in dungeons"
           :key="d.id"
-          :to="`/dungeons/${d.slug}/`"
+          :to="`/dungeons/${d.id}-${urlSlug(d.name)}/`"
         >
           <v-list-tile-content>
             {{ d.name }}
@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import urlSlug from "url-slug";
+
 export default {
   name: "DungeonGroupCard",
   props: {
@@ -29,6 +31,9 @@ export default {
       type: Array,
       required: true
     }
+  },
+  methods: {
+    urlSlug
   }
 };
 </script>
