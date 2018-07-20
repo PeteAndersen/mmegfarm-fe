@@ -6,7 +6,7 @@
       <v-layout row align-baseline class="pb-2">
         
         <v-flex>
-          <v-btn @click="$store.state.filterDrawer = !$store.state.filterDrawer" class="ml-0">
+          <v-btn @click="$store.state.menagerie.filterDrawer = !$store.state.menagerie.filterDrawer" class="ml-0">
             <v-icon class="pr-1">menu</v-icon> Filters
           </v-btn>
 
