@@ -77,7 +77,7 @@ export default {
   name: "CreatureDetail",
   props: {
     id: {
-      type: String,
+      type: Number,
       required: true
     },
     slug: {
@@ -104,7 +104,7 @@ export default {
     id: {
       handler: async function(val) {
         // Update creature in state when slug changes
-        await this.getCreatureDetail(Number(val));
+        await this.getCreatureDetail(val);
 
         this.$vuetify.goTo(0, {
           duration: 0

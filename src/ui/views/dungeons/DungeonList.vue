@@ -1,60 +1,51 @@
 <template>
-  <div>
-    <h1>DUNGEONS!!!</h1>
-
-    <h2>Glpyh Dungeons</h2>
-    <ul v-if="glyphs.length">
-      <li v-for="d in glyphs" :key="d.id">{{d.name}}</li>
-    </ul>
-
-    <h2>Elemental</h2>
-    <ul v-if="elemental.length">
-      <li v-for="d in elemental" :key="d.id">{{d.name}}</li>
-    </ul>
-
-    <h2>Scenarios</h2>
-    <ul v-if="scenarios.length">
-      <li v-for="d in scenarios" :key="d.id">{{d.name}}</li>
-    </ul>
-
-    <h2>Tower of Trials</h2>
-    <ul v-if="tower.length">
-      <li v-for="d in tower" :key="d.id">{{d.name}}</li>
-    </ul>
-  </div>
+  <v-container grid-list-sm>
+    <v-layout>
+      <DungeonGroupCard v-if="glyphs.length" title="Glyph Dungeons" :dungeons="glyphs" />
+      <DungeonGroupCard v-if="elemental.length" title="Elemental Dungeons" :dungeons="elemental" />
+      <DungeonGroupCard v-if="scenarios.length" title="Scenarios" :dungeons="scenarios" />
+      <DungeonGroupCard v-if="tower.length" title="Tower of Trials" :dungeons="tower" />
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
+import { group_names } from "@/services/dungeons";
+import DungeonGroupCard from "./components/DungeonGroupCard";
 
-  export default {
-    name: "DungeonList",
-    created() {
-      this.getDungeons();
+export default {
+  name: "DungeonList",
+  components: {
+    DungeonGroupCard
+  },
+  created() {
+    this.getDungeons();
+  },
+  computed: {
+    ...mapGetters("dungeons", ["dungeons"]),
+    scenarios() {
+      return this.dungeons
+        .filter(d => d.group === "ScenarioDungeon")
+        .map(d => ({
+          ...d,
+          group: group_names[d.group]
+        }));
     },
-    computed: {
-      ...mapGetters('dungeons', [
-        'dungeons'
-      ]),
-      scenarios() {
-        return this.dungeons.filter(d => d.group === 'ScenarioDungeon')
-      },
-      glyphs() {
-        return this.dungeons.filter(d => d.group === 'GroupGlyphs')
-      },
-      elemental() {
-        return this.dungeons.filter(d => d.group === 'GroupElements')
-      },
-      tower() {
-        return this.dungeons.filter(d => d.group === 'GroupTwinTowers')
-      }
+    glyphs() {
+      return this.dungeons.filter(d => d.group === "GroupGlyphs");
     },
-    methods: {
-      ...mapActions('dungeons', [
-        'getDungeons'
-      ])
+    elemental() {
+      return this.dungeons.filter(d => d.group === "GroupElements");
+    },
+    tower() {
+      return this.dungeons.filter(d => d.group === "GroupTwinTowers");
     }
+  },
+  methods: {
+    ...mapActions("dungeons", ["getDungeons"])
   }
+};
 </script>
 
 <style scoped>
