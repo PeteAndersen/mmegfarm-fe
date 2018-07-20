@@ -6,7 +6,23 @@ import dungeons from "./dungeons/store";
 
 Vue.use(Vuex);
 
+const state = {
+  loading: false,
+  error: false
+};
+
+const mutations = {
+  LOADING(state, { value }) {
+    state.loading = value;
+  },
+  ERROR(state, { value }) {
+    state.error = value;
+  }
+};
+
 export default new Vuex.Store({
+  state,
+  mutations,
   modules: {
     menagerie,
     dungeons

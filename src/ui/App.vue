@@ -2,7 +2,7 @@
 
   <v-app id="inspire" dark>
     <div class="loading-indicator">
-      <v-progress-linear :active="loading" :indeterminate="true" class="ma-0"></v-progress-linear>
+      <v-progress-linear :active="$store.state.loading" :indeterminate="true" class="ma-0"></v-progress-linear>
     </div>
 
     <v-content>
@@ -52,16 +52,13 @@ export default {
   name: "App",
   components: {
     ErrorMessage
-  },
-  computed: {
-    ...mapGetters("menagerie", ["loading"])
   }
 };
 </script>
 
 <style>
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
