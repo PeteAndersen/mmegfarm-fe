@@ -72,11 +72,10 @@ const actions = {
     try {
       const dungeonData = await dispatch("getDungeon", id);
       const dungeon = dungeonData.entities.dungeons[dungeonData.result];
-      console.log(dungeon, dungeonData);
 
       // Default to the highest level
       const max_level = dungeon.levels.length - 1;
-      dispatch("getLevelDetail", dungeon.levels[max_level]);
+      dispatch("getLevel", dungeon.levels[max_level]);
     } catch (e) {
       console.log(e);
       commit("ERROR", { value: true }, { root: true });
@@ -90,20 +89,6 @@ const actions = {
       const normalized = normalize(data, schema.dungeon);
       commit(types.UPDATE_ENTITIES, { entities: normalized.entities });
       return normalized;
-    } catch (e) {
-      console.log(e);
-      commit("ERROR", { value: true }, { root: true });
-    }
-  },
-  async getLevelDetail({ commit, dispatch }, id) {
-    console.log(id);
-    commit("LOADING", { value: true }, { root: true });
-    commit("ERROR", { value: false }, { root: true });
-    commit(types.SET_LEVEL, { id });
-
-    try {
-      const levelData = await dispatch("getLevel", id);
-      console.log(levelData);
     } catch (e) {
       console.log(e);
       commit("ERROR", { value: true }, { root: true });

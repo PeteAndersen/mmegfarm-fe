@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "DungeonDetail",
@@ -27,14 +27,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('dungeons', [
-      'dungeon'
-    ]),
+    ...mapGetters("dungeons", ["dungeon", "level"])
   },
   methods: {
-    ...mapActions('dungeons', [
-      'getDungeonDetail'
-    ])
+    ...mapActions("dungeons", ["getDungeonDetail", "getLevelDetail"])
   }
 };
 </script>
