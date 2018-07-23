@@ -75,7 +75,8 @@ const actions = {
 
       // Default to the highest level
       const max_level = dungeon.levels.length - 1;
-      dispatch("getLevel", dungeon.levels[max_level]);
+      const level = await dispatch("getLevel", dungeon.levels[max_level]);
+      commit(types.SET_LEVEL, { id: level.result });
     } catch (e) {
       console.log(e);
       commit("ERROR", { value: true }, { root: true });
@@ -96,11 +97,11 @@ const actions = {
   },
   async getLevel({ commit }, id) {
     // Retrieves a single level and puts it in the store
-    // console.log(id);
     try {
       const { data } = await api.fetchLevel(id);
       const normalized = normalize(data, schema.level);
       commit(types.UPDATE_ENTITIES, { entities: normalized.entities });
+      console.log(normalized);
       return normalized;
     } catch (e) {
       console.log(e);

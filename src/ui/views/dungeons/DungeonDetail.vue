@@ -1,12 +1,27 @@
 <template>
-  <div>
-    {{id}} {{ slug }}
-    {{ dungeon }}
-  </div>
+  <v-container v-if="dungeon && level">
+    <v-layout>
+      <h1>{{ dungeon.name }} {{ levelNumber }}<template v-if="level.difficulty"> - {{ level.difficulty }}</template></h1>
+      
+      <v-spacer></v-spacer>
+      
+      <div>
+        <v-avatar>
+          <img src="/static/currency/Energy.png" />
+        </v-avatar>
+        {{ level.energy_cost }}
+      </div>
+
+    </v-layout>
+
+    <Wave v-for="wave in level.waves" :key="wave.id" :wave="wave"/>
+  </v-container>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+
+import Wave from './components/Wave.vue'
 
 export default {
   name: "DungeonDetail",
@@ -16,6 +31,9 @@ export default {
       required: true
     },
     slug: { type: String }
+  },
+  components: {
+    Wave
   },
   watch: {
     id: {
@@ -27,7 +45,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("dungeons", ["dungeon", "level"])
+    ...mapGetters("dungeons", ["dungeon", "level"]),
+    levelNumber() {
+      return this.dungeon.levels.findIndex(l => l.id == this.level.id) + 1;
+    }
   },
   methods: {
     ...mapActions("dungeons", ["getDungeonDetail", "getLevelDetail"])

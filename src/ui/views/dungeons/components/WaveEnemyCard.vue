@@ -1,11 +1,18 @@
 <template>
-  <v-flex sm12 md6 :lg6="$store.state.filterDrawer" :lg4="!$store.state.filterDrawer" xl3>
-    <v-card height="100%" :to="`/creature/${this.creature.slug}`" hover>
+  <v-flex sm12 md6 lg4>
+    <v-card height="100%">
       <v-card-title>
         <v-layout>
-          <CreatureAvatar :creature="creature" />
+          <CreatureAvatar
+            :creature="creature"
+            :level="creature.level" 
+          />
           <v-spacer />
-          <h2>{{creature.name}}</h2>
+          <div class="text-xs-center">
+            <h2>{{creature.name}}</h2>
+            <h4 v-if="creature.miniboss">MINIBOSS</h4>
+            <h3 v-if="boss">BOSS</h3>
+          </div>
           <v-spacer />
           <v-tooltip bottom>
             <v-avatar slot="activator">
@@ -23,9 +30,9 @@
       </v-card-title>
       <v-container grid-list-md text-xs-center class="pa-2">
         <v-layout row wrap>
-          <Stat stat="hp" :value="creature.maxLvlHp" />
-          <Stat stat="atk" :value="creature.maxLvlAttack" />
-          <Stat stat="def" :value="creature.maxLvlDefense" />
+          <Stat stat="hp" :value="creature.hp" />
+          <Stat stat="atk" :value="creature.attack" />
+          <Stat stat="def" :value="creature.defense" />
           <Stat stat="speed" :value="Math.round(creature.speed * 1000)" />
           <Stat stat="crit-rate" :value="creature.criticalChance" />
           <Stat stat="crit-dmg" :value="creature.criticalDamage" />
@@ -56,11 +63,16 @@ import Spell from "@/ui/components/creatures/Spell.vue";
 import Stat from "@/ui/components/creatures/Stat.vue";
 
 export default {
-  name: "CreatureCard",
+  name: "WaveEnemyCard",
   props: {
     creature: {
       type: Object,
       required: true
+    },
+    boss: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   computed: {
@@ -75,19 +87,6 @@ export default {
       }, {});
 
       return spells;
-    },
-    spellColSize() {
-      return this.creature.spells.length === 3 ? 4 : 6;
-    },
-    hasTwoFirstSpells() {
-      const slot_1_spell_count = this.creature.spells.reduce((accum, spell) => {
-        if (spell.slot === 1) {
-          accum++;
-        }
-        return accum;
-      }, 0);
-
-      return slot_1_spell_count > 0;
     }
   },
   components: {
