@@ -10,20 +10,20 @@
 </template>
 
 <script>
-import WaveEnemyCard from './WaveEnemyCard';
+import WaveEnemyCard from "./WaveEnemyCard";
 
-  export default {
-    name: "Wave",
-    props: {
-      wave: {
-        type: Object,
-        required: true,
-      }
-    },
-    components: {
-      WaveEnemyCard
+export default {
+  name: "Wave",
+  props: {
+    wave: {
+      type: Object,
+      required: true
     }
+  },
+  components: {
+    WaveEnemyCard
   }
+};
 </script>
 
 <style scoped>

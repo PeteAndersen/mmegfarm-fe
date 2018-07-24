@@ -21,7 +21,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 
-import Wave from './components/Wave.vue'
+import Wave from "./components/Wave.vue";
 
 export default {
   name: "DungeonDetail",

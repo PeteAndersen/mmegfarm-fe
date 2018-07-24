@@ -50,7 +50,9 @@ export default {
   },
   computed: {
     avatarUrl: function() {
-      return this.creature.trackingName ? `/static/creatures/portraits/${this.creature.trackingName}.png` : `/static/creatures/portraits/default.png`
+      return this.creature.trackingName
+        ? `/static/creatures/portraits/${this.creature.trackingName}.png`
+        : `/static/creatures/portraits/default.png`;
     }
   }
 };

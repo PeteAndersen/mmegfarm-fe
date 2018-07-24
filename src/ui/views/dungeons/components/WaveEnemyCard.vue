@@ -10,8 +10,8 @@
           <v-spacer />
           <div class="text-xs-center">
             <h2>{{creature.name}}</h2>
-            <h4 v-if="creature.miniboss">MINIBOSS</h4>
-            <h3 v-if="boss">BOSS</h3>
+            <h4 v-if="creature.boss_type == 'miniBoss'">MINIBOSS</h4>
+            <h3 v-if="creature.boss_type == 'boss'">BOSS</h3>
           </div>
           <v-spacer />
           <v-tooltip bottom>
