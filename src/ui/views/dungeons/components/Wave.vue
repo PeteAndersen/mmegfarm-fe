@@ -1,11 +1,14 @@
 <template>
-  <v-container fluid grid-list-md>
-    <v-layout>
-      <WaveEnemyCard v-for="enemy in wave.enemies" :key="enemy.id" :creature="enemy" />
-      <WaveEnemyCard v-for="enemy in wave.bosses" :key="enemy.id" :creature="enemy" boss />
+  <v-container>
+    <v-layout row>
+      <h1 v-if="idx">Wave {{ idx }}</h1>
+
+      <v-container fluid grid-list-md class="pa-0">
+        <v-layout align-content-start>
+          <WaveEnemyCard v-for="enemy in wave.enemies" :key="enemy.id" :creature="enemy" />
+        </v-layout>
+      </v-container>
     </v-layout>
-    
-    
   </v-container>
 </template>
 
@@ -18,6 +21,10 @@ export default {
     wave: {
       type: Object,
       required: true
+    },
+    idx: {
+      type: Number,
+      required: false
     }
   },
   components: {
@@ -27,4 +34,7 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  writing-mode: vertical-rl;
+}
 </style>

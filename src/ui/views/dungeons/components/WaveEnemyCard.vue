@@ -1,17 +1,18 @@
 <template>
-  <v-flex sm12 md6 lg4>
+  <v-flex>
     <v-card height="100%">
       <v-card-title>
         <v-layout>
           <CreatureAvatar
             :creature="creature"
-            :level="creature.level" 
+            :level="creature.level"
+            size="56px"
           />
           <v-spacer />
           <div class="text-xs-center">
-            <h2>{{creature.name}}</h2>
-            <h4 v-if="creature.boss_type == 'miniBoss'">MINIBOSS</h4>
-            <h3 v-if="creature.boss_type == 'boss'">BOSS</h3>
+            <h3>{{creature.name}}</h3>
+            <p v-if="creature.boss_type == 'miniBoss'">MINIBOSS</p>
+            <p v-if="creature.boss_type == 'boss'">BOSS</p>
           </div>
           <v-spacer />
           <v-tooltip bottom>
@@ -28,29 +29,60 @@
           </v-tooltip>
         </v-layout>
       </v-card-title>
-      <v-container grid-list-md text-xs-center class="pa-2">
-        <v-layout row wrap>
-          <Stat stat="hp" :value="creature.hp" />
-          <Stat stat="atk" :value="creature.attack" />
-          <Stat stat="def" :value="creature.defense" />
-          <Stat stat="speed" :value="Math.round(creature.speed * 1000)" />
-          <Stat stat="crit-rate" :value="creature.criticalChance" />
-          <Stat stat="crit-dmg" :value="creature.criticalDamage" />
-          <Stat stat="accuracy" :value="Math.round(creature.accuracy * 100)" />
-          <Stat stat="resistance" :value="Math.round(creature.resistance * 100)" />
-        </v-layout>
-      </v-container>
+      
       <v-divider />
-      <v-container class="pa-2">
-        <v-layout row wrap class="spells pb-2">
-          <Spell
+
+      <v-list dense>
+        <v-list-tile>
+          <v-list-tile-content>HP:</v-list-tile-content>
+          <v-list-tile-content class="align-end">{{ creature.hp }}</v-list-tile-content>
+        </v-list-tile>
+        
+        <v-list-tile>
+          <v-list-tile-content>ATK:</v-list-tile-content>
+          <v-list-tile-content class="align-end">{{ creature.attack }}</v-list-tile-content>
+        </v-list-tile>
+        
+        <v-list-tile>
+          <v-list-tile-content>DEF:</v-list-tile-content>
+          <v-list-tile-content class="align-end">{{ creature.defense }}</v-list-tile-content>
+        </v-list-tile>
+
+        <v-list-tile>
+          <v-list-tile-content>SPD:</v-list-tile-content>
+          <v-list-tile-content class="align-end">{{ Math.round(creature.speed * 1000) }}</v-list-tile-content>
+        </v-list-tile>
+
+        <v-list-tile>
+          <v-list-tile-content>Crit Rate:</v-list-tile-content>
+          <v-list-tile-content class="align-end">{{ creature.criticalChance }}</v-list-tile-content>
+        </v-list-tile>
+
+        <v-list-tile>
+          <v-list-tile-content>Crit Damage:</v-list-tile-content>
+          <v-list-tile-content class="align-end">{{ creature.criticalDamage }}</v-list-tile-content>
+        </v-list-tile>
+
+        <v-list-tile>
+          <v-list-tile-content>Accuracy:</v-list-tile-content>
+          <v-list-tile-content class="align-end">{{ Math.round(creature.accuracy * 100) }}</v-list-tile-content>
+        </v-list-tile>
+
+        <v-list-tile>
+          <v-list-tile-content>Resistance:</v-list-tile-content>
+          <v-list-tile-content class="align-end">{{ Math.round(creature.resistance * 100) }}</v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+
+      <v-divider />
+
+      <v-list two-line>
+        <SpellListItem
             v-for="spell in creature.spells"
             :spell="spell"
             :key="spell.id"
-            :class="`xs${spellColSize}`"
           />
-        </v-layout>
-      </v-container>
+      </v-list>
     </v-card>
   </v-flex>
 </template>
@@ -59,7 +91,7 @@
 import { titleCase } from "@/services/utils";
 
 import CreatureAvatar from "@/ui/components/creatures/CreatureAvatar.vue";
-import Spell from "@/ui/components/creatures/Spell.vue";
+import SpellListItem from "@/ui/components/creatures/SpellListItem.vue";
 import Stat from "@/ui/components/creatures/Stat.vue";
 
 export default {
@@ -90,7 +122,7 @@ export default {
     }
   },
   components: {
-    Spell,
+    SpellListItem,
     Stat,
     CreatureAvatar
   },

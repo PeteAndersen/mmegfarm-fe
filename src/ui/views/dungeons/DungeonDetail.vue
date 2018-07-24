@@ -14,7 +14,7 @@
 
     </v-layout>
 
-    <Wave v-for="wave in level.waves" :key="wave.id" :wave="wave"/>
+    <Wave v-for="(wave, idx) in level.waves" :key="wave.id" :wave="wave" :idx="idx + 1"/>
   </v-container>
 </template>
 
