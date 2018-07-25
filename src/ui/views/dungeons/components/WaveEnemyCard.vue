@@ -32,47 +32,24 @@
       
       <v-divider />
 
-      <v-list dense>
-        <v-list-tile>
-          <v-list-tile-content>HP:</v-list-tile-content>
-          <v-list-tile-content class="align-end">{{ creature.hp }}</v-list-tile-content>
-        </v-list-tile>
-        
-        <v-list-tile>
-          <v-list-tile-content>ATK:</v-list-tile-content>
-          <v-list-tile-content class="align-end">{{ creature.attack }}</v-list-tile-content>
-        </v-list-tile>
-        
-        <v-list-tile>
-          <v-list-tile-content>DEF:</v-list-tile-content>
-          <v-list-tile-content class="align-end">{{ creature.defense }}</v-list-tile-content>
-        </v-list-tile>
-
-        <v-list-tile>
-          <v-list-tile-content>SPD:</v-list-tile-content>
-          <v-list-tile-content class="align-end">{{ Math.round(creature.speed * 1000) }}</v-list-tile-content>
-        </v-list-tile>
-
-        <v-list-tile>
-          <v-list-tile-content>Crit Rate:</v-list-tile-content>
-          <v-list-tile-content class="align-end">{{ creature.criticalChance }}</v-list-tile-content>
-        </v-list-tile>
-
-        <v-list-tile>
-          <v-list-tile-content>Crit Damage:</v-list-tile-content>
-          <v-list-tile-content class="align-end">{{ creature.criticalDamage }}</v-list-tile-content>
-        </v-list-tile>
-
-        <v-list-tile>
-          <v-list-tile-content>Accuracy:</v-list-tile-content>
-          <v-list-tile-content class="align-end">{{ Math.round(creature.accuracy * 100) }}</v-list-tile-content>
-        </v-list-tile>
-
-        <v-list-tile>
-          <v-list-tile-content>Resistance:</v-list-tile-content>
-          <v-list-tile-content class="align-end">{{ Math.round(creature.resistance * 100) }}</v-list-tile-content>
-        </v-list-tile>
-      </v-list>
+      <v-layout>
+        <v-flex>
+          <v-list dense>
+            <DenseStat stat="hp" :value="creature.hp" />
+            <DenseStat stat="atk" :value="creature.attack" />
+            <DenseStat stat="def" :value="creature.defense" />
+            <DenseStat stat="speed" :value="Math.round(creature.speed * 1000)" />
+          </v-list>
+        </v-flex>
+        <v-flex>
+          <v-list dense>
+            <DenseStat stat="crit-rate" :value="creature.criticalChance" />
+            <DenseStat stat="crit-dmg" :value="creature.criticalDamage" />
+            <DenseStat stat="accuracy" :value="Math.round(creature.accuracy * 100)" />
+            <DenseStat stat="resistance" :value="Math.round(creature.resistance * 100)" />
+          </v-list>
+        </v-flex>
+      </v-layout>
 
       <v-divider />
 
@@ -92,7 +69,7 @@ import { titleCase } from "@/services/utils";
 
 import CreatureAvatar from "@/ui/components/creatures/CreatureAvatar.vue";
 import SpellListItem from "@/ui/components/creatures/SpellListItem.vue";
-import Stat from "@/ui/components/creatures/Stat.vue";
+import DenseStat from "./DenseStat.vue";
 
 export default {
   name: "WaveEnemyCard",
@@ -123,7 +100,7 @@ export default {
   },
   components: {
     SpellListItem,
-    Stat,
+    DenseStat,
     CreatureAvatar
   },
   methods: {

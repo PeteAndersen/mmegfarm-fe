@@ -113,11 +113,11 @@ export default {
   },
   created: async function() {},
   methods: {
-    ...mapActions('menagerie', ["getCreatureDetail"]),
+    ...mapActions("menagerie", ["getCreatureDetail"]),
     titleCase
   },
   computed: {
-    ...mapGetters('menagerie', ["creature", "family"]),
+    ...mapGetters("menagerie", ["creature", "family"]),
     ...mapState(["loading"]),
     spellSlotOne() {
       if (this.creature) {
