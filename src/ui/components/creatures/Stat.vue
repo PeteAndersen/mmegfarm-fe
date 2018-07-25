@@ -6,7 +6,7 @@
         <v-avatar size="2em">
           <img :src="statIcon" />
         </v-avatar>
-        {{value}}<span v-if="percentage_stat">%</span>
+        {{value}}<template v-if="percentage_stat">%</template>
       </v-flex>
     </v-layout>
   </v-flex>

@@ -1,10 +1,12 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-layout row>
-      <h1 v-if="idx">Wave {{ idx }}</h1>
+      <div class="wave-number-container">
+        <span class="wave-number mb-5" v-if="idx">Wave {{ idx }}</span>
+      </div>
 
       <v-container fluid grid-list-md class="pa-0">
-        <v-layout align-content-start>
+        <v-layout row wrap>
           <WaveEnemyCard v-for="enemy in wave.enemies" :key="enemy.id" :creature="enemy" />
         </v-layout>
       </v-container>
@@ -34,7 +36,13 @@ export default {
 </script>
 
 <style scoped>
-h1 {
+.wave-number-container {
   writing-mode: vertical-rl;
+}
+.wave-number {
+  position: sticky;
+  font-size: 20px;
+  font-weight: 600;
+  top: 75px;
 }
 </style>

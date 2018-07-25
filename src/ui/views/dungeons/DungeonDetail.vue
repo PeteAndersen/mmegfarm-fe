@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="dungeon && level">
+  <v-container fluid v-if="dungeon && level">
     <v-layout>
       <h1>{{ dungeon.name }} {{ levelNumber }}<template v-if="level.difficulty"> - {{ level.difficulty }}</template></h1>
       
@@ -13,11 +13,12 @@
       </div>
 
     </v-layout>
-    <template v-for="(wave, idx) in level.waves">
-      <Wave :key="wave.id" :wave="wave" :idx="idx + 1"/>
-      <v-divider :key="idx"/>
-    </template>
-    
+    <v-container grid-list-md fluid>
+      <template v-for="(wave, idx) in level.waves">
+        <Wave :key="wave.id" :wave="wave" :idx="idx + 1"/>
+        <v-divider :key="idx"/>
+      </template>
+    </v-container>
   </v-container>
 </template>
 

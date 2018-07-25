@@ -4,7 +4,7 @@
       <img :src="statIcon">
     </v-list-tile-avatar>
     
-    <v-list-tile-content>{{ nice_name }}</v-list-tile-content>
+    <v-list-tile-content class="stat mr-1">{{ nice_name }}</v-list-tile-content>
     
     <v-list-tile-content class="align-end">
       {{ value }}<template v-if="percentage_stat">%</template>
@@ -54,5 +54,10 @@ export default {
 <style scoped>
 .no-min-width {
   min-width: auto;
+}
+.stat {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
