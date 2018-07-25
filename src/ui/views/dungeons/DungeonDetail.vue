@@ -13,8 +13,11 @@
       </div>
 
     </v-layout>
-
-    <Wave v-for="(wave, idx) in level.waves" :key="wave.id" :wave="wave" :idx="idx + 1"/>
+    <template v-for="(wave, idx) in level.waves">
+      <Wave :key="wave.id" :wave="wave" :idx="idx + 1"/>
+      <v-divider :key="idx"/>
+    </template>
+    
   </v-container>
 </template>
 
