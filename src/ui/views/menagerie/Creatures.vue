@@ -109,13 +109,13 @@ export default {
   computed: {
     ...mapGetters("menagerie", ["creatureList"]),
     ...mapState("menagerie", [
-      "loading",
       "sortKey",
       "sortDirection",
       "creaturesCount",
       "totalCreatures",
       "pageSize"
     ]),
+    ...mapState(["loading"]),
     page: {
       get: function() {
         return this.$store.state.menagerie.page;
