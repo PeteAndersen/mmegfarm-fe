@@ -62,7 +62,7 @@
 
     <v-divider />
 
-    <v-card-text class="pt-1" v-if="spell.upgrades.length">
+    <v-card-text class="pt-1" v-if="spell.upgrades && spell.upgrades.length">
       <h4 class="pb-1">Upgrades</h4>
       <ol>
         <li v-for="(upgrade, index) in spell.upgrades" :key="index">
@@ -124,6 +124,7 @@ export default {
           formula: multiplier_formula(eff.params)
         }));
 
+      console.log({attack_effects});
       return attack_effects;
     },
     effects() {
@@ -217,6 +218,7 @@ export default {
         return accum;
       }, []);
 
+      console.log(effects);
       return effects;
     },
     effectHasIcon() {
