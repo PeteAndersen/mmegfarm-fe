@@ -40,9 +40,9 @@ export const multiplier_formula = params => {
         : stat_definitions[params.incBase]
       : "";
 
-  const with_base_stat = inc_stat ? `(ATK + ${inc_stat})` : `ATK`;
-
-  return `${params.amount} * ${with_base_stat}`;
+  return inc_stat
+    ? `(${params.amount} * ATK) + ${inc_stat}`
+    : `${params.amount} * ATK`;
 };
 
 const colorTagRegexp = new RegExp(/<color=(#[0-9,a-f]{6})>(.*?)<\/color>/g);
