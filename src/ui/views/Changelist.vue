@@ -1,6 +1,14 @@
 <template>
   <v-container>
     <v-card>
+      <v-subheader>July 26, 2018</v-subheader>
+      <v-card-title>
+        <ul>
+          <li>Updated menagerie with <a href="https://mightandmagic.ubi.com/balancing-patch-1-0-creatures-spells-and-dungeon-rebalance/">1.0.0 balance patch</a> data.</li>
+          <li>Corrected display of multiplier formulas that scale off of stats other than ATK. Example: <code>0.3 * (ATK + (MaxHP * 0.13))</code> becomes <code>(0.3 * ATK) + (MaxHP * 0.13)</code></li>
+        </ul>
+      </v-card-title>
+
       <v-subheader>July 18, 2018</v-subheader>
       <v-card-title>
         <ul>
