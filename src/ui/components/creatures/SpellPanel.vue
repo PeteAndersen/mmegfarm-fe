@@ -124,7 +124,6 @@ export default {
           formula: multiplier_formula(eff.params)
         }));
 
-      console.log({ attack_effects });
       return attack_effects;
     },
     effects() {
@@ -218,7 +217,6 @@ export default {
         return accum;
       }, []);
 
-      console.log(effects);
       return effects;
     },
     effectHasIcon() {

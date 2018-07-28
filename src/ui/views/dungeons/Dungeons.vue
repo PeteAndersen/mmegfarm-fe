@@ -1,8 +1,8 @@
 <template>
-  <v-container grid-list-sm>
+  <div>
     <DungeonNavigator />
     <router-view></router-view>
-  </v-container>
+  </div>
 </template>
 
 <script>

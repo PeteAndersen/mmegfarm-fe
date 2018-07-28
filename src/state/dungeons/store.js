@@ -90,12 +90,18 @@ const actions = {
   async getLevelDetail({ commit, dispatch }, { dungeonId, level }) {
     commit("LOADING", { value: true }, { root: true });
     commit("ERROR", { value: false }, { root: true });
-    console.log("getting levels");
-    console.log(dungeonId, level);
 
     // Get the level ID from dungeon data
-    const dungeon = await dispatch("getDungeon", dungeonId);
-    const id = dungeon.entities.dungeons[dungeon.result].levels[level - 1];
+    if (!Object.keys(state.entities.dungeons).includes(dungeonId)) {
+      await dispatch("getDungeon", dungeonId);
+    }
+
+    const dungeon = denormalize(
+      dungeonId,
+      schema.dungeonSummary,
+      state.entities
+    );
+    const id = dungeon.levels[level - 1];
     commit(types.SET_LEVEL, { id });
 
     // Finish with the detailed level data
@@ -103,7 +109,6 @@ const actions = {
       const { data } = await api.fetchLevel(id);
       const normalized = normalize(data, schema.level);
       commit(types.UPDATE_ENTITIES, { entities: normalized.entities });
-      return normalized;
     } catch (e) {
       console.log(e);
       commit("ERROR", { value: true }, { root: true });
