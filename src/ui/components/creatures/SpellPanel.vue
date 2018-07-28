@@ -124,7 +124,7 @@ export default {
           formula: multiplier_formula(eff.params)
         }));
 
-      console.log({attack_effects});
+      console.log({ attack_effects });
       return attack_effects;
     },
     effects() {

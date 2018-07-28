@@ -13,6 +13,7 @@ const state = {
     spells: {}
   },
   dungeons: [],
+  navDrawer: true,
   dungeonDetail: null,
   levelDetail: null
 };
@@ -34,9 +35,6 @@ const mutations = {
       }
     }
   },
-  [types.DUNGEON_LIST](state, { ids }) {
-    Vue.set(state, "dungeons", ids);
-  },
   [types.SET_DUNGEON](state, { id }) {
     state.dungeonDetail = id;
   },
@@ -56,7 +54,6 @@ const actions = {
       } = await api.fetchDungeons();
       const normalized = normalize(results, [schema.dungeon]);
       commit(types.UPDATE_ENTITIES, { entities: normalized.entities });
-      commit(types.DUNGEON_LIST, { ids: normalized.result });
     } catch (e) {
       console.log(e);
       commit("ERROR", { value: true }, { root: true });
@@ -70,17 +67,12 @@ const actions = {
     commit(types.SET_DUNGEON, { id });
 
     try {
-      const dungeonData = await dispatch("getDungeon", id);
-      const dungeon = dungeonData.entities.dungeons[dungeonData.result];
-
-      // Default to the highest level
-      const max_level = dungeon.levels.length - 1;
-      const level = await dispatch("getLevel", dungeon.levels[max_level]);
-      commit(types.SET_LEVEL, { id: level.result });
+      dispatch("getDungeon", id);
     } catch (e) {
       console.log(e);
       commit("ERROR", { value: true }, { root: true });
     }
+
     commit("LOADING", { value: false }, { root: true });
   },
   async getDungeon({ commit }, id) {
@@ -95,27 +87,69 @@ const actions = {
       commit("ERROR", { value: true }, { root: true });
     }
   },
-  async getLevel({ commit }, id) {
-    // Retrieves a single level and puts it in the store
+  async getLevelDetail({ commit, dispatch }, { dungeonId, level }) {
+    commit("LOADING", { value: true }, { root: true });
+    commit("ERROR", { value: false }, { root: true });
+    console.log("getting levels");
+    console.log(dungeonId, level);
+
+    // Get the level ID from dungeon data
+    const dungeon = await dispatch("getDungeon", dungeonId);
+    const id = dungeon.entities.dungeons[dungeon.result].levels[level - 1];
+    commit(types.SET_LEVEL, { id });
+
+    // Finish with the detailed level data
     try {
       const { data } = await api.fetchLevel(id);
       const normalized = normalize(data, schema.level);
       commit(types.UPDATE_ENTITIES, { entities: normalized.entities });
-      console.log(normalized);
       return normalized;
     } catch (e) {
       console.log(e);
       commit("ERROR", { value: true }, { root: true });
     }
+
+    commit("LOADING", { value: false }, { root: true });
   }
 };
 
 const getters = {
   dungeons: state =>
-    denormalize(state.dungeons, [schema.dungeon], state.entities),
-  dungeon: state =>
+    Object.values(state.entities.dungeons).reduce(
+      (accum, d) => {
+        switch (d.group) {
+          case "ScenarioDungeon":
+            accum.scenario.push(d);
+            break;
+          case "GroupGlyphs":
+            accum.glyph.push(d);
+            break;
+          case "GroupElements":
+            accum.elemental.push(d);
+            break;
+          case "GroupTwinTowers":
+            accum.tower.push(d);
+            break;
+          default:
+            accum.other.push(d);
+            break;
+        }
+        return accum;
+      },
+      {
+        scenario: [],
+        glyph: [],
+        elemental: [],
+        tower: [],
+        other: []
+      }
+    ),
+  dungeon: state => id =>
+    denormalize(id, schema.dungeonSummary, state.entities),
+  dungeonDetail: state =>
     denormalize(state.dungeonDetail, schema.dungeon, state.entities),
-  level: state => denormalize(state.levelDetail, schema.level, state.entities)
+  levelDetail: state =>
+    denormalize(state.levelDetail, schema.level, state.entities)
 };
 
 export default {
