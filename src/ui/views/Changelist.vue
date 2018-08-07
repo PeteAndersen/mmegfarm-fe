@@ -1,6 +1,12 @@
 <template>
   <v-container>
     <v-card>
+        <v-subheader>August 7, 2018</v-subheader>
+      <v-card-title>
+        <ul>
+          <li>Fixed an error with Effect Duration skill upgrade values in several cases.</li>
+        </ul>
+      </v-card-title>
       <v-subheader>July 26, 2018</v-subheader>
       <v-card-title>
         <ul>
