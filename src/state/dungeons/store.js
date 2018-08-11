@@ -151,8 +151,7 @@ const getters = {
     ),
   dungeon: state => id =>
     denormalize(id, schema.dungeonSummary, state.entities),
-  dungeonDetail: state =>
-    denormalize(state.dungeonDetail, schema.dungeon, state.entities),
+  dungeonDetail: state => id => denormalize(id, schema.dungeon, state.entities),
   levelDetail: state =>
     denormalize(state.levelDetail, schema.level, state.entities)
 };

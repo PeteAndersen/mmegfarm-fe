@@ -1,21 +1,22 @@
 <template>
   <div v-if="dungeonData">
-    Dungeon summary will go here. For now, just click on the floor you want.
+    
+    <v-layout column>
+      <v-flex v-for="(level, idx) in dungeonData.levels" :key="level.id" sc glyphs>
+        <router-link :to="`/dungeons/${id}-${slug}/${idx+1}/`">
+          Floor {{ idx + 1 }}
+        </router-link>
+        <RewardSummaryRow :rewards="level.rewards" />
+      </v-flex>
+    </v-layout>
   
-    <v-list>
-      <v-list-tile
-        v-for="(floor, idx) in dungeonData.levels"
-        :key="floor.id"
-        :to="`/dungeons/${id}-${slug}/${idx+1}/`"
-      >Floor {{ idx + 1 }}</v-list-tile>
-    </v-list>
-
     <router-view :id="id" :slug="slug" />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import RewardSummaryRow from './components/RewardSummaryRow';
 
 export default {
   name: "DungeonSummary",
@@ -29,6 +30,9 @@ export default {
       required: false
     }
   },
+  components: {
+    RewardSummaryRow
+  },
   watch: {
     id: {
       handler: async function(val) {
@@ -39,9 +43,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("dungeons", ["dungeon"]),
+    ...mapGetters("dungeons", ["dungeonDetail"]),
     dungeonData() {
-      return this.dungeon(this.id);
+      return this.dungeonDetail(this.id);
     }
   },
   methods: {

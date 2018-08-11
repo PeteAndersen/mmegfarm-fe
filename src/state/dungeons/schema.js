@@ -1,6 +1,8 @@
 import { schema } from "normalizr";
-
-const wave = new schema.Entity("waves");
+const enemy = new schema.Entity("enemies");
+const wave = new schema.Entity("waves", {
+  enemies: [enemy]
+});
 const level = new schema.Entity("levels", {
   waves: [wave]
 });
