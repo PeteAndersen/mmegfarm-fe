@@ -48,7 +48,13 @@ export const multiplier_formula = params => {
 const colorTagRegexp = new RegExp(/<color=(#[0-9,a-f]{6})>(.*?)<\/color>/g);
 const paramsRegexp = new RegExp(/&&(\d+),(\w+)&&/g);
 const randomParamsRegexp = new RegExp(/&&(\d+),(\w+),([\w]*),?([\w,]*)&&/g);
-const percentage_keys = ["percentage", "prob", "amount_float", "amount2_float"];
+const percentage_keys = [
+  "percentage",
+  "prob",
+  "amount_float",
+  "amount2_float",
+  "hp"
+];
 
 const paramsToDict = param_string => {
   return param_string.split(",").reduce((accum, param) => {
