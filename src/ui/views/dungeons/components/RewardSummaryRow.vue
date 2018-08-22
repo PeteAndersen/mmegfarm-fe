@@ -5,26 +5,23 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      rewards: {
-        type: Array,
-        required: true,
-      },
-      sc: {
-        type: Boolean,
-        default: false
-      },
-      glyphs: {
-        type: Boolean,
-        default: false,
-      }
-
+export default {
+  props: {
+    rewards: {
+      type: Array,
+      required: true
     },
-    computed: {
-      
+    sc: {
+      type: Boolean,
+      default: false
+    },
+    glyphs: {
+      type: Boolean,
+      default: false
     }
-  }
+  },
+  computed: {}
+};
 </script>
 
 <style scoped>

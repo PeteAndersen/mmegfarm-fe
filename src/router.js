@@ -5,8 +5,7 @@ import Creatures from "@/ui/views/menagerie/Creatures";
 import CreatureDetail from "@/ui/views/menagerie/CreatureDetail";
 
 import Dungeons from "@/ui/views/dungeons/Dungeons";
-import DungeonSummary from "@/ui/views/dungeons/DungeonSummary";
-import DungeonFloorDetail from "@/ui/views/dungeons/DungeonFloorDetail";
+import DungeonDetail from "@/ui/views/dungeons/DungeonDetail";
 
 import Changelist from "@/ui/views/Changelist.vue";
 
@@ -37,20 +36,24 @@ export default new Router({
       component: Dungeons,
       children: [
         {
-          path: ":id-:slug/:level/",
-          component: DungeonFloorDetail,
-          props: ({ params: { id, slug, level } }) => ({
+          // Scenarios
+          path: ":id-:slug/:difficulty/:levelIdx/",
+          component: DungeonDetail,
+          props: ({ params: { id, slug, difficulty, levelIdx } }) => ({
             id: Number(id),
             slug,
-            level: Number(level)
+            levelIdx: Number(levelIdx),
+            difficulty,
+            scenario: true
           })
         },
         {
-          path: ":id-:slug/",
-          component: DungeonSummary,
-          props: ({ params: { id, slug } }) => ({
+          path: ":id-:slug/:levelIdx/",
+          component: DungeonDetail,
+          props: ({ params: { id, slug, levelIdx } }) => ({
             id: Number(id),
-            slug
+            slug,
+            levelIdx: Number(levelIdx)
           })
         }
       ]

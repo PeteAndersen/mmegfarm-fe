@@ -3,14 +3,12 @@
     <v-list-tile slot="activator">
       <v-list-tile-title>{{ name }}</v-list-tile-title>
     </v-list-tile>
-    <v-list-tile v-for="d in dungeons" :key="d.id" :to="`/dungeons/${d.id}-${urlSlug(d.name)}/`">
-      <v-list-tile-title v-text="d.name"></v-list-tile-title>
-    </v-list-tile>
+    <DungeonNavigatorLink v-for="d in dungeons" :key="d.id" :dungeon="d" />
   </v-list-group>
 </template>
 
 <script>
-import urlSlug from "url-slug";
+import DungeonNavigatorLink from "./DungeonNavigatorLink";
 
 export default {
   props: {
@@ -23,8 +21,8 @@ export default {
       required: true
     }
   },
-  methods: {
-    urlSlug
+  components: {
+    DungeonNavigatorLink
   }
 };
 </script>

@@ -5,6 +5,8 @@ export const group_names = {
   ScenarioDungeon: "Scenario"
 };
 
+export const scenario_difficulties = ["normal", "advanced", "nightmare"];
+
 export const is_available = (dungeon, timestamp) => {
   if (dungeon.always_available) {
     return true;

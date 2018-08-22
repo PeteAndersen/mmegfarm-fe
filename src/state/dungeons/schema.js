@@ -9,11 +9,17 @@ const level = new schema.Entity("levels", {
 const dungeon = new schema.Entity("dungeons", {
   levels: [level]
 });
-const dungeonSummary = new schema.Entity("dungeons");
+
+level.define({
+  dungeon
+});
+
+wave.define({
+  level
+});
 
 export default {
   dungeon,
-  dungeonSummary,
   level,
   wave
 };

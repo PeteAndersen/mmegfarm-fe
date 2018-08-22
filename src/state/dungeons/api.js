@@ -12,8 +12,13 @@ async function fetchLevel(id) {
   return await api.get(`levels/${id}/`);
 }
 
+async function fetchWave(id) {
+  return await api.get(`waves/${id}/`);
+}
+
 export default {
   fetchDungeon,
   fetchDungeons,
-  fetchLevel
+  fetchLevel,
+  fetchWave
 };

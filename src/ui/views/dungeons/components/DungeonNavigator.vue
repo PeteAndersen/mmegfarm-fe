@@ -21,7 +21,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 
-import DungeonListGroup from "./DungeonListGroup";
+import DungeonListGroup from "./DungeonNavigatorGroup";
 
 export default {
   name: "dungeonNavigator",
