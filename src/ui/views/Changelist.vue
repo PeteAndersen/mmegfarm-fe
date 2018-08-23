@@ -1,12 +1,20 @@
 <template>
   <v-container>
     <v-card>
-        <v-subheader>August 7, 2018</v-subheader>
+      <v-subheader>August 23, 2018</v-subheader>
+      <v-card-title>
+        <ul>
+          <li>Updated to game version 2.0.19.</li>
+        </ul>
+      </v-card-title>
+
+      <v-subheader>August 7, 2018</v-subheader>
       <v-card-title>
         <ul>
           <li>Fixed an error with Effect Duration skill upgrade values in several cases.</li>
         </ul>
       </v-card-title>
+
       <v-subheader>July 26, 2018</v-subheader>
       <v-card-title>
         <ul>
