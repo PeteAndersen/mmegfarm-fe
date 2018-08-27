@@ -13,6 +13,31 @@
       </div>
 
     </v-layout>
+
+    <v-layout>
+      <v-btn-toggle v-if="scenario">
+        <v-btn 
+          flat
+          :to="dungeonUrl({difficulty: 'normal'})"
+        >
+          Normal
+        </v-btn>
+         <v-btn 
+          flat
+          :to="dungeonUrl({difficulty: 'advanced'})"
+        >
+          Advanced
+        </v-btn>
+         <v-btn 
+          flat
+          :to="dungeonUrl({difficulty: 'nightmare'})"
+        >
+          Nightmare
+        </v-btn>
+        
+      </v-btn-toggle>
+    </v-layout>
+
     <v-container grid-list-md fluid class="pa-0">
       <template v-if="wave" v-for="(wave, idx) in level.waves">
         <Wave :key="wave.id" :wave="wave" :idx="idx + 1" />
@@ -22,6 +47,7 @@
 </template>
 
 <script>
+import urlSlug from "url-slug";
 import Wave from "./components/Wave.vue";
 import { scenario_difficulties } from "@/services/dungeons";
 
@@ -61,6 +87,14 @@ export default {
           levelIdx: this.levelIdx
         });
       }
+    },
+    difficulty: {
+      handler: async function() {
+        await this.getLevelDetail({
+          dungeonId: this.id,
+          levelIdx: this.levelIdx
+        });
+      }
     }
   },
   computed: {
@@ -90,6 +124,16 @@ export default {
         return levelIdx - 1 + offset;
       } else {
         return levelIdx - 1;
+      }
+    },
+    dungeonUrl(params) {
+      return {
+        name: this.$route.name,
+        params: {
+          ...this.$route.params,
+          ...params
+        }
+        
       }
     }
   }

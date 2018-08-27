@@ -38,6 +38,7 @@ export default new Router({
         {
           // Scenarios
           path: ":id-:slug/:difficulty/:levelIdx/",
+          name: "scenario-dungeon-detail",
           component: DungeonDetail,
           props: ({ params: { id, slug, difficulty, levelIdx } }) => ({
             id: Number(id),
@@ -49,6 +50,7 @@ export default new Router({
         },
         {
           path: ":id-:slug/:levelIdx/",
+          name: "dungeon-detail",
           component: DungeonDetail,
           props: ({ params: { id, slug, levelIdx } }) => ({
             id: Number(id),
