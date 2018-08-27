@@ -11,9 +11,9 @@
     </v-toolbar>
 
     <v-list>
-      <DungeonListGroup name="Glyph Dungeons" :dungeons="dungeons.glyph"/>
-      <DungeonListGroup name="Elemental Dungeons" :dungeons="dungeons.elemental"/>
-      <DungeonListGroup name="Scenarios" :dungeons="dungeons.scenario"/>
+      <DungeonListGroup name="Glyph Dungeons" :dungeons="dungeons.glyph" avatar="/static/glyphs/glyphs-legendary.png"/>
+      <DungeonListGroup name="Elemental Dungeons" :dungeons="dungeons.elemental" avatar="/static/all-elements.png" />
+      <DungeonListGroup name="Scenarios" :dungeons="dungeons.scenario" avatar="/static/dungeons/school.png" />
     </v-list>
   </v-navigation-drawer>
 </template>

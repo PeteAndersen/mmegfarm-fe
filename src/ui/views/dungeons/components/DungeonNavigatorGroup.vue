@@ -1,6 +1,10 @@
 <template>
   <v-list-group v-if="dungeons.length">
     <v-list-tile slot="activator">
+      <v-list-tile-avatar v-if="avatar">
+        <img :src="avatar" />
+      </v-list-tile-avatar>
+      
       <v-list-tile-title>{{ name }}</v-list-tile-title>
     </v-list-tile>
     <DungeonNavigatorLink v-for="d in dungeons" :key="d.id" :dungeon="d" />
@@ -19,6 +23,9 @@ export default {
     dungeons: {
       type: Array,
       required: true
+    },
+    avatar: {
+      type: String
     }
   },
   components: {
