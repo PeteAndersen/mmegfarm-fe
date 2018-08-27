@@ -57,7 +57,6 @@
 </template>
 
 <script>
-import urlSlug from "url-slug";
 import Wave from "./components/Wave.vue";
 import { scenario_difficulties } from "@/services/dungeons";
 
@@ -121,7 +120,7 @@ export default {
       return this.scenario ? 7 : this.dungeon.levels.length;
     }
   },
-  methods: {  
+  methods: {
     getLevelDetail(payload) {
       const { levelIdx } = payload;
 
@@ -146,8 +145,7 @@ export default {
           ...this.$route.params,
           ...params
         }
-        
-      }
+      };
     }
   }
 };
