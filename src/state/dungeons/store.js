@@ -128,37 +128,44 @@ const actions = {
   }
 };
 
+const dungeonSortByName = (a, b) => (a.name > b.name ? 1 : -1);
+
 const getters = {
-  dungeons: state =>
-    Object.values(state.entities.dungeons).reduce(
-      (accum, d) => {
-        switch (d.group) {
-          case "ScenarioDungeon":
-            accum.scenario.push(d);
-            break;
-          case "GroupGlyphs":
-            accum.glyph.push(d);
-            break;
-          case "GroupElements":
-            accum.elemental.push(d);
-            break;
-          case "GroupTwinTowers":
-            accum.tower.push(d);
-            break;
-          default:
-            accum.other.push(d);
-            break;
-        }
-        return accum;
-      },
-      {
-        scenario: [],
-        glyph: [],
-        elemental: [],
-        tower: [],
-        other: []
+  dungeons: state => {
+    const scenario = [];
+    const glyph = [];
+    const elemental = [];
+    const tower = [];
+    const other = [];
+
+    Object.values(state.entities.dungeons).forEach(d => {
+      switch (d.group) {
+        case "ScenarioDungeon":
+          scenario.push(d);
+          break;
+        case "GroupGlyphs":
+          glyph.push(d);
+          break;
+        case "GroupElements":
+          elemental.push(d);
+          break;
+        case "GroupTwinTowers":
+          tower.push(d);
+          break;
+        default:
+          other.push(d);
+          break;
       }
-    ),
+    });
+
+    return {
+      scenario,
+      glyph: glyph.sort(dungeonSortByName),
+      elemental: elemental.sort(dungeonSortByName),
+      tower,
+      other
+    };
+  },
   dungeon: state => id => denormalize(id, schema.dungeon, state.entities),
   level: state => (dungeonId, levelIdx) => {
     const dungeon = denormalize(dungeonId, schema.dungeon, state.entities);

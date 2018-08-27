@@ -15,7 +15,7 @@
     </v-layout>
 
     <v-layout>
-      <v-btn-toggle v-if="scenario">
+      <v-btn-toggle v-if="scenario" class="mr-3">
         <v-btn 
           flat
           :to="dungeonUrl({difficulty: 'normal'})"
@@ -34,7 +34,17 @@
         >
           Nightmare
         </v-btn>
-        
+      </v-btn-toggle>
+
+      <v-btn-toggle>
+        <v-btn
+          flat
+          v-for="l in this.numLevels"
+          :key="l"
+          :to="dungeonUrl({levelIdx: l})"
+        >
+          {{ l }}
+        </v-btn>
       </v-btn-toggle>
     </v-layout>
 
@@ -106,9 +116,12 @@ export default {
         this.id,
         this.scenarioLevelIndex(this.levelIdx)
       );
+    },
+    numLevels() {
+      return this.scenario ? 7 : this.dungeon.levels.length;
     }
   },
-  methods: {
+  methods: {  
     getLevelDetail(payload) {
       const { levelIdx } = payload;
 
