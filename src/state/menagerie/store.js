@@ -29,7 +29,6 @@ const state = {
     debuffs: [],
     skill_filter_logic: "all"
   },
-  filterDrawer: true,
   sortKey: "name",
   sortDirection: "",
 

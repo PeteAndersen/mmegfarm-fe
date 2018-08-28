@@ -8,7 +8,8 @@ Vue.use(Vuex);
 
 const state = {
   loading: false,
-  error: false
+  error: false,
+  drawer: true
 };
 
 const mutations = {
@@ -17,6 +18,12 @@ const mutations = {
   },
   ERROR(state, { value }) {
     state.error = value;
+  },
+  DRAWER(state, { value }) {
+    state.drawer = value;
+  },
+  TOGGLE_DRAWER(state) {
+    state.drawer = !state.drawer;
   }
 };
 
