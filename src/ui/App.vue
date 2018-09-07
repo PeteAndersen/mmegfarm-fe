@@ -32,7 +32,7 @@
     
     <v-footer app fixed>
       <v-spacer></v-spacer>
-      &copy; 2018 Porksmash ᛫ Creature and Spell icons &copy; Ubisoft Entertainment ᛫ Game Data v2.0.19
+      &copy; 2018 Porksmash ᛫ Creature and Spell icons &copy; Ubisoft Entertainment ᛫ Game Data v2.0.34
       <v-spacer></v-spacer>
     </v-footer>
   </v-app>
