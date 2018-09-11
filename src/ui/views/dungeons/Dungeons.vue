@@ -3,7 +3,7 @@
     <DungeonGroup name="Glyph Dungeons" :dungeons="glyphs" avatar="/static/glyphs/glyphs-legendary.png" />
     <DungeonGroup name="Elemental Dungeons" :dungeons="elemental" avatar="/static/dungeons/all-elements.png" />
     <DungeonGroup name="Scenarios" :dungeons="scenarios" avatar="/static/dungeons/school.png" />
-    <DungeonGroup name="Other" :dungeons="other" />
+    
   </div>
 </template>
 
