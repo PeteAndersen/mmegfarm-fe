@@ -1,3 +1,5 @@
+import urlSlug from "url-slug";
+
 export const group_names = {
   GroupElements: "Evolution Dungeon",
   GroupGylphs: "Glyph Dungeon",
@@ -18,3 +20,25 @@ export const is_available = (dungeon, timestamp) => {
     return dungeon.months_available.includes(month);
   }
 };
+
+export const dungeonUrl = (dungeon, params) =>
+  dungeon.group === "ScenarioDungeon"
+    ? {
+        name: "scenario-dungeon-detail",
+        params: {
+          id: dungeon.id,
+          slug: urlSlug(dungeon.name),
+          levelIdx: 1,
+          difficulty: "advanced",
+          ...params
+        }
+      }
+    : {
+        name: "dungeon-detail",
+        params: {
+          id: dungeon.id,
+          slug: urlSlug(dungeon.name),
+          levelIdx: dungeon.levels.length,
+          ...params
+        }
+      };

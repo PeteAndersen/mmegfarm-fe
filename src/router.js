@@ -33,32 +33,30 @@ export default new Router({
     {
       path: "/dungeons/",
       name: "dungeons",
-      component: Dungeons,
-      children: [
-        {
-          // Scenarios
-          path: ":id-:slug/:difficulty/:levelIdx/",
-          name: "scenario-dungeon-detail",
-          component: DungeonDetail,
-          props: ({ params: { id, slug, difficulty, levelIdx } }) => ({
-            id: Number(id),
-            slug,
-            levelIdx: Number(levelIdx),
-            difficulty,
-            scenario: true
-          })
-        },
-        {
-          path: ":id-:slug/:levelIdx/",
-          name: "dungeon-detail",
-          component: DungeonDetail,
-          props: ({ params: { id, slug, levelIdx } }) => ({
-            id: Number(id),
-            slug,
-            levelIdx: Number(levelIdx)
-          })
-        }
-      ]
+      component: Dungeons
+    },
+    {
+      // Scenarios
+      path: "/dungeons/:id-:slug/:difficulty/:levelIdx/",
+      name: "scenario-dungeon-detail",
+      component: DungeonDetail,
+      props: ({ params: { id, slug, difficulty, levelIdx } }) => ({
+        id: Number(id),
+        slug,
+        levelIdx: Number(levelIdx),
+        difficulty,
+        scenario: true
+      })
+    },
+    {
+      path: "/dungeons/:id-:slug/:levelIdx/",
+      name: "dungeon-detail",
+      component: DungeonDetail,
+      props: ({ params: { id, slug, levelIdx } }) => ({
+        id: Number(id),
+        slug,
+        levelIdx: Number(levelIdx)
+      })
     },
     {
       path: "/changelist/",
