@@ -8,6 +8,7 @@
 
 <script>
 import { dungeonUrl } from "@/services/dungeons";
+
 export default {
   props: {
     dungeon: {
