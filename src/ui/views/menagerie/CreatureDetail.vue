@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from "vuex";
+import { mapGetters, mapState, mapActions } from "vuex";
 
 import { titleCase } from "@/services/utils";
 import CreatureAvatar from "@/ui/components/creatures/CreatureAvatar";
@@ -71,13 +71,11 @@ import DetailPanel from "./components/DetailPanel";
 import StatTable from "./components/StatTable";
 import BigStat from "./components/BigStat";
 
-const { mapActions, mapGetters } = createNamespacedHelpers("menagerie");
-
 export default {
   name: "CreatureDetail",
   props: {
     id: {
-      type: String,
+      type: Number,
       required: true
     },
     slug: {
@@ -104,7 +102,7 @@ export default {
     id: {
       handler: async function(val) {
         // Update creature in state when slug changes
-        await this.getCreatureDetail(Number(val));
+        await this.getCreatureDetail(val);
 
         this.$vuetify.goTo(0, {
           duration: 0
@@ -115,11 +113,12 @@ export default {
   },
   created: async function() {},
   methods: {
-    ...mapActions(["getCreatureDetail"]),
+    ...mapActions("menagerie", ["getCreatureDetail"]),
     titleCase
   },
   computed: {
-    ...mapGetters(["creature", "loading", "family"]),
+    ...mapGetters("menagerie", ["creature", "family"]),
+    ...mapState(["loading"]),
     spellSlotOne() {
       if (this.creature) {
         return this.creature.spells.filter(s => s.slot === 1);

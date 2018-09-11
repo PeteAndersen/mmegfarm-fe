@@ -1,16 +1,15 @@
 <template>
-  <v-flex v-bind="{ [`${colsize}`]: true }">
-    <v-layout column align-content-center>
-      <v-flex class="pb-0 stat">{{nice_name}}</v-flex>
-      <v-flex class="pt-0">
-        <v-avatar size="2em">
-          <img :src="statIcon" />
-        </v-avatar>
-        {{value}}<span v-if="percentage_stat">%</span>
-      </v-flex>
-    </v-layout>
-  </v-flex>
-  
+  <v-list-tile>
+    <v-list-tile-avatar class='no-min-width'>
+      <img :src="statIcon">
+    </v-list-tile-avatar>
+    
+    <v-list-tile-content class="stat mr-1">{{ nice_name }}</v-list-tile-content>
+    
+    <v-list-tile-content class="align-end">
+      {{ value }}<template v-if="percentage_stat">%</template>
+    </v-list-tile-content>
+  </v-list-tile>
 </template>
 
 <script>
@@ -27,7 +26,7 @@ const nice_names = {
 };
 
 export default {
-  name: "Stat",
+  name: "DenseStat",
   props: {
     stat: {
       type: String,
@@ -36,10 +35,6 @@ export default {
     value: {
       type: Number,
       required: true
-    },
-    colsize: {
-      type: String,
-      default: "xs3"
     }
   },
   computed: {
@@ -57,6 +52,9 @@ export default {
 </script>
 
 <style scoped>
+.no-min-width {
+  min-width: auto;
+}
 .stat {
   white-space: nowrap;
   overflow: hidden;

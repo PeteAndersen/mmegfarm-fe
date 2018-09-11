@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer clipped fixed app v-model="$store.state.menagerie.filterDrawer">
+  <v-navigation-drawer clipped fixed app v-model="drawer">
     <v-snackbar color="success" v-model="permalinkCopied" absolute top :timeout="2000">
       Copied!
     </v-snackbar>
@@ -264,6 +264,14 @@ export default {
   },
   computed: {
     ...mapState("menagerie", ["loading"]),
+    drawer: {
+      get() {
+        return this.$store.state.drawer;
+      },
+      set(value) {
+        this.$store.commit("DRAWER", { value });
+      }
+    },
     scalesWithOptions() {
       return Object.entries(stat_definitions).map(stat => ({
         name: stat[1],

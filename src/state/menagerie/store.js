@@ -4,29 +4,11 @@ import Vue from "vue";
 import api from "./api";
 import schema from "./schema";
 
-// Mutation Types
-export const types = {
-  UPDATE_ENTITIES: "UPDATE_ENTITIES",
-  LOADING: "LOADING",
-  ERROR: "ERROR",
-  SET_PAGE: "SET_PAGE",
-  SET_PAGE_SIZE: "SET_PAGE_SIZE",
-  SET_ORDERING_DIR: "SET_ORDERING_DIR",
-  SET_ORDERING_KEY: "SET_ORDERING_KEY",
-  SET_CREATURE_LIST: "SET_CREATURE_LIST",
-  SET_CREATURE_COUNT: "SET_CREATURE_COUNT",
-  SET_TOTAL_CREATURES: "SET_TOTAL_CREATURES",
-  SET_CREATURE: "SET_CREATURE",
-  SET_CREATURE_FAMILY: "SET_CREATURE_FAMILY"
-};
-
 const state = {
   entities: {
     creatures: {},
     spells: {}
   },
-  loading: false,
-  error: false,
 
   // Menagerie view
   creatures: [],
@@ -47,7 +29,6 @@ const state = {
     debuffs: [],
     skill_filter_logic: "all"
   },
-  filterDrawer: true,
   sortKey: "name",
   sortDirection: "",
 
@@ -56,13 +37,21 @@ const state = {
   creatureDetailFamily: []
 };
 
+// Mutation Types
+export const types = {
+  UPDATE_ENTITIES: "UPDATE_ENTITIES",
+  SET_PAGE: "SET_PAGE",
+  SET_PAGE_SIZE: "SET_PAGE_SIZE",
+  SET_ORDERING_DIR: "SET_ORDERING_DIR",
+  SET_ORDERING_KEY: "SET_ORDERING_KEY",
+  SET_CREATURE_LIST: "SET_CREATURE_LIST",
+  SET_CREATURE_COUNT: "SET_CREATURE_COUNT",
+  SET_TOTAL_CREATURES: "SET_TOTAL_CREATURES",
+  SET_CREATURE: "SET_CREATURE",
+  SET_CREATURE_FAMILY: "SET_CREATURE_FAMILY"
+};
+
 const mutations = {
-  [types.LOADING](state, { value }) {
-    state.loading = value;
-  },
-  [types.ERROR](state, { value }) {
-    state.error = value;
-  },
   [types.SET_PAGE](state, { page }) {
     state.page = page;
   },
@@ -103,8 +92,8 @@ const mutations = {
 const actions = {
   async getCreatureDetail({ commit, dispatch }, id) {
     // Retrieves all details of a creature including related creatures and sets as active
-
-    commit(types.LOADING, { value: true });
+    commit("LOADING", { value: true }, { root: true });
+    commit("ERROR", { value: false }, { root: true });
     commit(types.SET_CREATURE, { id }); // Immediately set id to display if previously loaded
 
     try {
@@ -123,10 +112,10 @@ const actions = {
       commit(types.SET_CREATURE_FAMILY, { family: familyData.result });
     } catch (e) {
       console.log(e);
-      commit(types.ERROR, { value: true });
+      commit("ERROR", { value: true }, { root: true });
     }
 
-    commit(types.LOADING, { value: false });
+    commit("LOADING", { value: false }, { root: true });
   },
   async getFamily({ commit }, familyId) {
     // Retrieve a list of related creatures based on creatureType field
@@ -136,14 +125,12 @@ const actions = {
       creatureType: familyId,
       ordering: "element"
     });
-    const normalizedFamily = normalize(results, schema.creatureList);
-    commit(types.UPDATE_ENTITIES, { entities: normalizedFamily.entities });
-    return normalizedFamily;
+    const normalized = normalize(results, [schema.creature]);
+    commit(types.UPDATE_ENTITIES, { entities: normalized.entities });
+    return normalized;
   },
   async getCreature({ commit }, id) {
     // Retrieves a single creature and puts it in the store
-    commit(types.LOADING, { value: true });
-
     try {
       const { data } = await api.fetchCreature(id);
       const normalized = normalize(data, schema.creature);
@@ -151,13 +138,13 @@ const actions = {
       return normalized;
     } catch (e) {
       console.log(e);
-      commit(types.ERROR, { value: true });
+      commit("ERROR", { value: true }, { root: true });
     }
-    commit(types.LOADING, { value: false });
   },
   async getCreatureList({ state, commit, dispatch }) {
     // Retrieves list of creatures from the current page, filtered and sorted
-    commit(types.LOADING, { value: true });
+    commit("LOADING", { value: true }, { root: true });
+    commit("ERROR", { value: false }, { root: true });
 
     try {
       const {
@@ -168,19 +155,19 @@ const actions = {
         page_size: state.pageSize,
         page: state.page
       });
-      const normalized = normalize(results, schema.creatureList);
-      commit(types.UPDATE_ENTITIES, { entities: normalized.entities });
+      const normalized = normalize(results, [schema.creature]);
       commit(types.SET_CREATURE_LIST, { ids: normalized.result });
       commit(types.SET_CREATURE_COUNT, { count: count });
+      commit(types.UPDATE_ENTITIES, { entities: normalized.entities });
 
       if (state.totalCreatures === 0) {
         dispatch("getTotalCreatures");
       }
     } catch (e) {
-      commit(types.ERROR, { value: true });
+      commit("ERROR", { value: true }, { root: true });
     }
 
-    commit(types.LOADING, { value: false });
+    commit("LOADING", { value: false }, { root: true });
   },
   async getTotalCreatures({ commit }) {
     try {
@@ -207,14 +194,12 @@ const actions = {
 };
 
 const getters = {
-  loading: state => state.loading,
-
   creatureList: state =>
-    denormalize(state.creatures, schema.creatureList, state.entities),
+    denormalize(state.creatures, [schema.creature], state.entities),
   creature: state =>
     denormalize(state.creatureDetail, schema.creature, state.entities),
   family: state =>
-    denormalize(state.creatureDetailFamily, schema.creatureList, state.entities)
+    denormalize(state.creatureDetailFamily, [schema.creature], state.entities)
 };
 
 export default {

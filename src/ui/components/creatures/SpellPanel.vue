@@ -62,7 +62,7 @@
 
     <v-divider />
 
-    <v-card-text class="pt-1" v-if="spell.upgrades.length">
+    <v-card-text class="pt-1" v-if="spell.upgrades && spell.upgrades.length">
       <h4 class="pb-1">Upgrades</h4>
       <ol>
         <li v-for="(upgrade, index) in spell.upgrades" :key="index">

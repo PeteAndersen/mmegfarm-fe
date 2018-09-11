@@ -6,7 +6,7 @@
       <v-layout row align-baseline class="pb-2">
         
         <v-flex>
-          <v-btn @click="$store.state.menagerie.filterDrawer = !$store.state.menagerie.filterDrawer" class="ml-0">
+          <v-btn @click="$store.commit('TOGGLE_DRAWER')" class="ml-0">
             <v-icon class="pr-1">menu</v-icon> Filters
           </v-btn>
 
@@ -109,13 +109,13 @@ export default {
   computed: {
     ...mapGetters("menagerie", ["creatureList"]),
     ...mapState("menagerie", [
-      "loading",
       "sortKey",
       "sortDirection",
       "creaturesCount",
       "totalCreatures",
       "pageSize"
     ]),
+    ...mapState(["loading"]),
     page: {
       get: function() {
         return this.$store.state.menagerie.page;

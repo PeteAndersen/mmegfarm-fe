@@ -1,24 +1,21 @@
 <template>
-  <v-flex xs12 md6 lg3>
-    <v-card height="100%">
-      <v-card-title><h2>{{ name }}</h2></v-card-title>
-      <v-list>
-        <v-list-tile
-          v-for="d in dungeons"
-          :key="d.id"
-          :to="dungeonUrl(d)"
-        >
-          <v-list-tile-content>
-            {{ d.name }}
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-card>
-  </v-flex>
+  <div>
+    <h1>
+      <v-avatar v-if="avatar">
+        <img :src="avatar">
+      </v-avatar>
+      {{name}}
+    </h1>
+    <v-container fluid grid-list-lg>
+      <v-layout row wrap>
+        <DungeonCard v-for="dungeon in dungeons" :key="dungeon.id" :dungeon="dungeon" />
+      </v-layout>
+    </v-container>
+  </div>
 </template>
 
 <script>
-import urlSlug from "url-slug";
+import DungeonCard from "./DungeonCard";
 
 export default {
   props: {
@@ -29,15 +26,14 @@ export default {
     dungeons: {
       type: Array,
       required: true
+    },
+    avatar: {
+      type: String,
+      required: false
     }
   },
-  methods: {
-    urlSlug,
-    dungeonUrl(d) {
-      return d.group === "GroupScenario"
-        ? `/dungeons/${d.id}-${urlSlug(d.name)}/1/`
-        : `/dungeons/${d.id}-${urlSlug(d.name)}/${d.levels.length}/`;
-    }
+  components: {
+    DungeonCard
   }
 };
 </script>

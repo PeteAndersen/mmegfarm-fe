@@ -19,6 +19,9 @@
         'of-5': creature.rank == 5,
       }"
     />
+    <div class="level-text">
+      <span v-if="level">{{ level }}</span>
+    </div>
   </div>
 </template>
 
@@ -35,6 +38,10 @@ export default {
       default: true,
       required: false
     },
+    level: {
+      type: Number,
+      required: false
+    },
     size: {
       type: String,
       default: "76px",
@@ -43,7 +50,9 @@ export default {
   },
   computed: {
     avatarUrl: function() {
-      return `/static/creatures/portraits/${this.creature.trackingName}.png`;
+      return this.creature.trackingName
+        ? `/static/creatures/portraits/${this.creature.trackingName}.png`
+        : `/static/creatures/portraits/default.png`;
     }
   }
 };
@@ -53,6 +62,20 @@ export default {
 div {
   position: relative;
   margin: auto;
+}
+
+.level-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  font-weight: 600;
+  text-align: center;
+  width: 100%;
+}
+
+.level-text > span {
+  background: #373737;
+  color: #f7f7f7;
 }
 
 img.avatar {
@@ -115,5 +138,17 @@ img.avatar {
   top: 7%;
   left: 90%;
   transform: rotate(55deg);
+}
+
+.star-1.of-5 {
+  top: 14%;
+  left: 8%;
+  transform: rotate(-70deg);
+}
+
+.star-5.of-5 {
+  top: 14%;
+  left: 94%;
+  transform: rotate(70deg);
 }
 </style>
