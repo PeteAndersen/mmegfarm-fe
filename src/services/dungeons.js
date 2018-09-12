@@ -29,7 +29,7 @@ export const dungeonUrl = (dungeon, params) =>
           id: dungeon.id,
           slug: urlSlug(dungeon.name),
           levelIdx: 1,
-          difficulty: "advanced",
+          difficulty: "nightmare",
           ...params
         }
       }
