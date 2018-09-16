@@ -1,22 +1,54 @@
 <template>
   <v-flex xs12>
-    <template v-if="reward.type === 'dropGroup'">
+    <template v-if="isGroup">
       <Reward v-for="(subreward, idx) in reward.value" :key="idx" :reward="subreward" />
     </template>
     <template v-else>
-      <h4>{{reward.type}} x{{reward.quantity}} <template v-if="reward.probability">- {{Math.round(reward.probability * 100)}}%</template></h4>
-      <p>{{reward.value}}</p>
+      <component :is="rewardComponent" :reward="reward" />
     </template>
   </v-flex>
 </template>
 
 <script>
-  export default {
-    name: "Reward",
-    props: {
-      reward: Object
+import CurrencyReward from "./CurrencyReward";
+import EvolutionItemReward from "./EvolutionItemReward";
+import GenericReward from "./EvolutionItemReward";
+import GlyphReward from "./GlyphReward";
+import CreatureReward from "./CreatureReward";
+
+import { currencies } from "@/services/items";
+
+export default {
+  name: "Reward",
+  props: {
+    reward: Object
+  },
+  components: {
+    CurrencyReward,
+    EvolutionItemReward,
+    GenericReward,
+    GlyphReward,
+    CreatureReward
+  },
+  computed: {
+    isGroup() {
+      return this.reward.type === "dropGroup";
+    },
+    rewardComponent() {
+      if (Object.keys(currencies).includes(this.reward.type)) {
+        return "CurrencyReward";
+      } else if (this.reward.type === "evolutionItemPattern") {
+        return "EvolutionItemReward";
+      } else if (this.reward.type === "runePattern") {
+        return "GlyphReward";
+      } else if (this.reward.type === "creaturePattern") {
+        return "CreatureReward";
+      } else {
+        return "GenericReward";
+      }
     }
   }
+};
 </script>
 
 <style scoped>

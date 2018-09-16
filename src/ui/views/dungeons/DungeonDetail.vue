@@ -77,7 +77,8 @@ export default {
     difficulty: { type: String, required: false }
   },
   components: {
-    Wave, Reward
+    Wave,
+    Reward
   },
   created() {
     // Duplicated here because watch: immediate does not have guaranteed access to all props on component creation
