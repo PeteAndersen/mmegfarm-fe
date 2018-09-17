@@ -1,12 +1,5 @@
 <template>
-  <v-flex xs12>
-    <template v-if="isGroup">
-      <Reward v-for="(subreward, idx) in reward.value" :key="idx" :reward="subreward" />
-    </template>
-    <template v-else>
-      <component :is="rewardComponent" :reward="reward" />
-    </template>
-  </v-flex>
+  <component :is="rewardComponent" :reward="reward" />
 </template>
 
 <script>

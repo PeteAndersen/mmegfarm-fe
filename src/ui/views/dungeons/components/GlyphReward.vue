@@ -30,7 +30,12 @@ export default {
       // Create exhaustive combination of all shapes/types in this drop
       return runeData.type.reduce(
         (accum, type) =>
-          accum.concat(runeData.shape.map(shape => ({ type, shape }))),
+          accum.concat(
+            runeData.shape.map(shape => ({
+              type: type.toLowerCase(),
+              shape: shape.toLowerCase()
+            }))
+          ),
         []
       );
     }

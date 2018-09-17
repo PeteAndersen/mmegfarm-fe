@@ -48,7 +48,11 @@
     </v-layout>
 
     <v-layout>
-      <Reward v-for="(reward, idx) in level.rewards" :key="idx" :reward="reward" />
+      <v-flex xs12>
+        <Reward :reward="xpReward" />
+        <Reward :reward="manaReward" />
+      </v-flex>
+      <RewardGroup v-for="(rewards, idx) in rewardGroups" :key="idx" :rewards="rewards" />
     </v-layout>
 
     <v-container grid-list-md fluid class="pa-0">
@@ -60,8 +64,9 @@
 </template>
 
 <script>
-import Wave from "./components/Wave.vue";
-import Reward from "./components/Reward.vue";
+import Wave from "./components/Wave";
+import Reward from "./components/Reward";
+import RewardGroup from "./components/RewardGroup";
 import { scenario_difficulties } from "@/services/dungeons";
 
 export default {
@@ -78,7 +83,8 @@ export default {
   },
   components: {
     Wave,
-    Reward
+    Reward,
+    RewardGroup
   },
   created() {
     // Duplicated here because watch: immediate does not have guaranteed access to all props on component creation
@@ -123,6 +129,21 @@ export default {
     },
     numLevels() {
       return this.scenario ? 7 : this.dungeon.levels.length;
+    },
+    manaReward() {
+      if (this.level) {
+        return this.level.rewards.find(reward => reward.type === "sc");
+      }
+    },
+    xpReward() {
+      if (this.level) {
+        return this.level.rewards.find(reward => reward.type === "xp");
+      }
+    },
+    rewardGroups() {
+      if (this.level) {
+        return this.level.rewards.filter(reward => reward.type === "dropGroup");
+      }
     }
   },
   methods: {
