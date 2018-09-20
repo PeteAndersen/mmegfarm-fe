@@ -8,6 +8,7 @@
 <script>
 import { shapes, sets, rarities } from "@/services/glyphs";
 // This component is named Rune because glyph is a reserved SVG element
+
 export default {
   name: "Rune",
   props: {

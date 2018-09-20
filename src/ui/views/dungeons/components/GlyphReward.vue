@@ -1,17 +1,35 @@
 <template>
-  <div>
-    <span v-if="reward.probability">{{Math.round(reward.probability * 100)}}%</span>
-    <Rune 
-      v-for="(glyph, idx) in allShapeTypeCombos" 
-      :key="idx" 
-      :shape="glyph.shape" 
-      :set="glyph.type"
-      :rarity="reward.value.rarity.toLowerCase()"
-    />
-  </div>
+  <v-card>
+    <v-card-title v-if="reward.probability">{{Math.round(reward.probability * 100)}}% Chance</v-card-title>
+    <v-card-text>{{reward.value.stars}} substats</v-card-text>
+    <v-layout>
+      <v-flex>
+        <v-layout column>
+          <v-flex>Shapes</v-flex>
+          <v-flex v-for="shape in reward.value.shape" :key="shape">
+            <v-avatar>
+              <img :src="shapeImg(shape)" />
+            </v-avatar>
+          </v-flex>
+        </v-layout>
+      </v-flex>
+      <v-flex>
+        <v-layout column>
+          <v-flex>Sets</v-flex>
+          <v-flex v-for="type in reward.value.type" :key="type">
+            <v-avatar>
+              <img :src="iconImg(type)" />
+            </v-avatar>
+          </v-flex>
+        </v-layout>
+      </v-flex> 
+    </v-layout>
+    
+  </v-card>
 </template>
 
 <script>
+import { sets, rarities } from "@/services/glyphs";
 import { Rune } from "@/ui/components/items";
 
 export default {
@@ -25,20 +43,18 @@ export default {
   components: {
     Rune
   },
-  computed: {
-    allShapeTypeCombos() {
-      const runeData = this.reward.value;
-      // Create exhaustive combination of all shapes/types in this drop
-      return runeData.type.reduce(
-        (accum, type) =>
-          accum.concat(
-            runeData.shape.map(shape => ({
-              type,
-              shape
-            }))
-          ),
-        []
-      );
+  methods: {
+    shapeImg(shape) {
+      return `/static/glyphs/base-${shape}${
+        this.reward.value.rarity === "dark" ? "-dark" : ""
+      }.png`;
+    },
+    iconImg(type) {
+      const qualityNum =
+        this.rarity === "dark"
+          ? 5
+          : rarities.indexOf(this.reward.value.rarity) + 1;
+      return `/static/glyphs/icon-base-${sets[type].icon}-R${qualityNum}.png`;
     }
   }
 };

@@ -1,7 +1,12 @@
 <template>
-  <v-flex xs12>
-    <Reward v-for="(reward, idx) in rewards.value" :key="idx" :reward="reward" />
-  </v-flex>
+<v-flex>
+  <v-layout row>
+    <v-flex xs12 v-for="(reward, idx) in rewards.value" :key="idx" >
+      <Reward :reward="reward" />
+    </v-flex>
+  </v-layout>
+</v-flex>
+
 </template>
 
 <script>

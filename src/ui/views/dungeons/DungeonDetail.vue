@@ -48,7 +48,7 @@
     </v-layout>
 
     <v-layout>
-      <v-flex xs12>
+      <v-flex row wrap>
         <Reward :reward="xpReward" />
         <Reward :reward="manaReward" />
       </v-flex>

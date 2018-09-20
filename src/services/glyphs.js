@@ -16,10 +16,10 @@ export const sets = {
 };
 
 export const rarities = [
-  "common",
-  "uncommon",
-  "rare",
-  "epic",
-  "legendary",
-  "dark"
+  "Common",
+  "Uncommon",
+  "Rare",
+  "Epic",
+  "Legendary",
+  "Dark"
 ];

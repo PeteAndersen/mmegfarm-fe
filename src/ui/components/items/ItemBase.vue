@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img :src="image" />
+    <v-avatar><img :src="image" /></v-avatar>
     <span v-if="quantity">{{quantity}}</span>
   </div>
 </template>
