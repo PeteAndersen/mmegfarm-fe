@@ -5,7 +5,7 @@
 <script>
 import CurrencyReward from "./CurrencyReward";
 import EvolutionItemReward from "./EvolutionItemReward";
-import GenericReward from "./EvolutionItemReward";
+import GenericReward from "./GenericReward";
 import GlyphReward from "./GlyphReward";
 import CreatureReward from "./CreatureReward";
 
@@ -24,9 +24,6 @@ export default {
     CreatureReward
   },
   computed: {
-    isGroup() {
-      return this.reward.type === "dropGroup";
-    },
     rewardComponent() {
       if (Object.keys(currencies).includes(this.reward.type)) {
         return "CurrencyReward";

@@ -13,6 +13,7 @@
 
 <script>
 import { Rune } from "@/ui/components/items";
+
 export default {
   name: "GlyphReward",
   props: {
@@ -32,8 +33,8 @@ export default {
         (accum, type) =>
           accum.concat(
             runeData.shape.map(shape => ({
-              type: type.toLowerCase(),
-              shape: shape.toLowerCase()
+              type,
+              shape
             }))
           ),
         []
