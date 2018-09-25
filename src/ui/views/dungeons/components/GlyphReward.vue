@@ -1,29 +1,7 @@
 <template>
   <v-card>
     <v-card-title v-if="reward.probability">{{Math.round(reward.probability * 100)}}% Chance</v-card-title>
-    <v-card-text>{{reward.value.stars}} substats</v-card-text>
-    <v-layout>
-      <v-flex>
-        <v-layout column>
-          <v-flex>Shapes</v-flex>
-          <v-flex v-for="shape in reward.value.shape" :key="shape">
-            <v-avatar>
-              <img :src="shapeImg(shape)" />
-            </v-avatar>
-          </v-flex>
-        </v-layout>
-      </v-flex>
-      <v-flex>
-        <v-layout column>
-          <v-flex>Sets</v-flex>
-          <v-flex v-for="type in reward.value.type" :key="type">
-            <v-avatar>
-              <img :src="iconImg(type)" />
-            </v-avatar>
-          </v-flex>
-        </v-layout>
-      </v-flex> 
-    </v-layout>
+    <v-card-text>{{ this.reward.value.rarity }} - {{reward.value.stars}} substats</v-card-text>
     
   </v-card>
 </template>

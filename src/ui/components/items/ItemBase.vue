@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <v-chip>
     <v-avatar><img :src="image" /></v-avatar>
     <span v-if="quantity">{{quantity}}</span>
-  </div>
+  </v-chip>
 </template>
 
 <script>
