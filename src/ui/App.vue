@@ -38,7 +38,7 @@
     
     <v-footer >
       <v-spacer></v-spacer>
-      &copy; 2018 Porksmash ᛫ Creature and Spell icons &copy; Ubisoft Entertainment ᛫ Game Data v2.0.34
+      &copy; 2018 Porksmash ᛫ Creature and Spell icons &copy; Ubisoft Entertainment ᛫ Game Data v2.2.7
       <v-spacer></v-spacer>
     </v-footer>
   </v-app>
@@ -57,7 +57,7 @@ export default {
 
 <style>
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
