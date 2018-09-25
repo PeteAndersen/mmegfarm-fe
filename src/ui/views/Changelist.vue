@@ -1,6 +1,20 @@
 <template>
   <v-container>
     <v-card>
+      <v-subheader>September 11, 2018</v-subheader>
+      <v-card-title>
+        <ul>
+          <li>Added dungeons.</li>
+        </ul>
+      </v-card-title>
+
+      <v-subheader>September 7, 2018</v-subheader>
+      <v-card-title>
+        <ul>
+          <li>Updated to game version 2.0.34 - new creatures.</li>
+        </ul>
+      </v-card-title>
+
       <v-subheader>August 23, 2018</v-subheader>
       <v-card-title>
         <ul>
