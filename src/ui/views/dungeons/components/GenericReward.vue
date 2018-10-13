@@ -1,8 +1,8 @@
 <template>
-  <div>
-  <h4>{{reward.type}} x{{reward.quantity}} <template v-if="reward.probability">- {{Math.round(reward.probability * 100)}}%</template></h4>
-        <p>{{reward.value}}</p>
-        </div>
+  <span>
+    <h4>{{reward.type}} x{{reward.quantity}} s</h4>
+    <p>{{reward.value}}</p>
+  </span>
 </template>
 
 <script>

@@ -1,8 +1,13 @@
 <template>
-  <ItemBase :image="imgUrl" :quantity="quantity" />
+  <v-layout column>
+    <v-flex v-if="withText" text-xs-center>{{textDescription}}</v-flex>
+    <ItemBase :image="imgUrl" :quantity="quantity" />
+  </v-layout>
+  
 </template>
 
 <script>
+import { titleCase } from "@/services/utils";
 import { evolution_materials } from "@/services/items";
 import ItemBase from "./ItemBase";
 
@@ -20,7 +25,8 @@ export default {
 
       required: true
     },
-    quantity: Number
+    quantity: Number,
+    withText: Boolean
   },
   components: {
     ItemBase
@@ -30,6 +36,9 @@ export default {
       return `/static/currency/${
         evolution_materials[this.item][this.size].image
       }`;
+    },
+    textDescription() {
+      return titleCase(`${this.size} ${this.item}`);
     }
   }
 };

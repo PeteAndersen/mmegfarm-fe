@@ -49,19 +49,7 @@
 
     <v-divider class="mt-2 mb-2"/>
 
-    <h2>Rewards</h2>
-    <v-layout>
-      <Reward v-if="xpReward" :reward="xpReward" />
-      <Reward v-if="manaReward" :reward="manaReward" />
-    </v-layout>
-
-    <GlyphTypeSummary :sets="glyphRewardSummary.types" :shapes="glyphRewardSummary.shapes" />
-
-    <v-layout>
-      <RewardGroup v-for="(rewards, idx) in rewardGroups" :key="idx" :rewards="rewards" />
-    </v-layout>
-
-    <v-divider class="mt-2 mb-2" />
+    <DungeonRewards :rewards="this.level.rewards" />
 
     <h2>Enemies</h2>
 
@@ -75,9 +63,7 @@
 
 <script>
 import Wave from "./components/Wave";
-import GlyphTypeSummary from "./components/GlyphTypeSummary";
-import Reward from "./components/Reward";
-import RewardGroup from "./components/RewardGroup";
+import DungeonRewards from "./components/DungeonRewards";
 
 import { scenario_difficulties } from "@/services/dungeons";
 
@@ -95,9 +81,7 @@ export default {
   },
   components: {
     Wave,
-    GlyphTypeSummary,
-    Reward,
-    RewardGroup
+    DungeonRewards
   },
   created() {
     // Duplicated here because watch: immediate does not have guaranteed access to all props on component creation
@@ -142,29 +126,6 @@ export default {
     },
     numLevels() {
       return this.scenario ? 7 : this.dungeon.levels.length;
-    },
-    manaReward() {
-      if (this.level) {
-        return this.level.rewards.find(reward => reward.type === "sc");
-      }
-    },
-    xpReward() {
-      if (this.level) {
-        return this.level.rewards.find(reward => reward.type === "xp");
-      }
-    },
-    glyphRewardSummary() {
-      // Determine what shapes and sets drop in rewards. This can be determined from a single glyph reward
-      const glyphReward = this.rewardGroups.find(
-        group => group.value[0].type === "runePattern"
-      ).value[0].value;
-
-      return { shapes: glyphReward.shape, types: glyphReward.type };
-    },
-    rewardGroups() {
-      if (this.level) {
-        return this.level.rewards.filter(reward => reward.type === "dropGroup");
-      }
     }
   },
   methods: {

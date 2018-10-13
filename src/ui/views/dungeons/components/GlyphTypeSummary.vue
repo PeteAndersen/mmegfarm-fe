@@ -1,20 +1,20 @@
 <template>
-  <div>
-    <h3>Type and Shape of Glyph Drops</h3>
-    
-    <v-layout>
-      <v-avatar v-for="shape in shapes" :key="shape">
+  <v-layout>
+    <v-subheader>Shapes: </v-subheader>
+    <v-chip v-for="shape in shapes" :key="shape">
+      <v-avatar>
         <img :src="shapeImageUrl(shape)" />
       </v-avatar>
-
-      <v-chip v-for="set in sets" :key="set">
-        <v-avatar>
-          <img :src="setImageUrl(set)" />
-        </v-avatar>
-        {{ set }}
-      </v-chip>
-    </v-layout>
-  </div>
+      <span class="text-capitalize">{{ shape }}</span>
+    </v-chip>
+    <v-subheader>Sets: </v-subheader>
+    <v-chip v-for="set in sets" :key="set">
+      <v-avatar>
+        <img :src="setImageUrl(set)" />
+      </v-avatar>
+      <span class="text-capitalize">{{ set }}</span>
+    </v-chip>
+  </v-layout>
 </template>
 
 <script>

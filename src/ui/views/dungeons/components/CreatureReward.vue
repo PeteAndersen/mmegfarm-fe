@@ -1,13 +1,13 @@
 <template>
-  <div>
-    <span v-if="reward.probability">{{Math.round(reward.probability * 100)}}%</span>
-    <CreatureAvatar 
-      v-for="creature in creatures"
-      v-if="creature"
-      :key="creature.id"
-      :creature="creature"
-    />
-  </div>
+  <v-layout column text-xs-center>
+    <v-flex v-if="reward.probability" class="mb-2">{{Math.round(reward.probability * 100)}}%</v-flex>
+    <template v-for="creature in creatures" v-if="creature">
+      <v-flex :key="creature.id">
+        <CreatureAvatar :creature="creature" />
+      </v-flex>
+      <v-flex :key="creature.name">{{creature.name}}</v-flex>
+    </template>
+  </v-layout>
 </template>
 
 <script>

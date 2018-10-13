@@ -1,12 +1,12 @@
 export const currencies = {
   hc: {
     sku: "item_0000",
-    description: "Seals (HC)",
+    description: "Seals",
     image: "HC.png"
   },
   sc: {
     sku: "item_0001",
-    description: "Crystals (SC)",
+    description: "Crystals",
     image: "SC.png"
   },
   instantTicket: {
@@ -120,12 +120,12 @@ export const currencies = {
     image: "chest-large.png"
   },
   xp: {
-    description: "XP for Creatures",
+    description: "Creature XP",
     image: "xp.png"
   },
   xpAvatar: {
     sku: "item_0024",
-    description: "XP for Avatar"
+    description: "Avatar XP"
   },
   energy: {
     sku: "item_0025",

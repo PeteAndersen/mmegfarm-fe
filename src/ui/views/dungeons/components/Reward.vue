@@ -1,5 +1,7 @@
 <template>
-  <component :is="rewardComponent" :reward="reward" />
+  <v-card class="mr-1 ml-1 pa-2" height="100%">
+    <component :is="rewardComponent" :reward="reward" />
+  </v-card>
 </template>
 
 <script>
@@ -42,8 +44,4 @@ export default {
 </script>
 
 <style scoped>
-div {
-  border: 1px solid red;
-  margin: 5px;
-}
 </style>

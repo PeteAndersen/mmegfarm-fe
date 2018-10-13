@@ -1,5 +1,8 @@
 <template>
-  <ItemBase :image="imgUrl" :quantity="quantity" />
+  <v-layout column>
+    <v-flex v-if="withText" text-xs-center>{{textDescription}}</v-flex>
+    <ItemBase :image="imgUrl" :quantity="quantity" />
+  </v-layout>
 </template>
 
 <script>
@@ -14,7 +17,8 @@ export default {
         return Object.keys(currencies).includes(value);
       }
     },
-    quantity: Number
+    quantity: Number,
+    withText: Boolean
   },
   components: {
     ItemBase
@@ -22,6 +26,9 @@ export default {
   computed: {
     imgUrl() {
       return `/static/currency/${currencies[this.currency].image}`;
+    },
+    textDescription() {
+      return currencies[this.currency].description;
     }
   }
 };

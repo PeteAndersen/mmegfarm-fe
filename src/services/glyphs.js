@@ -23,3 +23,12 @@ export const rarities = [
   "Legendary",
   "Dark"
 ];
+
+export const colors = {
+  Common: "grey lighten-3",
+  Uncommon: "green accent-2",
+  Rare: "light-blue darken-1",
+  Epic: "orange darken-4",
+  Legendary: "purple darken-1",
+  Dark: "purple darken-1"
+};
