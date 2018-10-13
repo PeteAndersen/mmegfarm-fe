@@ -1,6 +1,13 @@
 <template>
   <v-container>
     <v-card>
+      <v-subheader>October 13, 2018</v-subheader>
+      <v-card-title>
+        <ul>
+          <li>Added dungeon rewards.</li>
+        </ul>
+      </v-card-title>
+      
       <v-subheader>September 11, 2018</v-subheader>
       <v-card-title>
         <ul>
