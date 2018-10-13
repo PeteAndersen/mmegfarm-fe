@@ -11,7 +11,6 @@
         </v-avatar>
         {{ level.energy_cost }}
       </div>
-
     </v-layout>
 
     <v-layout>
@@ -48,6 +47,12 @@
       </v-btn-toggle>
     </v-layout>
 
+    <v-divider class="mt-2 mb-2"/>
+
+    <DungeonRewards :rewards="this.level.rewards" />
+
+    <h2>Enemies</h2>
+
     <v-container grid-list-md fluid class="pa-0">
       <template v-if="wave" v-for="(wave, idx) in level.waves">
         <Wave :key="wave.id" :wave="wave" :idx="idx + 1" />
@@ -57,7 +62,9 @@
 </template>
 
 <script>
-import Wave from "./components/Wave.vue";
+import Wave from "./components/Wave";
+import DungeonRewards from "./components/DungeonRewards";
+
 import { scenario_difficulties } from "@/services/dungeons";
 
 export default {
@@ -73,7 +80,8 @@ export default {
     difficulty: { type: String, required: false }
   },
   components: {
-    Wave
+    Wave,
+    DungeonRewards
   },
   created() {
     // Duplicated here because watch: immediate does not have guaranteed access to all props on component creation

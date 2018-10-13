@@ -7,8 +7,10 @@
 
 <script>
 import { shapes, sets, rarities } from "@/services/glyphs";
+// This component is named Rune because glyph is a reserved SVG element
 
 export default {
+  name: "Rune",
   props: {
     shape: {
       required: true,
@@ -19,7 +21,7 @@ export default {
     set: {
       required: true,
       validator(value) {
-        return sets.includes(value);
+        return Object.keys(sets).includes(value);
       }
     },
     rarity: {
@@ -38,7 +40,9 @@ export default {
     icon() {
       const qualityNum =
         this.rarity === "dark" ? 5 : rarities.indexOf(this.rarity) + 1;
-      return `/static/glyphs/icon-base-${this.set}-R${qualityNum}.png`;
+      return `/static/glyphs/icon-base-${
+        sets[this.set].icon
+      }-R${qualityNum}.png`;
     }
   }
 };

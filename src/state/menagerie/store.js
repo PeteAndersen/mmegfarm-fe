@@ -98,8 +98,7 @@ const actions = {
 
     try {
       // Creature
-      const creatureData = await dispatch("getCreature", id);
-      const creature = creatureData.entities.creatures[creatureData.result];
+      const creature = await dispatch("getCreature", id);
 
       // Evolves to/from
       creature.evolvesTo.forEach(toId => dispatch("getCreature", toId));
@@ -135,7 +134,7 @@ const actions = {
       const { data } = await api.fetchCreature(id);
       const normalized = normalize(data, schema.creature);
       commit(types.UPDATE_ENTITIES, { entities: normalized.entities });
-      return normalized;
+      return data;
     } catch (e) {
       console.log(e);
       commit("ERROR", { value: true }, { root: true });
@@ -198,6 +197,7 @@ const getters = {
     denormalize(state.creatures, [schema.creature], state.entities),
   creature: state =>
     denormalize(state.creatureDetail, schema.creature, state.entities),
+  creatureById: state => id => denormalize(id, schema.creature, state.entities),
   family: state =>
     denormalize(state.creatureDetailFamily, [schema.creature], state.entities)
 };
