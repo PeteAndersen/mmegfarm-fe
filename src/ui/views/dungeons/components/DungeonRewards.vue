@@ -13,9 +13,7 @@
       <v-layout row wrap>
         <template v-for="(reward, idx) in rewards">
           <RewardGroup v-if="reward.type === 'dropGroup'" :key="idx" :rewards="reward" />
-          <v-flex v-else :key="idx" fill-height class="no-grow">
-            <Reward :reward="reward" />
-          </v-flex>
+          <Reward v-else :key="idx" fill-height :reward="reward" />
         </template>
       </v-layout>
       
@@ -118,7 +116,4 @@ export default {
 </script>
 
 <style scoped>
-.no-grow {
-  flex: 0 1 auto;
-}
 </style>

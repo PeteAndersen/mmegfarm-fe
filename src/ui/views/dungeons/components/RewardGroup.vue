@@ -3,7 +3,7 @@
     <v-subheader>
       {{ totalProbability }}% Chance for one of the following...
     </v-subheader>
-    <v-layout row>
+    <v-layout row wrap>
       <Reward v-for="(reward, idx) in sortedRewards" :key="idx" :reward="reward" />
     </v-layout>
   </v-flex>

@@ -3,7 +3,6 @@
     <v-flex v-if="withText" text-xs-center>{{textDescription}}</v-flex>
     <ItemBase :image="imgUrl" :quantity="quantity" />
   </v-layout>
-  
 </template>
 
 <script>

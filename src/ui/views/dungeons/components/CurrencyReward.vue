@@ -1,6 +1,6 @@
 <template>
   <v-layout column>
-    <v-flex v-if="reward.probability" text-sm-center>
+    <v-flex v-if="reward.probability" text-xs-center>
       {{Math.round(reward.probability * 100)}}%
     </v-flex>
     

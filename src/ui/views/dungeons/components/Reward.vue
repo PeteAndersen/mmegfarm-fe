@@ -1,7 +1,9 @@
 <template>
-  <v-card class="mr-1 ml-1 pa-2" height="100%">
-    <component :is="rewardComponent" :reward="reward" />
-  </v-card>
+  <v-flex :class="[`pa-2`, $vuetify.breakpoint.mdAndUp ? ` no-grow` : '']" :xs6="$vuetify.breakpoint.xs" :sm3="$vuetify.breakpoint.sm">
+    <v-card class="pa-2" height="100%">
+      <component :is="rewardComponent" :reward="reward" />
+    </v-card>
+  </v-flex>
 </template>
 
 <script>
@@ -44,4 +46,7 @@ export default {
 </script>
 
 <style scoped>
+.no-grow {
+  flex: 0 1 auto;
+}
 </style>
